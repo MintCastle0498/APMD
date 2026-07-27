@@ -2584,7 +2584,7 @@ html.news-lightbox-open {
   margin-top: -64px;
   height: 100vh;
   overflow: hidden;
-  background-image: url("research background.png");
+  background-image: url("assets/research background.png");
   background-size: cover;
   background-position: center;
   display: flex;

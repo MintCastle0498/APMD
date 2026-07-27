@@ -84,14 +84,14 @@ const SITE_FOOTER_TEMPLATE = `
   <div class="site-footer__inner">
     <div class="site-footer__col-left">
       <div class="site-footer__brand-row">
-        <img src="Footer_apmd logo.svg" alt="APMD" class="site-footer__brand-logo" />
+        <img src="assets/logos/Footer_apmd logo.svg" alt="APMD" class="site-footer__brand-logo" />
       </div>
       <div class="site-footer__partner-row">
         <a href="https://mse.kaist.ac.kr/" target="_blank" rel="noopener noreferrer" class="site-footer__partner-link">
-          <img src="KAIST_DMSE.svg" alt="KAIST Department of Materials Science and Engineering" class="site-footer__kaist-dmse" />
+          <img src="assets/logos/KAIST_DMSE.svg" alt="KAIST Department of Materials Science and Engineering" class="site-footer__kaist-dmse" />
         </a>
         <a href="https://www.kaist.ac.kr/" target="_blank" rel="noopener noreferrer" class="site-footer__partner-link">
-          <img src="KAIST_Original.svg" alt="KAIST" class="site-footer__kaist-original" />
+          <img src="assets/logos/KAIST_Original.svg" alt="KAIST" class="site-footer__kaist-original" />
         </a>
       </div>
       <p class="site-footer__copyright">&#9400; 2026 APMD. All Rights Reserved.</p>

@@ -230,7 +230,7 @@ const ALUMNI = [
 const STAFF = [
   {
     name: "김남희",
-    photo: "Staff_profile.svg",
+    photo: "assets/Staff_profile.svg",
     role: "Tel. 042 - 350 - 5314",
     admissionYear: "",
     admissionSeason: "",
