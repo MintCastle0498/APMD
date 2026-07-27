@@ -158,11 +158,11 @@ const PEOPLE = [
     photo: "People/Kim, Jongmin.jpg",
     name: "Kim, Jongmin",
     role: "M.S. Student",
-    admissionYear: "2024",
+    admissionYear: "2025",
     admissionSeason: "Spring",
     email: "kjm272@kaist.ac.kr",
     degrees: [
-      { label: "B.S.", major: "Materials Science and Engineering", university: "KAIST", year: "2000" },
+      { label: "B.S.", major: "Materials Science and Engineering", university: "Hanyang University", year: "2025" },
     ],
   },
   {
