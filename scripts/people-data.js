@@ -141,15 +141,16 @@ const PEOPLE = [
     ],
   },
   {
-    category: "ms",
+    category: "phd",
     photo: "People/Kim, Minki.jpg",
     name: "Kim, Minki",
-    role: "M.S. Student",
-    admissionYear: "2024",
-    admissionSeason: "Spring",
+    role: "Ph. D. Student",
+    admissionYear: "2026",
+    admissionSeason: "Fall",
     email: "minki99@kaist.ac.kr",
     degrees: [
-      { label: "B.S.", major: "Materials Science and Engineering", university: "KAIST", year: "2000" },
+      { label: "M.S.", major: "Materials Science and Engineering", university: "KAIST", year: "2026" },
+      { label: "B.S.", major: "Materials Science and Engineering", university: "Korea University", year: "2024" },
     ],
   },
   {
@@ -167,7 +168,7 @@ const PEOPLE = [
   {
     category: "ms",
     photo: "People/Choi, Sung min.jpg",
-    name: "Choi, Sung min_test",
+    name: "Choi, Sungmin",
     role: "M.S. Student",
     admissionYear: "2026",
     admissionSeason: "Spring",
