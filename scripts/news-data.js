@@ -192,8 +192,14 @@ const NEWS_POSTS = [
     images: [
       { src: "News/260719_광학회.jpg", alt: "광학회 참석", credit: "APMD Lab" },
       { src: "News/260719_광학회2.jpg", alt: "광학회 참석", credit: "APMD Lab" },
+      { src: "News/260719_신종화교수님_1.jpg", alt: "Optics and Photonics Congress 2026 (OPC 2026) 참석", credit: "APMD Lab" },
+      { src: "News/260719_신종화교수님_2.jpg", alt: "Optics and Photonics Congress 2026 (OPC 2026) 참석", credit: "APMD Lab" },
+      { src: "News/260719_김현희-2.jpg", alt: "Optics and Photonics Congress 2026 (OPC 2026) 참석", credit: "APMD Lab" },
     ],
     excerpt: "Optics and Photonics Congress 2026 (OPC 2026) 참석",
-    body: ["ICC Jeju에서 열린 Optics and Photonics Congress 2026 (OPC 2026)에 참석했습니다.\n신종화 교수님이 \"Periodicity, homogeneity and consistency in metasurfaces\", \n김현희 Ph.D.가 \"Bi-layer metasurfaces as a versatile platform for vectorial light control\" 라는 주제로 발표를 진행했습니다."],
+    body: [
+      "제주 ICC에서 열린 Optics and Photonics Congress 2026 (OPC 2026)에 참석했습니다.",
+      "신종화 교수님은 \"Periodicity, homogeneity and consistency in metasurfaces\"를, 김현희 Ph.D.는 \"Bi-layer metasurfaces as a versatile platform for vectorial light control\"을 주제로 발표를 진행했습니다.",
+    ],
   },
 ];

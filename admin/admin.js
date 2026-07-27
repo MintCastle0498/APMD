@@ -220,57 +220,77 @@ async function refreshNewsList() {
   return entries;
 }
 
-function collectNewsImageRows() {
-  return [...document.querySelectorAll("#news-image-rows .admin-image-row")].map((row) => ({
-    file: row._file,
-    credit: row.querySelector(".admin-image-row__credit").value.trim(),
-  }));
+// Edit state: null in "add" mode, the entry's index while editing it.
+// newsImageRows is a SINGLE ordered list mixing both kinds of image — an
+// existing on-disk one (kind: "existing", carried over when an entry is
+// opened for edit) and a freshly-picked one not yet written anywhere
+// (kind: "new") — so drag order between "old" and "new" photos means the
+// same thing: whatever order this array ends up in is exactly the order
+// written to the images: [...] array on submit. Removing an "existing" row
+// just drops it from the entry; the file itself is left alone (same as
+// deleteNewsEntry below never touching image files).
+let newsEditIndex = null;
+let newsImageRows = [];
+let newsImageRowId = 0;
+
+function newsImageThumbSrc(row) {
+  // Existing photos are already committed at a path relative to the site
+  // root (e.g. "News/foo.jpg") — admin/index.html lives one folder below
+  // that root, so it takes a "../" to resolve as a real <img> src the same
+  // way the live site's own pages already load it. A fresh pick has no
+  // path on disk yet, so it gets a blob: URL from the File object itself
+  // instead — cached on the row so re-rendering the list doesn't leak a
+  // new object URL every time.
+  if (row.kind === "existing") return `../${row.src}`;
+  if (!row._objectUrl) row._objectUrl = URL.createObjectURL(row.file);
+  return row._objectUrl;
 }
 
-function renderNewsImageRows(files) {
+function renderNewsImageRows() {
   const container = document.getElementById("news-image-rows");
   container.innerHTML = "";
-  [...files].forEach((file) => {
-    const row = document.createElement("div");
-    row.className = "admin-image-row";
-    row._file = file;
-    row.innerHTML = `
-      <span class="admin-image-row__name">${escapeHtml(file.name)}</span>
-      <input type="text" class="admin-image-row__credit" placeholder="사진 출처 (선택, 예: APMD Lab)" />
+  newsImageRows.forEach((row, i) => {
+    const el = document.createElement("div");
+    el.className = "admin-image-row";
+    const name = row.kind === "existing" ? row.src.split("/").pop() : row.file.name;
+    el.innerHTML = `
+      <img class="admin-image-row__thumb" src="${newsImageThumbSrc(row)}" alt="" />
+      <span class="admin-image-row__name">${escapeHtml(name)}</span>
+      <input type="text" class="admin-image-row__credit" placeholder="사진 출처 (선택, 예: APMD Lab)" value="${escapeHtml(row.credit || "")}" />
+      <div class="admin-image-row__move">
+        <button type="button" class="admin-image-row__up" aria-label="위로" ${i === 0 ? "disabled" : ""}>▲</button>
+        <button type="button" class="admin-image-row__down" aria-label="아래로" ${i === newsImageRows.length - 1 ? "disabled" : ""}>▼</button>
+      </div>
+      <button type="button" class="admin-image-row__remove" aria-label="제거">✕</button>
     `;
-    container.appendChild(row);
+    el.querySelector(".admin-image-row__credit").addEventListener("input", (ev) => {
+      row.credit = ev.target.value.trim();
+    });
+    el.querySelector(".admin-image-row__up").addEventListener("click", () => {
+      if (i === 0) return;
+      [newsImageRows[i - 1], newsImageRows[i]] = [newsImageRows[i], newsImageRows[i - 1]];
+      renderNewsImageRows();
+    });
+    el.querySelector(".admin-image-row__down").addEventListener("click", () => {
+      if (i === newsImageRows.length - 1) return;
+      [newsImageRows[i], newsImageRows[i + 1]] = [newsImageRows[i + 1], newsImageRows[i]];
+      renderNewsImageRows();
+    });
+    el.querySelector(".admin-image-row__remove").addEventListener("click", () => {
+      if (row._objectUrl) URL.revokeObjectURL(row._objectUrl);
+      newsImageRows.splice(i, 1);
+      renderNewsImageRows();
+    });
+    container.appendChild(el);
   });
 }
 
-// Edit state: null in "add" mode, the entry's index while editing it.
-// newsExistingImages carries forward the images already on disk for the
-// entry being edited (each row's credit stays editable, and removing a row
-// just drops it from the entry — the file itself is left alone, same as
-// deleteNewsEntry below never touching image files). New uploads in
-// #news-images are appended after these on submit.
-let newsEditIndex = null;
-let newsExistingImages = [];
-
-function renderExistingNewsImageRows() {
-  const container = document.getElementById("news-existing-image-rows");
-  container.innerHTML = "";
-  newsExistingImages.forEach((img, i) => {
-    const row = document.createElement("div");
-    row.className = "admin-image-row admin-image-row--existing";
-    row.innerHTML = `
-      <span class="admin-image-row__name">${escapeHtml(img.src.split("/").pop())}</span>
-      <input type="text" class="admin-image-row__credit" placeholder="사진 출처 (선택, 예: APMD Lab)" value="${escapeHtml(img.credit || "")}" />
-      <button type="button" class="admin-image-row__remove" aria-label="제거">✕</button>
-    `;
-    row.querySelector(".admin-image-row__credit").addEventListener("input", (ev) => {
-      newsExistingImages[i] = { ...newsExistingImages[i], credit: ev.target.value.trim() };
-    });
-    row.querySelector(".admin-image-row__remove").addEventListener("click", () => {
-      newsExistingImages.splice(i, 1);
-      renderExistingNewsImageRows();
-    });
-    container.appendChild(row);
+function resetNewsImageRows() {
+  newsImageRows.forEach((row) => {
+    if (row._objectUrl) URL.revokeObjectURL(row._objectUrl);
   });
+  newsImageRows = [];
+  renderNewsImageRows();
 }
 
 async function startEditNews(index) {
@@ -289,10 +309,15 @@ async function startEditNews(index) {
   form.excerpt.value = o.excerpt || "";
   form.body.value = (o.body || []).join("\n\n");
 
-  newsExistingImages = (o.images || []).map((img) => ({ ...img }));
-  renderExistingNewsImageRows();
+  newsImageRows = (o.images || []).map((img) => ({
+    id: newsImageRowId++,
+    kind: "existing",
+    src: img.src,
+    alt: img.alt,
+    credit: img.credit || "",
+  }));
+  renderNewsImageRows();
   document.getElementById("news-images").value = "";
-  document.getElementById("news-image-rows").innerHTML = "";
 
   newsEditIndex = index;
   document.getElementById("news-form-title").textContent = "소식 수정";
@@ -303,11 +328,9 @@ async function startEditNews(index) {
 
 function cancelNewsEdit() {
   newsEditIndex = null;
-  newsExistingImages = [];
+  resetNewsImageRows();
   const form = document.getElementById("news-form");
   form.reset();
-  document.getElementById("news-existing-image-rows").innerHTML = "";
-  document.getElementById("news-image-rows").innerHTML = "";
   document.getElementById("news-form-title").textContent = "새 소식 추가";
   document.getElementById("news-submit-btn").textContent = "추가하기";
   document.getElementById("news-cancel-edit").hidden = true;
@@ -329,20 +352,25 @@ async function submitNewsForm(e) {
     const body = bodyRaw
       ? bodyRaw.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean)
       : [excerpt];
-    const newRows = collectNewsImageRows();
-
     if (!title) throw new Error("제목을 입력해주세요.");
     if (!date) throw new Error("날짜를 입력해주세요.");
-    if (!newsExistingImages.length && !newRows.length) throw new Error("사진을 1장 이상 선택해주세요.");
+    if (!newsImageRows.length) throw new Error("사진을 1장 이상 선택해주세요.");
 
-    const newImages = [];
-    for (const { file, credit } of newRows) {
-      const desired = sanitizeFileName(file.name);
-      const finalName = await uniqueFileName("News", desired);
-      await writeBinaryFile(`News/${finalName}`, file);
-      newImages.push({ src: `News/${finalName}`, alt: title, ...(credit ? { credit } : {}) });
+    // Walked in the exact order the rows are currently arranged in the UI
+    // (drag/reorder buttons mutate newsImageRows directly) — that order IS
+    // the final images: [...] order, whether a given row is a photo
+    // already on disk or one picked just now.
+    const images = [];
+    for (const row of newsImageRows) {
+      if (row.kind === "existing") {
+        images.push({ src: row.src, alt: row.alt || title, ...(row.credit ? { credit: row.credit } : {}) });
+      } else {
+        const desired = sanitizeFileName(row.file.name);
+        const finalName = await uniqueFileName("News", desired);
+        await writeBinaryFile(`News/${finalName}`, row.file);
+        images.push({ src: `News/${finalName}`, alt: title, ...(row.credit ? { credit: row.credit } : {}) });
+      }
     }
-    const images = [...newsExistingImages, ...newImages];
 
     const source = await readTextFile(DATA_FILES.news);
 
@@ -367,7 +395,7 @@ async function submitNewsForm(e) {
     await writeTextFile(DATA_FILES.news, newSource);
 
     form.reset();
-    document.getElementById("news-image-rows").innerHTML = "";
+    resetNewsImageRows();
     await refreshNewsList();
     showToast(`"${title}" 글을 추가했습니다.`);
   });
@@ -1012,7 +1040,19 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   document.getElementById("news-form").addEventListener("submit", submitNewsForm);
-  document.getElementById("news-images").addEventListener("change", (e) => renderNewsImageRows(e.target.files));
+  document.getElementById("news-images").addEventListener("change", (e) => {
+    // Appends to newsImageRows rather than replacing it — picking files is
+    // additive (you can add a few now, add a few more later, and reorder
+    // freely in between) instead of the file input's own selection wiping
+    // out rows already arranged. Resetting the input's value afterward
+    // means picking the exact same file(s) again later still fires another
+    // change event instead of being silently ignored as "unchanged".
+    [...e.target.files].forEach((file) => {
+      newsImageRows.push({ id: newsImageRowId++, kind: "new", file, credit: "" });
+    });
+    renderNewsImageRows();
+    e.target.value = "";
+  });
   document.getElementById("people-roster-form").addEventListener("submit", submitPeopleRosterForm);
   document.getElementById("people-alumni-form").addEventListener("submit", submitAlumniForm);
   document.getElementById("people-staff-form").addEventListener("submit", submitStaffForm);

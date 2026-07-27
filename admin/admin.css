@@ -253,9 +253,19 @@ textarea {
   font-size: 13px;
 }
 
+.admin-image-row__thumb {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid var(--admin-border);
+  background: var(--admin-gray-6);
+}
+
 .admin-image-row__name {
   flex: 0 0 auto;
-  max-width: 40%;
+  max-width: 30%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -264,6 +274,35 @@ textarea {
 
 .admin-image-row__credit {
   flex: 1;
+  min-width: 0;
+}
+
+.admin-image-row__move {
+  display: flex;
+  flex-direction: column;
+  flex: none;
+}
+
+.admin-image-row__up,
+.admin-image-row__down {
+  border: none;
+  background: transparent;
+  color: var(--admin-gray-3);
+  cursor: pointer;
+  font-size: 9px;
+  line-height: 1;
+  padding: 3px 5px;
+}
+
+.admin-image-row__up:hover:not(:disabled),
+.admin-image-row__down:hover:not(:disabled) {
+  color: var(--admin-text);
+}
+
+.admin-image-row__up:disabled,
+.admin-image-row__down:disabled {
+  opacity: 0.25;
+  cursor: default;
 }
 
 .admin-degree-row {
