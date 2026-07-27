@@ -16,9 +16,9 @@ const PEOPLE = [
     admissionSeason: "Spring",
     email: "kyo2531@kaist.ac.kr",
     degrees: [
-      { label: "Ph.D.", major: "Materials Science and Engineering", university: "APMD University", year: "2000" },
-      { label: "M.S.", major: "Materials Science and Engineering", university: "APMD University", year: "2000", note: "Double Major in Electrical Engineering" },
-      { label: "B.S.", major: "Materials Science and Engineering", university: "KAIST", year: "2000",note: "Double Major in Electrical Engineering" },
+      { label: "Ph.D.", major: "Materials Science and Engineering", university: "KAIST", year: "2024" },
+      { label: "M.S.", major: "Materials Science and Engineering", university: "KAIST", year: "2000" },
+      { label: "B.S.", major: "Materials Science and Engineering", university: "KAIST", year: "2000" },
     ],
   },
   {
@@ -40,13 +40,13 @@ const PEOPLE = [
     photo: "People/Kim, Hyeonhee.jpg",
     name: "Dr. Kim, Hyeonhee",
     role: "Post Doc. Researcher",
-    admissionYear: "2024",
+    admissionYear: "2026",
     admissionSeason: "Spring",
     email: "khh0106l@kaist.ac.kr",
     degrees: [
-      { label: "Ph.D.", major: "Materials Science and Engineering", university: "APMD University", year: "2000" },
-      { label: "M.S.", major: "Materials Science and Engineering", university: "APMD University", year: "2000" },
-      { label: "B.S.", major: "Materials Science and Engineering", university: "KAIST", year: "2000" },
+      { label: "Ph.D.", major: "Materials Science and Engineering", university: "KAIST", year: "2026" },
+      { label: "M.S.", major: "Materials Science and Engineering", university: "KAIST", year: "2022" },
+      { label: "B.S.", major: "Materials Science and Engineering", university: "Korea University", year: "2020" },
     ],
   },
   {
@@ -54,12 +54,12 @@ const PEOPLE = [
     photo: "People/Park, Hyeonjin.jpg",
     name: "Park, Hyeonjin",
     role: "Ph. D. Student",
-    admissionYear: "2024",
+    admissionYear: "2020",
     admissionSeason: "Spring",
     email: "phj1870@kaist.ac.kr",
     degrees: [
-      { label: "M.S.", major: "Materials Science and Engineering", university: "APMD University", year: "2000" },
-      { label: "B.S.", major: "Materials Science and Engineering", university: "KAIST", year: "2000" },
+      { label: "M.S.", major: "Materials Science and Engineering", university: "APMD University", year: "2020" },
+      { label: "B.S.", major: "Materials Science and Engineering", university: "KAIST", year: "2018" },
     ],
   },
   {
@@ -120,7 +120,7 @@ const PEOPLE = [
     name: "Lee, Seungchul",
     role: "Ph. D. Student",
     admissionYear: "2024",
-    admissionSeason: "Spring",
+    admissionSeason: "Fall",
     email: "sclee@kaist.ac.kr",
     degrees: [
       { label: "M.S.", major: "Materials Science and Engineering", university: "GIST", year: "2020" },
