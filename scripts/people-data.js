@@ -123,8 +123,8 @@ const PEOPLE = [
     admissionSeason: "Spring",
     email: "sclee@kaist.ac.kr",
     degrees: [
-      { label: "M.S.", major: "Materials Science and Engineering", university: "APMD University", year: "2000" },
-      { label: "B.S.", major: "Materials Science and Engineering", university: "KAIST", year: "2000" },
+      { label: "M.S.", major: "Materials Science and Engineering", university: "GIST", year: "2020" },
+      { label: "B.S.", major: "Materials Science and Engineering", university: "GIST", year: "2018" },
     ],
   },
   {
@@ -132,12 +132,12 @@ const PEOPLE = [
     photo: "People/Noh, Changgyun.jpg",
     name: "Noh, Changgyun",
     role: "Ph. D. Student",
-    admissionYear: "2024",
+    admissionYear: "2025",
     admissionSeason: "Spring",
     email: "noh980331@kaist.ac.kr",
     degrees: [
-      { label: "M.S.", major: "Materials Science and Engineering", university: "APMD University", year: "2000" },
-      { label: "B.S.", major: "Materials Science and Engineering", university: "KAIST", year: "2000" },
+      { label: "M.S.", major: "Materials Science and Engineering", university: "APMD University", year: "2025" },
+      { label: "B.S.", major: "Materials Science and Engineering", university: "Ajou University", year: "2023" },
     ],
   },
   {
