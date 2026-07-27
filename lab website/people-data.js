@@ -167,7 +167,7 @@ const PEOPLE = [
   {
     category: "ms",
     photo: "People/Choi, Sung min.jpg",
-    name: "Choi, Sung min",
+    name: "Choi, Sung min_test",
     role: "M.S. Student",
     admissionYear: "2026",
     admissionSeason: "Spring",
