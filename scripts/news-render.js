@@ -330,7 +330,15 @@ function initHomeNewsGrid() {
       body.setAttribute("aria-expanded", "true");
     });
 
-    card.addEventListener("pointerleave", () => {
+    // Touch pointers fire pointerleave right after the tap that opened this
+    // (a touch "pointer" never sustains hover the way a mouse does — most
+    // browsers treat contact ending as leaving), so without the pointerType
+    // check this closed the card in the same instant it opened on any touch
+    // device — the tap looked like it did nothing. Restricting the
+    // auto-collapse to real mouse pointers leaves touch as a clean toggle:
+    // tap opens (see the click handler above), tap again navigates.
+    card.addEventListener("pointerleave", (e) => {
+      if (e.pointerType !== "mouse") return;
       card.classList.remove("is-open");
       body.setAttribute("aria-expanded", "false");
     });

@@ -136,6 +136,9 @@ customElements.define(
 // choice is remembered in localStorage so it stays consistent while
 // clicking between pages.
 (function () {
+  // Disabled for now (kept for later use, not deleted) — flip to true to
+  // bring the grid overlay + its toggle button back.
+  const ENABLED = false;
   const STORAGE_KEY = 'design-grid-overlay-visible';
 
   const overlay = document.createElement('div');
@@ -162,6 +165,7 @@ customElements.define(
   });
 
   document.addEventListener('DOMContentLoaded', () => {
+    if (!ENABLED) return;
     document.body.appendChild(overlay);
     document.body.appendChild(toggle);
     setVisible(localStorage.getItem(STORAGE_KEY) !== '0');
@@ -177,6 +181,9 @@ customElements.define(
 // button sits right above the grid one; default off so it doesn't get in
 // the way day-to-day.
 (function () {
+  // Disabled for now (kept for later use, not deleted) — flip to true to
+  // bring the stripe-test overlay + its toggle button back.
+  const ENABLED = false;
   const STORAGE_KEY = 'stripe-test-visible';
 
   const stripes = document.createElement('div');
@@ -204,6 +211,7 @@ customElements.define(
   });
 
   document.addEventListener('DOMContentLoaded', () => {
+    if (!ENABLED) return;
     document.body.appendChild(stripes);
     document.body.appendChild(toggle);
     setVisible(localStorage.getItem(STORAGE_KEY) === '1');

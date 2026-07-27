@@ -1,4 +1,10 @@
 :root {
+  /* The whole site is designed against a fixed white background/dark text
+     palette (--bg, --text, --gray-* etc. below are never swapped for a
+     dark variant) — without this, browsers/OS that default to dark mode
+     auto-darken form controls, native UI, and scrollbar chrome against
+     that fixed-light design and it visibly breaks. */
+  color-scheme: light;
   --bg: #ffffff;
   --text: #101828;
   --accent: #f5c400;
@@ -285,7 +291,14 @@ img {
   margin-left: -50vw;
   margin-right: -50vw;
   margin-top: -64px;
+  /* svh (falls back to vh on browsers without it) is the viewport height
+     with mobile browser toolbars already accounted for as shown, not
+     whatever's visible at this exact instant — vh alone keeps changing
+     value as the address bar hides/shows while scrolling, which combined
+     with the scroll-linked parallax transform below (see script.js) is a
+     real source of visible jitter on mobile specifically. */
   height: 100vh;
+  height: 100svh;
   overflow: hidden;
   background: var(--hero-bg);
   display: flex;
@@ -430,6 +443,22 @@ img {
 @media (max-width: 900px) {
   .hero__title {
     font-size: clamp(48px, 10vw, 104px);
+  }
+
+  /* --shadow-x/-y's 14px/22px fallback (see .hero__title's text-shadow)
+     was sized for the 104px desktop title in a 1248px-wide column, where
+     the widest shadow layer's 8x offset has plenty of room before it'd
+     ever reach an edge. It's a flat px value, not tied to font-size, so it
+     doesn't shrink along with the title's own mobile clamp() above — on a
+     narrow phone that same offset pushes the shadow trail almost to the
+     viewport edge. touch screens never fire the pointermove that would
+     otherwise recenter it (see script.js's isTouch check), so this resting
+     default is effectively permanent there, not just a brief pre-first-move
+     flash like on desktop. Scaling it down roughly with the title's own
+     mobile size keeps the trail inside the frame at rest. */
+  .hero {
+    --shadow-x: 6px;
+    --shadow-y: 10px;
   }
 }
 
@@ -1939,6 +1968,16 @@ html.news-lightbox-open {
 }
 
 @media (max-width: 900px) {
+  /* .professor's own 212px-per-side inset (on top of .page-container's
+     --side-padding) is a desktop-only grid alignment, not a flat value —
+     nothing here shrinks it back down below 1440px, so at mobile widths it
+     was left eating 424px combined out of viewports far narrower than
+     that, squeezing (often past zero) the actual content width. Collapsing
+     it to 0 here matches .student-card's own mobile reset just below. */
+  .professor {
+    padding: 0;
+  }
+
   .professor__info {
     flex-direction: column;
   }
@@ -1947,12 +1986,51 @@ html.news-lightbox-open {
     width: 100%;
     max-width: 360px;
     height: auto;
-    aspect-ratio: 360 / 480;
+    /* 5:8, matching the real 360x576 photo box above — was still 360/480
+       (the old 3:4 box) here, which made object-fit: cover crop every
+       mobile photo against the wrong ratio. */
+    aspect-ratio: 5 / 8;
   }
 
+  .professor__name {
+    font-size: 26px;
+  }
+
+  .professor__section-title {
+    font-size: 20px;
+  }
+
+  /* align-items defaults to flex-start on .professor__appointment-row —
+     fine at desktop width where it's a row, but once this stacks into a
+     column here, flex-start on the cross axis means each of
+     .professor__appointment-titles/-years hugs its own content width
+     instead of the row's full width, so long titles ran out of room to
+     wrap into and overflowed instead. stretch gives both back the full
+     width to wrap against. */
   .professor__appointment-row {
     flex-direction: column;
+    align-items: stretch;
     gap: 8px;
+  }
+
+  /* Same issue as .professor__appointment-row above, one level up: two
+     columns pinned apart by justify-content: space-between + a 64px gap
+     floor, with nothing here to stack them, so on any viewport narrower
+     than "both columns' content + 64px" they overflowed instead of
+     wrapping. */
+  .professor__research-focus-content {
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 640px) {
+  .professor__photo {
+    max-width: 280px;
+  }
+
+  .professor__name {
+    font-size: 22px;
   }
 }
 
@@ -2168,6 +2246,47 @@ html.news-lightbox-open {
 @media (max-width: 900px) {
   .student-card {
     padding-left: 0;
+  }
+
+  /* Was a plain flex row (photo + text side by side) at every width —
+     .student-card__photo-wrap's fixed 180px + this row's 32px gap left
+     barely 100-150px for name/role/admission text on an actual phone, with
+     .student-card__info's flex: none meaning it wouldn't shrink into that
+     space either — text just overflowed instead of wrapping. Stacking
+     photo above content here is what the "사진이 위로, 내용이 아래로" ask
+     needs, and align-items: stretch gives .student-card__info the row's
+     full width to actually wrap its text into instead of hugging its own
+     (too-wide) content width. */
+  .student-card__row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+
+  /* This 72px top padding exists to visually center the text block next to
+     a 240px-tall photo in the side-by-side layout — with the photo now
+     sitting above instead of beside it, that offset is just dead space. */
+  .student-card__info,
+  .student-card.is-open .student-card__info {
+    padding-top: 0;
+  }
+
+  .student-card__name {
+    font-size: 26px;
+  }
+
+  /* Two fixed-content spans in a nowrap flex row — fine at full width, but
+     with nothing to shrink into on a narrow phone this let long
+     admission-season/year text overflow instead of dropping to a second
+     line. */
+  .student-card__admission {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 640px) {
+  .student-card__name {
+    font-size: 22px;
   }
 }
 
@@ -2582,7 +2701,9 @@ html.news-lightbox-open {
   margin-left: -50vw;
   margin-right: -50vw;
   margin-top: -64px;
+  /* See .hero's own comment on height: 100svh — same fix, same reason. */
   height: 100vh;
+  height: 100svh;
   overflow: hidden;
   background-image: url("assets/research-background.jpg");
   background-size: cover;

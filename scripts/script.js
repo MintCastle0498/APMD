@@ -166,6 +166,19 @@ if (contactForm) {
   });
 }
 
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+// No real pointer ever hovers a touch screen — every effect below that's
+// keyed off pointermove/mouse position is pointless there (there's nothing
+// to react to, it just sits frozen at its CSS resting default), and the
+// scroll-linked parallax further down is a well-known source of visible
+// jitter on mobile browsers specifically (their compositor scrolls the
+// page on a separate thread from the one recalculating this transform, and
+// the address bar hiding/showing mid-scroll keeps nudging the viewport
+// height it's implicitly tied to) — skipping both here is the same
+// "@media (hover: none)" convention styles.css already uses for the News
+// carousel's touch-only fallbacks, just read from JS.
+const isTouch = window.matchMedia('(hover: none)').matches;
+
 // Home hero: a spotlight follows the pointer, and the title's text-shadow
 // (several layers, see styles.css) is pushed away from it so the heading
 // reads as lit type casting a long trail, not flat text with a soft blur.
@@ -180,7 +193,7 @@ if (contactForm) {
 // own bounding box, and only cleared once the pointer is truly outside it
 // (below the fold, off-screen, etc).
 const hero = document.querySelector('.hero');
-if (hero) {
+if (hero && !isTouch) {
   const heroTitle = hero.querySelector('.hero__title');
   const MAX_SHADOW = 22;
   const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
@@ -219,8 +232,6 @@ if (hero) {
   document.documentElement.addEventListener('pointerleave', clearHeroEffect);
 }
 
-const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
 // The logo's A/M/D contrast is plain CSS now (.apmd-blend: white fill +
 // mix-blend-mode: difference, see styles.css) — no JS involved. Difference-
 // blending white against whatever's behind it IS its own inverse, so it
@@ -232,7 +243,7 @@ const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matc
 // sheet below scrolls at normal speed, the hero drags behind it" parallax,
 // without duplicating this listener per page.
 const parallaxHeroes = document.querySelectorAll('.hero, .research-hero');
-if (parallaxHeroes.length && !reducedMotion) {
+if (parallaxHeroes.length && !reducedMotion && !isTouch) {
   const HERO_SCROLL_SPEED = 0.3; // hero's own parallax: 1 = normal page speed, lower drags more
   let ticking = false;
 

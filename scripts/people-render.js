@@ -130,7 +130,12 @@ function initPeopleGrids() {
       button.setAttribute("aria-expanded", String(isOpen));
     });
 
-    card.addEventListener("pointerleave", () => {
+    // Same touch fix as the Home NEWS card (news-render.js): a touch tap's
+    // own release fires pointerleave immediately (touch never sustains
+    // hover), so without this the card closed itself the instant it opened
+    // on any touch device. Real mouse leaves still auto-collapse as before.
+    card.addEventListener("pointerleave", (e) => {
+      if (e.pointerType !== "mouse") return;
       card.classList.remove("is-open");
       button.setAttribute("aria-expanded", "false");
     });

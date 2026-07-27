@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="color-scheme" content="light" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>APMD 콘텐츠 관리</title>
+    <link rel="stylesheet" href="admin.css" />
+  </head>
+  <body>
+    <header class="admin-header">
+      <h1>APMD 콘텐츠 관리</h1>
+      <div class="admin-header__folder">
+        <button id="pick-folder" type="button" class="admin-btn admin-btn--primary">사이트 폴더 선택</button>
+        <span id="folder-status" class="admin-header__status">폴더가 선택되지 않았습니다. "APMD Web" 폴더(이 admin 폴더의 부모 폴더)를 선택해주세요.</span>
+      </div>
+    </header>
+
+    <nav class="admin-tabs">
+      <button type="button" class="admin-tab is-active" data-tab="news">News</button>
+      <button type="button" class="admin-tab" data-tab="people">People</button>
+      <button type="button" class="admin-tab" data-tab="publication">Publication</button>
+    </nav>
+
+    <main id="admin-main" class="admin-main is-disabled">
+      <!-- ================= NEWS ================= -->
+      <section class="admin-panel is-active" data-panel="news">
+        <div class="admin-columns">
+          <form id="news-form" class="admin-form">
+            <h2 id="news-form-title">새 소식 추가</h2>
+
+            <label>제목
+              <input type="text" name="title" required />
+            </label>
+
+            <label>종류
+              <select name="tag" required>
+                <option value="award">수상</option>
+                <option value="event" selected>연구실 행사</option>
+                <option value="conference">학회 참석</option>
+                <option value="press">외부보도</option>
+              </select>
+            </label>
+
+            <label>인물 태그
+              <input type="text" name="people" placeholder="쉼표로 구분, 비워두면 APMD (예: 김현희, 이민열)" />
+            </label>
+
+            <div class="admin-form__row">
+              <label>날짜
+                <input type="date" name="date" required />
+              </label>
+              <label>종료일 (기간이 있는 경우만)
+                <input type="date" name="dateEnd" />
+              </label>
+            </div>
+
+            <div id="news-existing-image-rows" class="admin-image-rows"></div>
+            <label>사진 추가 (여러 장 선택 가능)
+              <input id="news-images" type="file" name="images" accept="image/*" multiple />
+            </label>
+            <div id="news-image-rows" class="admin-image-rows"></div>
+
+            <label>요약 (카드에 짧게 보이는 문장, 비우면 본문 첫 문단 사용)
+              <textarea name="excerpt" rows="2"></textarea>
+            </label>
+
+            <label>본문 (문단 사이는 빈 줄로 구분)
+              <textarea name="body" rows="5"></textarea>
+            </label>
+
+            <div class="admin-form__actions">
+              <button type="submit" id="news-submit-btn" class="admin-btn admin-btn--primary">추가하기</button>
+              <button type="button" id="news-cancel-edit" class="admin-btn" hidden>취소</button>
+            </div>
+          </form>
+
+          <div class="admin-list-col">
+            <h2>등록된 글 (최신순)</h2>
+            <div id="news-list" class="admin-list"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= PEOPLE ================= -->
+      <section class="admin-panel" data-panel="people">
+        <div class="admin-subtabs" data-group="people">
+          <button type="button" class="admin-subtab is-active" data-subtab="roster">재학생 / Post Doc.</button>
+          <button type="button" class="admin-subtab" data-subtab="alumni">Alumni</button>
+          <button type="button" class="admin-subtab" data-subtab="staff">Staff</button>
+        </div>
+
+        <div class="admin-subpanel is-active" data-group="people" data-subpanel="roster">
+          <div class="admin-columns">
+            <form id="people-roster-form" class="admin-form">
+              <h2 id="people-roster-form-title">재학생 / Post Doc. 추가</h2>
+
+              <label>구분
+                <select name="category" required>
+                  <option value="postdoc">Post Doctoral Researcher</option>
+                  <option value="phd" selected>Ph.D. Candidate</option>
+                  <option value="integrated">Integrated M.S.-Ph.D. Candidate</option>
+                  <option value="ms">M.S. Candidate</option>
+                </select>
+              </label>
+
+              <label id="people-roster-photo-label">사진
+                <input type="file" name="photo" accept="image/*" required />
+              </label>
+              <p id="people-roster-current-photo" class="admin-current-file" hidden></p>
+
+              <label>이름 (형식: 성, 이름 — 예: Kim, Hyeonhee)
+                <input type="text" name="name" required />
+              </label>
+
+              <label>직함 (예: Ph. D. Student)
+                <input type="text" name="role" />
+              </label>
+
+              <div class="admin-form__row">
+                <label>입학년도
+                  <input type="text" name="admissionYear" />
+                </label>
+                <label>학기
+                  <select name="admissionSeason">
+                    <option value="Spring">Spring</option>
+                    <option value="Fall">Fall</option>
+                  </select>
+                </label>
+              </div>
+
+              <label>이메일
+                <input type="email" name="email" />
+              </label>
+
+              <div class="admin-form__label-row">
+                <span>학위</span>
+                <button type="button" id="add-degree-row" class="admin-btn admin-btn--small">학위 추가</button>
+              </div>
+              <div id="degree-rows" class="admin-degree-rows"></div>
+
+              <div class="admin-form__actions">
+                <button type="submit" id="people-roster-submit-btn" class="admin-btn admin-btn--primary">추가하기</button>
+                <button type="button" id="people-roster-cancel-edit" class="admin-btn" hidden>취소</button>
+              </div>
+            </form>
+
+            <div class="admin-list-col">
+              <h2>등록된 재학생 / Post Doc.</h2>
+              <div id="people-roster-list" class="admin-list"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="admin-subpanel" data-group="people" data-subpanel="alumni">
+          <div class="admin-columns">
+            <form id="people-alumni-form" class="admin-form">
+              <h2 id="people-alumni-form-title">졸업생(Alumni) 추가</h2>
+
+              <label>이름
+                <input type="text" name="name" required />
+              </label>
+
+              <div class="admin-form__row">
+                <label>학위
+                  <select name="program">
+                    <option value="M.S.">M.S.</option>
+                    <option value="Ph.D.">Ph.D.</option>
+                    <option value="Post Doc.">Post Doc.</option>
+                  </select>
+                </label>
+                <label>연도 (또는 기간, 예: 2014.03–2015.10)
+                  <input type="text" name="year" />
+                </label>
+              </div>
+
+              <label>현재 소속 (모르면 비워두기)
+                <input type="text" name="current" />
+              </label>
+              <input type="hidden" name="season" value="" />
+
+              <div class="admin-form__actions">
+                <button type="submit" id="people-alumni-submit-btn" class="admin-btn admin-btn--primary">추가하기</button>
+                <button type="button" id="people-alumni-cancel-edit" class="admin-btn" hidden>취소</button>
+              </div>
+            </form>
+
+            <div class="admin-list-col">
+              <h2>등록된 졸업생</h2>
+              <div id="people-alumni-list" class="admin-list"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="admin-subpanel" data-group="people" data-subpanel="staff">
+          <div class="admin-columns">
+            <form id="people-staff-form" class="admin-form">
+              <h2 id="people-staff-form-title">직원(Staff) 추가</h2>
+
+              <label>이름
+                <input type="text" name="name" required />
+              </label>
+
+              <label>사진 (선택)
+                <input type="file" name="photo" accept="image/*" />
+              </label>
+              <p id="people-staff-current-photo" class="admin-current-file" hidden></p>
+
+              <label>직함 / 연락처 (예: Tel. 042 - 350 - 5314)
+                <input type="text" name="role" />
+              </label>
+
+              <div class="admin-form__row">
+                <label>입사년도 (선택)
+                  <input type="text" name="admissionYear" />
+                </label>
+                <label>학기 (선택)
+                  <select name="admissionSeason">
+                    <option value="">-</option>
+                    <option value="Spring">Spring</option>
+                    <option value="Fall">Fall</option>
+                  </select>
+                </label>
+              </div>
+
+              <div class="admin-form__actions">
+                <button type="submit" id="people-staff-submit-btn" class="admin-btn admin-btn--primary">추가하기</button>
+                <button type="button" id="people-staff-cancel-edit" class="admin-btn" hidden>취소</button>
+              </div>
+            </form>
+
+            <div class="admin-list-col">
+              <h2>등록된 직원</h2>
+              <div id="people-staff-list" class="admin-list"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= PUBLICATION ================= -->
+      <section class="admin-panel" data-panel="publication">
+        <div class="admin-columns">
+          <form id="publication-form" class="admin-form">
+            <h2 id="publication-form-title">새 논문 추가</h2>
+
+            <label>연도
+              <input type="number" name="year" required />
+            </label>
+
+            <label>대표 이미지
+              <input type="file" name="image" accept="image/*" required />
+            </label>
+            <p id="publication-current-image" class="admin-current-file" hidden></p>
+
+            <label>제목
+              <input type="text" name="title" required />
+            </label>
+
+            <label>저자 (예: Junhyung Park*, Jonghwa Shin‡)
+              <input type="text" name="authors" />
+            </label>
+
+            <label>저널 (예: Advanced Optical Materials, e03274 (2026))
+              <input type="text" name="journal" />
+            </label>
+
+            <label>DOI 링크
+              <input type="url" name="doiUrl" placeholder="https://doi.org/..." />
+            </label>
+
+            <div class="admin-form__actions">
+              <button type="submit" id="publication-submit-btn" class="admin-btn admin-btn--primary">추가하기</button>
+              <button type="button" id="publication-cancel-edit" class="admin-btn" hidden>취소</button>
+            </div>
+          </form>
+
+          <div class="admin-list-col">
+            <h2>등록된 논문 (최신순)</h2>
+            <div id="publication-list" class="admin-list"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div id="toast" class="admin-toast" hidden></div>
+
+    <script src="admin-core.js"></script>
+    <script src="admin.js"></script>
+  </body>
+</html>
