@@ -134,6 +134,16 @@ site-footer {
   display: contents;
 }
 
+/* background-image (not just background-color) is the actual fix here —
+   some mobile browsers' forced-dark mode (Samsung Internet's in particular)
+   still repaints a page's flat CSS background-color even when color-scheme:
+   light above says not to. That repaint targets computed *colors*, not
+   images: a real image (even this trivial tiled 1x1 white square, done as
+   a tiny inline SVG so there's no extra file request) reads as a photo to
+   that heuristic and gets left alone, the same way it already leaves real
+   photos on the page untouched. background-color stays too, as the actual
+   fallback for the handful of browsers that don't support background-image
+   data URIs at all. */
 body {
   margin: 0;
   min-height: 100vh;
@@ -141,7 +151,10 @@ body {
   font-weight: var(--text-base-weight);
   font-size: var(--text-base-size);
   line-height: var(--text-base-line);
-  background: var(--bg);
+  background-color: var(--bg);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'%3E%3Crect width='1' height='1' fill='%23fff'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 1px 1px;
   color: var(--text);
 }
 
@@ -334,7 +347,14 @@ img {
   margin-left: -50vw;
   margin-right: -50vw;
   z-index: 2;
-  background: var(--bg);
+  /* Same image-not-color trick as body's own background above (see its
+     comment) — this is its own opaque sheet (has to be, to fully cover the
+     parallaxed hero scrolling behind it), so it needs the same forced-dark
+     resistance independently of body. */
+  background-color: var(--bg);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'%3E%3Crect width='1' height='1' fill='%23fff'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 1px 1px;
 }
 
 /* The "elevated above the hero" shadow lives on a zero-height pseudo-element
@@ -2782,7 +2802,13 @@ html.news-lightbox-open {
   margin-left: -50vw;
   margin-right: -50vw;
   z-index: 2;
-  background: var(--bg);
+  /* Same image-not-color trick as .home-news (its exact counterpart) and
+     body — see body's own comment on why an image resists forced-dark
+     repainting where a flat background-color doesn't. */
+  background-color: var(--bg);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'%3E%3Crect width='1' height='1' fill='%23fff'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 1px 1px;
 }
 
 .research-topics::before {

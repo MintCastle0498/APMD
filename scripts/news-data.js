@@ -195,34 +195,4 @@ const NEWS_POSTS = [
     excerpt: "광학회에 참석했습니다.",
     body: ["광학회에 참석했습니다."],
   },
-  {
-    id: "kim-hyeonhee-2026",
-    title: "김현희 선배 (설명 추가 필요)",
-    tag: "event",
-    people: ["김현희"],
-    date: "2026-07-21",
-    images: [{ src: "News/260721_김현희선배.JPG", alt: "김현희 선배" }],
-    excerpt: "사진 설명을 추가해 주세요.",
-    body: ["사진 설명을 추가해 주세요."],
-  },
-  {
-    id: "lab-gathering-2026-07-21",
-    // Placeholder: six photos shared the same day/batch (KakaoTalk export),
-    // which strongly suggests one shared event — but what it actually was
-    // isn't known from the filenames alone.
-    title: "연구실 행사 (설명 추가 필요)",
-    tag: "event",
-    people: ["APMD"],
-    date: "2026-07-21",
-    images: [
-      { src: "News/KakaoTalk_20260721_173124903.jpg", alt: "연구실 행사" },
-      { src: "News/KakaoTalk_20260721_173126030.jpg", alt: "연구실 행사" },
-      { src: "News/KakaoTalk_20260721_173127345.jpg", alt: "연구실 행사" },
-      { src: "News/KakaoTalk_20260721_173128528.jpg", alt: "연구실 행사" },
-      { src: "News/KakaoTalk_20260721_173129758.jpg", alt: "연구실 행사" },
-      { src: "News/KakaoTalk_20260721_173131297.jpg", alt: "연구실 행사" },
-    ],
-    excerpt: "사진 설명을 추가해 주세요.",
-    body: ["사진 설명을 추가해 주세요."],
-  },
 ];
