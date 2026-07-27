@@ -156,11 +156,22 @@ const AdminCore = (() => {
   // listEntries/deleteEntryAt use, which excludes the entry's own trailing
   // comma) with newly formatted text — everything before/after it,
   // including that comma, is untouched.
+  //
+  // entryText already starts with its own "  {" indentation (see the
+  // formatters below), so the original line's indentation before
+  // target.start has to be walked back and dropped first — same backward
+  // scan deleteEntryAt uses — or every edit doubles up another copy of it
+  // in front of the freshly-formatted entry.
   function updateEntryAt(source, varName, entryIndex, entryText) {
     const { entries } = locateArray(source, varName);
     const target = entries[entryIndex];
     if (!target) throw new Error(`No entry at index ${entryIndex}`);
-    return source.slice(0, target.start) + entryText + source.slice(target.end);
+
+    let start = target.start;
+    while (start > 0 && (source[start - 1] === " " || source[start - 1] === "\t")) {
+      start -= 1;
+    }
+    return source.slice(0, start) + entryText + source.slice(target.end);
   }
 
   // ---- Per-collection formatters -----------------------------------

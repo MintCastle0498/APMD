@@ -184,15 +184,16 @@ const NEWS_POSTS = [
   },
   {
     id: "optics-society-2026",
-    title: "광학회 참석",
+    title: "Optics and Photonics Congress 2026 (OPC 2026) 참석",
     tag: "conference",
     people: ["APMD"],
     date: "2026-07-19",
+    dateEnd: "2026-07-22",
     images: [
       { src: "News/260719_광학회.jpg", alt: "광학회 참석", credit: "APMD Lab" },
       { src: "News/260719_광학회2.jpg", alt: "광학회 참석", credit: "APMD Lab" },
     ],
-    excerpt: "광학회에 참석했습니다.",
-    body: ["광학회에 참석했습니다."],
+    excerpt: "Optics and Photonics Congress 2026 (OPC 2026) 참석",
+    body: ["ICC Jeju에서 열린 Optics and Photonics Congress 2026 (OPC 2026)에 참석했습니다.\n신종화 교수님이 \"Periodicity, homogeneity and consistency in metasurfaces\", \n김현희 Ph.D.가 \"Bi-layer metasurfaces as a versatile platform for vectorial light control\" 라는 주제로 발표를 진행했습니다."],
   },
 ];

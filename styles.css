@@ -1164,6 +1164,12 @@ html.news-lightbox-open {
   font-size: 16px;
   line-height: 1.7;
   color: var(--gray-2);
+  /* body's array already splits on blank lines into separate paragraphs
+     (see news-render.js) — this only matters for a single \n a paragraph
+     itself contains (e.g. the admin tool's plain textarea preserving a
+     line break the user typed without a full blank line after it), which
+     HTML otherwise collapses to a space by default. */
+  white-space: pre-line;
 }
 
 /* Header — fixed, 1440x64, glass background */
