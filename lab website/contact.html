@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact – APMD</title>
+    <meta name="description" content="APMD Lab" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700&family=Geist:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <script src="components.js"></script>
+
+    <site-header></site-header>
+
+    <main class="page-container">
+      <div class="contact-layout">
+        <div class="contact-image">
+          <div class="contact-image__text">
+            <h1 class="contact-image__title">
+              WE'RE<br />RECRUITING<span class="contact-image__title-dot">.</span>
+            </h1>
+            <p class="contact-image__subtitle">Graduate students &amp; postdocs<br />Photonics, Materials, ML.</p>
+          </div>
+          <img class="contact-image__gif" src="APMD_Nupzuki.gif" alt="APMD lab" width="377" height="377" />
+        </div>
+
+        <form class="contact-form" data-contact-form novalidate>
+          <div class="contact-form__section">
+            <label class="contact-form__label" for="contact-name">Name</label>
+            <input class="contact-form__input" type="text" id="contact-name" name="name" placeholder="Choi, Sungmin" required />
+          </div>
+
+          <div class="contact-form__section">
+            <label class="contact-form__label" for="contact-email">Email</label>
+            <input class="contact-form__input" type="email" id="contact-email" name="email" placeholder="example@kaist.ac.kr" required />
+          </div>
+
+          <div class="contact-form__section">
+            <label class="contact-form__label" for="contact-message">Message</label>
+            <textarea
+              class="contact-form__input contact-form__input--message"
+              id="contact-message"
+              name="message"
+              placeholder="Hello"
+              required
+            ></textarea>
+          </div>
+
+          <div class="contact-form__actions">
+            <button class="contact-form__button" type="button" data-recipient="professor" aria-pressed="false">Professor</button>
+            <button class="contact-form__button is-selected" type="button" data-recipient="lab-manager" aria-pressed="true">Lab manager</button>
+            <button class="contact-form__button contact-form__button--submit" type="submit">
+              Send message to
+              <span class="contact-form__recipient-slot" data-recipient-slot>
+                <span class="contact-form__recipient-name is-active" data-recipient-name="lab-manager">Lab manager</span>
+                <span class="contact-form__recipient-name" data-recipient-name="professor">Professor</span>
+              </span>
+            </button>
+          </div>
+
+          <p class="contact-form__status" data-contact-status role="status" aria-live="polite"></p>
+        </form>
+      </div>
+
+      <site-footer></site-footer>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>

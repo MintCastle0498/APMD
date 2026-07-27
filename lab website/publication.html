@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Publication – APMD</title>
+    <meta name="description" content="APMD Lab" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700&family=Geist:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <script src="components.js"></script>
+
+    <site-header></site-header>
+
+    <nav class="publication-year-nav" aria-label="Jump to year">
+      <div class="publication-year-nav__viewport">
+        <ol class="publication-year-nav__list" data-year-nav-list></ol>
+      </div>
+    </nav>
+
+    <main class="page-container">
+      <div class="page-title-container">
+        <h1 class="page-title">Publication<span class="page-title__dot">.</span></h1>
+      </div>
+
+      <div class="publication-layout">
+        <div class="publication-sidebar-gutter"></div>
+
+        <div class="publication-years" data-publication-years></div>
+      </div>
+
+      <site-footer></site-footer>
+    </main>
+
+    <script src="publication-data.js"></script>
+    <script src="publication-render.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
