@@ -37,7 +37,7 @@ const PEOPLE = [
   },
   {
     category: "postdoc",
-    photo: "People/Kim, Hyeon Hee.jpg",
+    photo: "People/Kim, Hyeonhee.jpg",
     name: "Dr. Kim, Hyeonhee",
     role: "Post Doc. Researcher",
     admissionYear: "2024",
