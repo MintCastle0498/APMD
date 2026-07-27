@@ -347,13 +347,24 @@ function initHomeNewsGrid() {
     return;
   }
 
-  // Toggles both ways (not a one-time reveal + unobserve) so scrolling back
-  // up past a card hides it again, ready to replay the reveal on the way
-  // back down.
+  // One-time reveal: add .is-visible and stop observing, rather than
+  // toggling it on/off with entry.isIntersecting on every scroll tick. That
+  // toggling used to replay the reveal on scrolling back up past a card,
+  // but it had a real bug at the very bottom of the page: revealing a card
+  // moves it (the translateY in .news-card's own transition), and once
+  // scrolled all the way down there's no further scroll to carry it past
+  // the observer's threshold — so a card sitting right at that boundary
+  // would reveal, shift up into no-longer-intersecting, hide, shift back
+  // down into intersecting, reveal again, forever. That read as the News
+  // cards' text vibrating in place whenever the page was scrolled all the
+  // way to the bottom. Unobserving after the first reveal removes the loop
+  // entirely — nothing left to toggle back off once it's shown.
   const revealObserver = new IntersectionObserver(
-    (entries) => {
+    (entries, observer) => {
       entries.forEach((entry) => {
-        entry.target.classList.toggle("is-visible", entry.isIntersecting);
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
       });
     },
     { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }

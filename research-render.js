@@ -42,10 +42,19 @@ function initResearchList() {
     return;
   }
 
+  // One-time reveal, then unobserve — see news-render.js's identical
+  // observer for why toggling this on/off with entry.isIntersecting (this
+  // used to do that, to replay the reveal on scrolling back up) causes a
+  // real vibration bug at the bottom of the page: revealing a card moves
+  // it (translateY), which can flip its own intersection state right back,
+  // hide it, move it back, re-intersect, reveal again — forever, once
+  // there's no further scroll room to carry it clear of the threshold.
   const revealObserver = new IntersectionObserver(
-    (entries) => {
+    (entries, observer) => {
       entries.forEach((entry) => {
-        entry.target.classList.toggle("is-visible", entry.isIntersecting);
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
       });
     },
     { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
