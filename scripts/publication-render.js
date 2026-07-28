@@ -113,13 +113,31 @@ function yearBlockMarkup(year, pubs) {
   `;
 }
 
+// `date` (added via a Crossref lookup per DOI, see publication-data.js's
+// own header comment) is "YYYY-MM" or "YYYY-MM-DD" — Crossref doesn't
+// always have day-level precision, and a handful of very old entries
+// have neither and no `date` field at all. Turning it into one plain
+// comparable number (year*10000 + month*100 + day) means an entry with
+// only a year sorts as e.g. 20260000, which lands after every dated entry
+// in that same year but never crosses into a different year — exactly
+// "sort by whatever precision Crossref actually gave this one paper."
+function dateSortValue(pub) {
+  if (!pub.date) return pub.year * 10000;
+  const [y, mo = "0", d = "0"] = pub.date.split("-");
+  return Number(y) * 10000 + Number(mo) * 100 + Number(d);
+}
+
 function groupByYear(pubs) {
   const byYear = new Map();
   pubs.forEach((pub) => {
     if (!byYear.has(pub.year)) byYear.set(pub.year, []);
     byYear.get(pub.year).push(pub);
   });
-  return [...byYear.entries()].sort((a, b) => b[0] - a[0]);
+  const entries = [...byYear.entries()].sort((a, b) => b[0] - a[0]);
+  entries.forEach(([, list]) => {
+    list.sort((a, b) => dateSortValue(b) - dateSortValue(a));
+  });
+  return entries;
 }
 
 // Matches .publication-year-nav's fixed height (5 * 36) and

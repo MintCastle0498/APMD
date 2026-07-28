@@ -12,13 +12,13 @@ const PEOPLE = [
     photo: "People/Jung, Joonkyo.jpg",
     name: "Dr. Jung, Joonkyo",
     role: "Post Doc. Researcher",
-    admissionYear: "2024",
-    admissionSeason: "Spring",
+    admissionYear: "2023",
+    admissionSeason: "Fall",
     email: "kyo2531@kaist.ac.kr",
     degrees: [
-      { label: "Ph.D.", major: "Materials Science and Engineering", university: "KAIST", year: "2024" },
-      { label: "M.S.", major: "Materials Science and Engineering", university: "KAIST", year: "2000" },
-      { label: "B.S.", major: "Materials Science and Engineering", university: "KAIST", year: "2000" },
+      { label: "Ph.D.", major: "Materials Science and Engineering", university: "KAIST", year: "2023" },
+      { label: "M.S.", major: "Materials Science and Engineering", university: "KAIST", year: "2018" },
+      { label: "B.S.", major: "Materials Science and Engineering", university: "Yonsei University", year: "2016" },
     ],
   },
   {

@@ -119,28 +119,31 @@ const NEWS_POSTS = [
   },
   {
     id: "meta-2024",
-    title: "META 학회 참석",
+    title: "Attendance at META 2024, Toyama",
     tag: "conference",
     people: ["APMD"],
-    date: "2024-07-15",
+    date: "2024-07-16",
+    dateEnd: "2024-07-19",
     images: [{ src: "News/240715_Meta학회.jpg", alt: "META 학회 참석" }],
-    excerpt: "META 학회에 참석했습니다.",
-    body: ["META 학회에 참석했습니다."],
+    excerpt: "Our lab attended META 2024, the 14th International Conference on Metamaterials, Photonic Crystals and Plasmonics, held in Toyama, Japan.",
+    body: ["Our lab attended META 2024, the 14th International Conference on Metamaterials, Photonic Crystals and Plasmonics, held in Toyama, Japan, from July 16 to 19, 2024."],
   },
   {
     id: "jo-mingwan-2024",
-    // Placeholder: only the photos and the date/name are known — fill in
-    // what this was actually about (award? send-off? milestone?).
-    title: "조민관 선배 (설명 추가 필요)",
-    tag: "event",
+    title: "Best Poster Award at META 2024",
+    tag: "award",
     people: ["조민관"],
     date: "2024-07-16",
+    dateEnd: "2024-07-19",
     images: [
       { src: "News/240716_조민관선배(1).jpg", alt: "조민관 선배" },
       { src: "News/240716_조민관선배(2).png", alt: "조민관 선배" },
     ],
-    excerpt: "사진 설명을 추가해 주세요.",
-    body: ["사진 설명을 추가해 주세요."],
+    excerpt: "Mingwan Cho received the Best Poster Award at META 2024, the 14th International Conference on Metamaterials, Photonic Crystals and Plasmonics.",
+    body: [
+      "Mingwan Cho received the Best Poster Award at META 2024, the 14th International Conference on Metamaterials, Photonic Crystals and Plasmonics, held in Toyama, Japan, from July 16 to 19, 2024.",
+      "The award-winning poster was titled \"Color arrestor pixels for high-fidelity, high-sensitivity imaging sensors.\"",
+    ],
   },
   {
     id: "kim-hyeonhee-2024",

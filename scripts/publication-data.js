@@ -1,6 +1,8 @@
-// One entry per paper. `year` is only used for grouping/sorting — papers
-// are bucketed by it into year containers, newest year first; within a
-// year, cards render in the order they appear in this array.
+// One entry per paper. `year` is used for grouping — papers are bucketed
+// into year containers, newest year first. Within a year, cards sort
+// newest-first by `date` (see publication-render.js's dateSortValue) —
+// NOT by array order anymore; an entry's position here no longer matters
+// for display, only which year container it lands in.
 //
 // `image` still points at the shared placeholder figure for every entry —
 // swap in each paper's real figure filename once those assets exist.
@@ -9,6 +11,11 @@
 // newest 2025/2026 entries, and some pre-2010 ones) use non-numeric or
 // unusual-looking DOI suffixes because that's what the publisher actually
 // registered; that's not a transcription error.
+// `date` ("YYYY-MM" or "YYYY-MM-DD", whichever precision Crossref actually
+// has for that DOI — a handful of the oldest entries have neither and no
+// `date` field at all) is what breaks the same-year tie a bare `year`
+// number can't; it's the real month (day, where Crossref has one) this
+// exact paper published, not just filed under.
 const PUBLICATIONS = [
   {
     year: 2026,
@@ -17,6 +24,7 @@ const PUBLICATIONS = [
     authors: "Junhyung Park*, Yun Hyeong*, Hwanseok Chang, Dohyun Kim, Junkyo Jung, Seokwoo Jeon, Jonghwa Shin‡",
     journal: "Advanced Optical Materials, e03274 (2026)",
     doiUrl: "https://doi.org/10.1002/adom.202503274",
+    date: "2026-06",
   },
   {
     year: 2026,
@@ -25,38 +33,43 @@ const PUBLICATIONS = [
     authors: "Joonkyo Jung*, Hyeonhee Kim, Jonghwa Shin‡",
     journal: "Advanced Materials 38, 15, e19106 (2026)",
     doiUrl: "https://doi.org/10.1002/adma.202519106",
+    date: "2026-03",
   },
   {
     year: 2026,
-    image: "",
+    image: "Publication/Angle-and polarization-adaptive aperiodic-anisotropic metasurfaces for broadband reflectance suppression.jpg",
     title: "Angle-and polarization-adaptive aperiodic-anisotropic metasurfaces for broadband reflectance suppression",
     authors: "Jeongbin Yoon*, Mingwan Cho*‡, Hyeonhee Kim, Hyeonjin Park, In-Sung Joe, Jonghwa Shin‡",
     journal: "iScience 29, 8, 116833 (2026)",
     doiUrl: "https://doi.org/10.1016/j.isci.2026.116833",
+    date: "2026-08",
   },
   {
     year: 2026,
-    image: "",
+    image: "Publication/Analogs of Spontaneous Emission and Lasing in Photonic Time Crystals.png",
     title: "Analogs of Spontaneous Emission and Lasing in Photonic Time Crystals",
     authors: "Kyungmin Lee, Minwook Kyung, Yung Kim, Jagang Park, Hansuek Lee, Joonhee Choi, C. T. Chan, Jonghwa Shin, Kun Woo Kim, Bumki Min",
     journal: "Physical Review Letters 136, 9, 093802 (2026)",
     doiUrl: "https://doi.org/10.1103/hh9h-qzpk",
+    date: "2026-03-03",
   },
   {
     year: 2026,
-    image: "",
+    image: "Publication/Electronic Trap Detection with Carrier-Resolved Photo-Hall Effect.jpg",
     title: "Electronic Trap Detection with Carrier-Resolved Photo-Hall Effect",
     authors: "Oki Gunawan, Chaeyoun Kim, Bonfilio Nainggolan, Minyeul Lee, Jonghwa Shin, Dong Suk Kim, Yimhyun Jo, Minjin Kim, Julie Euvrard, Douglas Bishop, Frank Libsch, Teodor Todorov, Yunna Kim, Byungha Shin",
     journal: "Science Advances 12, 1, eadz0460 (2026)",
     doiUrl: "https://doi.org/10.1126/sciadv.adz0460",
+    date: "2026-01-02",
   },
   {
     year: 2026,
-    image: "",
+    image: "Publication/Eschallot A Topology Nucleation Algorithm for Designing Stratified, Spherically Symmetric Systems That Exhibit Complex Angular Scattering of Electromagnetic Waves.jpg",
     title: "Eschallot: A Topology Nucleation Algorithm for Designing Stratified, Spherically Symmetric Systems That Exhibit Complex Angular Scattering of Electromagnetic Waves",
     authors: "Seokhwan Min, Jonghwa Shin",
     journal: "Computer Physics Communications 320, 109966 (2026)",
     doiUrl: "https://doi.org/10.1016/j.cpc.2025.109966",
+    date: "2026-03",
   },
   {
     year: 2025,
@@ -65,6 +78,7 @@ const PUBLICATIONS = [
     authors: "Dongha Kim*, Geonhyeong Park*, Yun-Seok Choi, Arthur Baucour, Jisung Hwang, Jaeyu Kim, Sanghyeok Park, Hee Seong Yun, Jonghwa Shin, Haiwen Wang, Shanhui Fan, Dong Ki Yoon‡, Min-Kyo Seo‡",
     journal: "Nature Communications 16, 788 (2025)",
     doiUrl: "https://doi.org/10.1038/s41467-025-65087-2",
+    date: "2025-11-05",
   },
   {
     year: 2025,
@@ -73,6 +87,7 @@ const PUBLICATIONS = [
     authors: "Jagang Park*, Kyungmin Lee*, Ruo-Yang Zhang, Hee-Chul Park, Jung-Wan Ryu, Gil Young Cho, Min Yeul Lee, Zhaoqing Zhang, Namkoo Park, Wonju Jeon, Jonghwa Shin, C. T. Chan, Bumki Min‡",
     journal: "Physical Review Letters 135, 13, 133801 (2025)",
     doiUrl: "https://doi.org/10.1103/5v2w-yg7v",
+    date: "2025-09-22",
   },
   {
     year: 2025,
@@ -81,6 +96,7 @@ const PUBLICATIONS = [
     authors: "Minyeul Lee*, Suwan Jeon, Jonghwa Shin‡",
     journal: "Advanced Optical Materials 13, 20, 2500455 (2025)",
     doiUrl: "https://doi.org/10.1002/adom.202500455",
+    date: "2025-07",
   },
   {
     year: 2025,
@@ -89,6 +105,7 @@ const PUBLICATIONS = [
     authors: "Myungjoon Kim*, Hyeonjin Park*, Jonghwa Shin‡",
     journal: "Nanophotonics 14, 8, 1273-1282 (2025)",
     doiUrl: "https://doi.org/10.1515/nanoph-2024-0674",
+    date: "2025-04",
   },
   {
     year: 2025,
@@ -97,6 +114,7 @@ const PUBLICATIONS = [
     authors: "Dohyeon Lee*, Moosung Lee, Bakytgul Yerenzhep, Myungjoon Kim, Herve Hugonnet, Seokwoo Jeon, Jonghwa Shin, YongKeun Park‡",
     journal: "ACS Photonics 12, 2, 610-619 (2025)",
     doiUrl: "https://doi.org/10.1021/acsphotonics.4c01201",
+    date: "2025-02-19",
   },
   {
     year: 2025,
@@ -105,14 +123,16 @@ const PUBLICATIONS = [
     authors: "Junhyeong Kim*, Jae-Yong Kim*, Jungmin Kim, Yun Hyeong, Berkay Neseli, Jong-Bum You, Joonsup Shim, Jonghwa Shin, Hyo-Hoom Park, Hamza Kurt‡",
     journal: "Nanophotonics 14, 2, 121-151 (2025)",
     doiUrl: "https://doi.org/10.1515/nanoph-2024-0536",
+    date: "2025-02",
   },
   {
     year: 2025,
-    image: "",
+    image: "Publication/Manufacturing of a Bitmap-Type Lightweight Microwave Absorber Metasurface.webp",
     title: "Manufacturing of a Bitmap-Type Lightweight Microwave Absorber Metasurface",
     authors: "Je-Ryung Lee, Myungjoon Kim, Seung Hwan Moon, Doo-Sun Choi, Jonghwa Shin, Ik Soo Kang, Tae-Jin Je, Eun-chae Jeon",
     journal: "International Journal of Precision Engineering and Manufacturing 26, 3461-3472 (2025)",
     doiUrl: "https://doi.org/10.1007/s12541-025-01326-2",
+    date: "2025-12",
   },
   {
     year: 2024,
@@ -121,6 +141,7 @@ const PUBLICATIONS = [
     authors: "Dae-Hyeon Song*, Chang Woo Song*, Seunghee H. Cho*, Tae Yoon Kwon, Hoeyun Jung, Ki Hyun Park, Jiyun Kim, Junyoung Seo, Jaeyoung Yoo, Minjoon Kim, Gyu Rac Lee, Jisung Hwang, Hyuck Mo Lee, Jonghwa Shin, Jennifer H. Shin, Yeon Sik Jung‡, Jae-Byum Chang‡",
     journal: "Advanced Science 2406492 (2024)",
     doiUrl: "https://doi.org/10.1002/advs.202406492",
+    date: "2025-01",
   },
   {
     year: 2024,
@@ -129,6 +150,7 @@ const PUBLICATIONS = [
     authors: "Seungkyun Lee*, Minjae Ku*, Heejin Lim*, Jisung Hwang, Jong Min Kim, Hanhwi Kim, Jonghwa Shin, Hyeuk Jin Han‡, Yeon Sik Jung‡",
     journal: "ACS Applied Materials & Interfaces 16, 50, 69703-69712 (2024)",
     doiUrl: "https://doi.org/10.1021/acsami.4c15062",
+    date: "2024-12-18",
   },
   {
     year: 2024,
@@ -137,6 +159,7 @@ const PUBLICATIONS = [
     authors: "Seung Kyu Kang*, Kyoohyun Kim, Jinsoo Jeong, Sunghee Hong, YongKeun Park‡, Jonghwa Shin‡",
     journal: "Biomedical Optics Express 15, 9, 5238-5250 (2024)",
     doiUrl: "https://doi.org/10.1364/boe.528698",
+    date: "2024-09-01",
   },
   {
     year: 2024,
@@ -145,6 +168,7 @@ const PUBLICATIONS = [
     authors: "Qiang Chen*, Minwoo Choi, Haomin Chen, Jin Kim, Caiyan Qin, Youngjin Ham, Myungwoo Choi, Haibo Zeng, Jonghwa Shin, Bong Jae Lee‡, Seokwoo Jeon‡",
     journal: "Nano Letters 24, 34, 10583-10591 (2024)",
     doiUrl: "https://doi.org/10.1021/acs.nanolett.4c02742",
+    date: "2024-08-28",
   },
   {
     year: 2024,
@@ -153,6 +177,7 @@ const PUBLICATIONS = [
     authors: "Hyeonhee Kim*, Joonkyo Jung*, Jonghwa Shin‡",
     journal: "Advanced Materials 36, 44, 2406717 (2024)",
     doiUrl: "https://doi.org/10.1002/adma.202406717",
+    date: "2024-11",
   },
   {
     year: 2024,
@@ -161,6 +186,7 @@ const PUBLICATIONS = [
     authors: "Haomin Chen*, Gunho Chang, Tae Hee Lee, Seokhwan Min, Sanghyeon Nam, Donghwi Cho, Kwonhwan Ko, Gwangmin Bae, Yoonseong Lee, Jirou Feng, Heng Zhang, Jang-Kyo Kim, Jonghwa Shin, Jung-Wuk Hong‡, Seokwoo Jeon‡",
     journal: "Nature Communications 15, 8074 (2024)",
     doiUrl: "https://doi.org/10.1038/s41467-024-52305-6",
+    date: "2024-09-14",
   },
   {
     year: 2024,
@@ -169,6 +195,7 @@ const PUBLICATIONS = [
     authors: "Minyeul Lee*, Sungyoung Yoon*, Meehyun Lim, Sungyeol Kim, Jonghwa Shin‡",
     journal: "Plasma Sources Science and Technology 33, 6, 065013 (2024)",
     doiUrl: "https://doi.org/10.1088/1361-6595/ad57ee",
+    date: "2024-06-01",
   },
   {
     year: 2024,
@@ -177,6 +204,7 @@ const PUBLICATIONS = [
     authors: "Myungjoon Kim*, Nayoung Kim*, Jonghwa Shin‡",
     journal: "Nanophotonics 13, 8, 1467-1474 (2024)",
     doiUrl: "https://doi.org/10.1515/nanoph-2023-0786",
+    date: "2024-04",
   },
   {
     year: 2024,
@@ -185,6 +213,7 @@ const PUBLICATIONS = [
     authors: "Mingwan Cho*, Joonkyo Jung, Myungjoon Kim, Jeong Yub Lee, Seokhwan Min, Jongwoo Hong, Shinho Lee, Minsung Heo, Jong Uk Kim, In-Sung Joe‡, Jonghwa Shin‡",
     journal: "Nanophotonics 13, 16, 2971-2982 (2024)",
     doiUrl: "https://doi.org/10.1515/nanoph-2024-0064",
+    date: "2024-07",
   },
   {
     year: 2023,
@@ -193,6 +222,7 @@ const PUBLICATIONS = [
     authors: "Suwan Jeon*, Su Eon Lee*, Wonjoong Kim*, Seokhwan Min, Seung Won Seon, Seung Ho Han, Bong Hoon Kim‡, Heon Lee‡, Jonghwa Shin‡",
     journal: "Nanophotonics 12, 15, 3199-3209 (2023)",
     doiUrl: "https://doi.org/10.1515/nanoph-2023-0244",
+    date: "2023-07",
   },
   {
     year: 2023,
@@ -201,6 +231,7 @@ const PUBLICATIONS = [
     authors: "Sanghyeok Park*, Dongha Kim*, Yun-Seok Choi, Arthur Baucour, Donghyeong Kim, Sangho Yoon, Kenji Watanabe, Takashi Taniguchi, Jonghwa Shin, Jonghwan Kim, Min-Kyo Seo‡",
     journal: "Nano Letters 23, 6, 2158-2165 (2023)",
     doiUrl: "https://doi.org/10.1021/acs.nanolett.2c04604",
+    date: "2023-03-22",
   },
   {
     year: 2023,
@@ -209,6 +240,7 @@ const PUBLICATIONS = [
     authors: "Nayoung Kim*, Myungjoon Kim, Joonkyo Jung, Taeyong Chang, Suwan Jeon, Jonghwa Shin‡",
     journal: "Nanophotonics 12, 13, 2347-2358 (2023)",
     doiUrl: "https://doi.org/10.1515/nanoph-2022-0793",
+    date: "2023-06",
   },
   {
     year: 2023,
@@ -217,6 +249,7 @@ const PUBLICATIONS = [
     authors: "Joonkyo Jung*, Hyeonhee Kim*, Jonghwa Shin‡",
     journal: "Nanophotonics 12, 8 (2023)",
     doiUrl: "https://doi.org/10.1515/nanoph-2022-0634",
+    date: "2023-04",
   },
   {
     year: 2023,
@@ -225,6 +258,7 @@ const PUBLICATIONS = [
     authors: "Suwan Jeon*, Soomin Son, Seokhwan Min, Hyeonjin Park, Heon Lee‡, Jonghwa Shin‡",
     journal: "Advanced Optical Materials 11, 2202129 (2023)",
     doiUrl: "https://doi.org/10.1002/adom.202202129",
+    date: "2023-03",
   },
   {
     year: 2022,
@@ -233,6 +267,7 @@ const PUBLICATIONS = [
     authors: "Dongha Kim*, Arthur Baucour, Yun-Seok Choi, Jonghwa Shin, Min-Kyo Seo‡",
     journal: "Nature 611, 48-54 (2022)",
     doiUrl: "https://doi.org/10.1038/s41586-022-05229-4",
+    date: "2022-11-03",
   },
   {
     year: 2022,
@@ -241,6 +276,7 @@ const PUBLICATIONS = [
     authors: "Taeyong Chang*, Joonkyo Jung*, Sang-Hyeon Nam, Hyeonhee Kim, Jong Uk Kim, Nayoung Kim, Suwan Jeon, Minseong Heo, Jonghwa Shin‡",
     journal: "Advanced Materials 34, 2204085 (2022)",
     doiUrl: "https://doi.org/10.1002/adma.202204085",
+    date: "2022-11",
   },
   {
     year: 2022,
@@ -249,6 +285,7 @@ const PUBLICATIONS = [
     authors: "Jun Sae Han*, Hyeonjin Park, Ji-Young Jeong, Joonkyo Jung, Eun-Ji Gwak, Eun-chae Jeon, Tae-Jin Je, Jonghwa Shin, Doo-Sun Choi‡",
     journal: "Optics Express 30, 29760-29771 (2022)",
     doiUrl: "https://doi.org/10.1364/oe.465032",
+    date: "2022-08-01",
   },
   {
     year: 2022,
@@ -257,6 +294,7 @@ const PUBLICATIONS = [
     authors: "Jang Hwan Kim*, Suwan Jeon, Jae Hyun In, Seonho Nam, Hyeong Min Jin, Kyu Hyo Han, Geon Gug Yang, Hee Jae Choi, Kyung Min Kim, Jonghwa Shin, Seung-Woo Son, Seok Joon Kwon‡, Bong Hoon Kim‡, Sang Ouk Kim‡",
     journal: "Nature Electronics 5, 433-442 (2022)",
     doiUrl: "https://doi.org/10.1038/s41928-022-00788-w",
+    date: "2022-07-26",
   },
   {
     year: 2022,
@@ -265,6 +303,7 @@ const PUBLICATIONS = [
     authors: "Sang-Hyeon Nam*, Myungjoon Kim*, Nayoung Kim*, Donghwi Cho, Myungwoo Choi, Jun Hyung Park, Jonghwa Shin‡, Seokwoo Jeon‡",
     journal: "Science Advances 8, eabm6310 (2022)",
     doiUrl: "https://doi.org/10.1126/sciadv.abm6310",
+    date: "2022-05-27",
   },
   {
     year: 2022,
@@ -273,6 +312,7 @@ const PUBLICATIONS = [
     authors: "Arthur Baucour*, Myungjoon Kim, Jonghwa Shin‡",
     journal: "Nanophotonics 11, 2865-2873 (2022)",
     doiUrl: "https://doi.org/10.1515/nanoph-2022-0005",
+    date: "2022-06",
   },
   {
     year: 2022,
@@ -281,6 +321,7 @@ const PUBLICATIONS = [
     authors: "Chi Hao Liow*, Hyeonmuk Kang, Seunggu Kim, Moony Na, Yongju Lee, Arthur Baucour, Kihoon Bang, Yoonsu Shim, Jacob Choe, Gyuseong Hwang, Seongwoo Cho, Gun Park, Jiwon Yeom, Joshua C. Agar, Jong Min Yuk, Jonghwa Shin, Hyuck Mo Lee, Hye Ryung Byon, EunAe Cho, Seungbum Hong‡",
     journal: "Nano Energy 98, 107214 (2022)",
     doiUrl: "https://doi.org/10.1016/j.nanoen.2022.107214",
+    date: "2022-07",
   },
   {
     year: 2022,
@@ -289,6 +330,7 @@ const PUBLICATIONS = [
     authors: "Seokhwan Min*, Suwan Jeon*, Kyungsun Yun, Jonghwa Shin‡",
     journal: "ACS Photonics 9, 1196-1205 (2022)",
     doiUrl: "https://doi.org/10.1021/acsphotonics.1c01648",
+    date: "2022-04-20",
   },
   {
     year: 2022,
@@ -297,6 +339,7 @@ const PUBLICATIONS = [
     authors: "Xianji Piao*, Jonghwa Shin, Namkyoo Park‡",
     journal: "Nanophotonics 11, 1211-1217 (2022)",
     doiUrl: "https://doi.org/10.1515/nanoph-2021-0807",
+    date: "2022-02",
   },
   {
     year: 2021,
@@ -305,6 +348,7 @@ const PUBLICATIONS = [
     authors: "Yongjune Kim*, Pyoungwon Park, Jeongdai Jo, Joonsik Lee, Leekyo Jeong, Jonghwa Shin, Jeong-Hae Lee‡, Hak-Joo Lee‡",
     journal: "Scientific Reports 11, 23045 (2021)",
     doiUrl: "https://doi.org/10.1038/s41598-021-02303-1",
+    date: "2021-11-29",
   },
   {
     year: 2021,
@@ -313,6 +357,7 @@ const PUBLICATIONS = [
     authors: "Tae Yeol Yoon*, Soomin Son*, Seokhwan Min, Dongwoo Chae, Ho Young Woo, Ji-Yeon Chae, Hangyu Lim, Jonghwa Shin, Taejong Paik‡, Heon Lee‡",
     journal: "Materials Today Physics 21, 100510 (2021)",
     doiUrl: "https://doi.org/10.1016/j.mtphys.2021.100510",
+    date: "2021-11",
   },
   {
     year: 2021,
@@ -321,6 +366,7 @@ const PUBLICATIONS = [
     authors: "Ji-Young Jeon*, Je-Ryung Lee, Hyeonjin Park, Joonkyo Jung, Doo-Sun Choi, Eun-chae Jeon, Jonghwa Shin, Jun Sae Han‡, Tae-Jin Je‡",
     journal: "Scientific Reports 11, 12767 (2021)",
     doiUrl: "https://doi.org/10.1038/s41598-021-91868-y",
+    date: "2021-06-17",
   },
   {
     year: 2021,
@@ -329,6 +375,7 @@ const PUBLICATIONS = [
     authors: "Nayeun Lee*, Reehyang Kim, Ju Young Kim, Jong Beom Ko, Sang-Hee Ko Park, Sang Ouk Kim, Mark L. Brongersma, Jonghwa Shin‡",
     journal: "ACS Photonics 8, 1616-1622 (2021)",
     doiUrl: "https://doi.org/10.1021/acsphotonics.0c01882",
+    date: "2021-06-16",
   },
   {
     year: 2021,
@@ -337,6 +384,7 @@ const PUBLICATIONS = [
     authors: "Suwan Jeon*, Jonghwa Shin‡",
     journal: "Optics Express 6, 8376-8386 (2021)",
     doiUrl: "https://doi.org/10.1364/OE.416475",
+    date: "2021-03-15",
   },
   {
     year: 2021,
@@ -345,6 +393,7 @@ const PUBLICATIONS = [
     authors: "Soomin Son*, Jaemin Park, Sucheol Ju, Daihong Huh, Junho Jun, Kwan Kim, Pil-Hoon Jung, Heon Lee‡, Seokhwan Min, Jonghwa Shin",
     journal: "Advanced Sustainable Systems 5, 2000217 (2021)",
     doiUrl: "https://doi.org/10.1002/adsu.202000217",
+    date: "2021-03",
   },
   {
     year: 2020,
@@ -353,6 +402,7 @@ const PUBLICATIONS = [
     authors: "Dongha Kim*, Young-wan Oh, Jong Uk Kim, Soogil Lee, Arthur Baucour, Jonghwa Shin, Kab-Jin Kim, Byong-Guk Park, Min-Kyo Seo‡",
     journal: "Nature Communications 11, 5937 (2020)",
     doiUrl: "https://doi.org/10.1038/s41467-020-19724-7",
+    date: "2020-11-23",
   },
   {
     year: 2020,
@@ -361,6 +411,7 @@ const PUBLICATIONS = [
     authors: "Do Van Lam*, Muhammad Sohail, Jae-hyun Kim, Hak Joo Lee, Seong Ok Han, Jonghwa Shin, Duckjong Kim, Hyunuk Kim‡, Seung-Mo Lee‡",
     journal: "ACS Applied Materials & Interfaces 12, 39154-39162 (2020)",
     doiUrl: "https://doi.org/10.1021/acsami.0c10235",
+    date: "2020-09-02",
   },
   {
     year: 2020,
@@ -369,6 +420,7 @@ const PUBLICATIONS = [
     authors: "Suwan Jeon*, Jonghwa Shin‡",
     journal: "Scientific Reports 10, 13038 (2020)",
     doiUrl: "https://doi.org/10.1038/s41598-020-70105-y",
+    date: "2020-08-03",
   },
   {
     year: 2020,
@@ -377,6 +429,7 @@ const PUBLICATIONS = [
     authors: "Nayoung Kim*, Taeyong Chang, Myungjoon Kim, Minsung Heo, Arthur Baucour, Joonkyo Jung, Jonghwa Shin‡",
     journal: "Optics Express 28, 22121-22134 (2020) [Highlighted as editor's pick]",
     doiUrl: "https://doi.org/10.1364/oe.398255",
+    date: "2020-07-20",
   },
   {
     year: 2020,
@@ -385,6 +438,7 @@ const PUBLICATIONS = [
     authors: "Joonkyo Jung*, HyeonJin Park*, Junhyung Park*, Taeyong Chang‡, Jonghwa Shin‡",
     journal: "Nanophotonics (2020) [Invited review]",
     doiUrl: "https://doi.org/10.1515/nanoph-2020-0111",
+    date: "2018-06",
   },
   {
     year: 2020,
@@ -393,6 +447,7 @@ const PUBLICATIONS = [
     authors: "Taeyong Chang*, Suwan Jeon, Minsung Heo, Jonghwa Shin‡",
     journal: "Communications Physics 3, 1-9 (2020) [media coverage]",
     doiUrl: "https://doi.org/10.1038/s42005-020-0352-0",
+    date: "2020-05-08",
   },
   {
     year: 2020,
@@ -401,6 +456,7 @@ const PUBLICATIONS = [
     authors: "Donghwi Cho*, Young-Seok Shim, Jae-Wook Jung, Sang-Hyeon Nam, Seokhwan Min, Sang-Eon Lee, Youngjin Ham, Kwangjae Lee, Junyong Park, Jonghwa Shin, Jung-Wuk Hong‡, Seokwoo Jeon‡",
     journal: "Advanced Science 7, 1903708/1-1903708/9 (2020)",
     doiUrl: "https://doi.org/10.1002/advs.201903708",
+    date: "2020-06",
   },
   {
     year: 2019,
@@ -409,6 +465,7 @@ const PUBLICATIONS = [
     authors: "Ho Jin Ma*, Joonkyo Jung*, Jung Hoon Kong, Jin Woo Park, Seung Jun Lee, Jonghwa Shin‡, Do Kyung Kim‡",
     journal: "Journal of Applied Physics 126, 094101/1-094101/6 (2019)",
     doiUrl: "https://doi.org/10.1063/1.5093394",
+    date: "2019-09-07",
   },
   {
     year: 2019,
@@ -417,6 +474,7 @@ const PUBLICATIONS = [
     authors: "Gi Hyeon Han*, Jin Pyo Lee, Hee Jun Kim, Jonghwa Shin, Jeong Min Baik‡",
     journal: "Nano Energy 65, 104031/1-104031/8 (2019)",
     doiUrl: "https://doi.org/10.1016/j.nanoen.2019.104031",
+    date: "2019-11",
   },
   {
     year: 2019,
@@ -425,6 +483,7 @@ const PUBLICATIONS = [
     authors: "Hyun Sung Park*, Jaehyeon Son, Yushin Kim, Hyukjoon Cho, Jonghwa Shin, Wonju Jeon, Bumki Min‡",
     journal: "Advanced Optical Materials 7, 1801729/1-1801729/10 (2019)",
     doiUrl: "https://doi.org/10.1002/adom.201801729",
+    date: "2019-10",
   },
   {
     year: 2019,
@@ -441,6 +500,7 @@ const PUBLICATIONS = [
     authors: "Ju Young Kim*‡, Dong Ok Shin, Taeyong Chang, Kwang Man Kim, Jiseon Jeong, Joonam Park, Yong Min Lee, Kuk Young Cho, Charudatta Phatak, Seungbum Hong, Young-Gi Lee‡",
     journal: "Electrochimica Acta 300, 299-305 (2019)",
     doiUrl: "https://doi.org/10.1016/j.electacta.2019.01.113",
+    date: "2019-03",
   },
   {
     year: 2018,
@@ -449,6 +509,7 @@ const PUBLICATIONS = [
     authors: "Hyeong Min Jin*, Ju Young Kim*, Minsung Heo, Seong-Jun Jeong, Bong Hoon Kim, Seung Keun Cha, Kyu Hyo Han, Jang Hwan Kim, Geon Gug Yang, Jonghwa Shin‡, Sang Ouk Kim‡",
     journal: "ACS Applied Materials & Interfaces 10, 44660-44667 (2018)",
     doiUrl: "https://doi.org/10.1021/acsami.8b17325",
+    date: "2018-12-26",
   },
   {
     year: 2018,
@@ -457,6 +518,7 @@ const PUBLICATIONS = [
     authors: "Hee Jun Kim*, Junho Jun, Hak-Jong Choi, Hyunah Kwon, Junha Park, Changwon Seo, Jong Kyu Kim, Jonghwa Shin, Jeongyong Kim, Heon Lee‡, and Jeong Min Baik‡",
     journal: "Nano Energy 53, 468-474 (2018)",
     doiUrl: "https://doi.org/10.1016/j.nanoen.2018.08.074",
+    date: "2018-11",
   },
   {
     year: 2018,
@@ -465,6 +527,7 @@ const PUBLICATIONS = [
     authors: "Hyowook Kim*, Myungjoon Kim, Taeyong Chang, Arthur Baucour, Suwan Jeon, Nayoung Kim, Hak-Jong Choi, Heon Lee, and Jonghwa Shin‡",
     journal: "Optics Express 26, 27403-27417 (2018)",
     doiUrl: "https://doi.org/10.1364/oe.26.027403",
+    date: "2018-10-15",
   },
   {
     year: 2018,
@@ -473,6 +536,7 @@ const PUBLICATIONS = [
     authors: "Nayoung Kwon*, Hwisu Oh, Reehyang Kim, Arjyabaran Sinha, Jaeyun Kim, Jonghwa Shin, James W. M. Chon‡, and Byungkwon Lim‡",
     journal: "Nano Letters 18, 5927-5932 (2018)",
     doiUrl: "https://doi.org/10.1021/acs.nanolett.8b02629",
+    date: "2018-09-12",
   },
   {
     year: 2018,
@@ -481,6 +545,7 @@ const PUBLICATIONS = [
     authors: "Jong Uk Kim*, Hyun Choi, YongKeun Park, and Jonghwa Shin‡",
     journal: "Biomedical Optics Express 9, 3883-3897 (2018)",
     doiUrl: "https://doi.org/10.1364/boe.9.003883",
+    date: "2018-08-01",
   },
   {
     year: 2018,
@@ -489,6 +554,7 @@ const PUBLICATIONS = [
     authors: "Reehyang Kim*, Kyungjae Chung, Ju Young Kim, Yunyong Nam, Sang-Hee Ko Park, and Jonghwa Shin‡",
     journal: "ACS Photonics 7, 1188-1195 (2018)",
     doiUrl: "https://doi.org/10.1021/acsphotonics.7b01497",
+    date: "2018-04-18",
   },
   {
     year: 2018,
@@ -497,6 +563,7 @@ const PUBLICATIONS = [
     authors: "Soonmin Yim*, Suwan Jeon, Jong Min Kim, Kwang Min Baek, Gun Ho Lee, Hyowook Kim, Jonghwa Shin, and Yeon Sik Jung‡",
     journal: "ACS Applied Materials & Interfaces 10, 2216-2223 (2018)",
     doiUrl: "https://doi.org/10.1021/acsami.7b16401",
+    date: "2018-01-24",
   },
   {
     year: 2018,
@@ -521,6 +588,7 @@ const PUBLICATIONS = [
     authors: "Ju Young Kim*, Hyowook Kim, Bong Hoon Kim, Taeyong Chang, Joonwon Lim, Hyeong Min Jin, Jeong Ho Mun, Young Joo Choi, Kyungjae Chung, Shanhui Fan, Jonghwa Shin‡ and Sang Ouk Kim‡",
     journal: "Nature Communications 7, 12911 (2016)",
     doiUrl: "https://doi.org/10.1038/ncomms12911",
+    date: "2016-09-29",
   },
   {
     year: 2016,
@@ -529,6 +597,7 @@ const PUBLICATIONS = [
     authors: "Taeyong Chang*, Jong Uk Kim, Seung Kyu Kang, Hyowook Kim, Do Kyung Kim, Yong-Hee Lee and Jonghwa Shin‡",
     journal: "Nature Communications 7, 12661 (2016)",
     doiUrl: "https://doi.org/10.1038/ncomms12661",
+    date: "2016-08-30",
   },
   {
     year: 2016,
@@ -537,6 +606,7 @@ const PUBLICATIONS = [
     authors: "Hwan-Jin Jeon*‡, Ju Young Kim*, Woo-Bin Jung*, Hyeon-Su Jeong, Yun Ho Kim, Dong Ok Shin, Jonghwa Shin‡, Sang Ouk Kim‡ and Hee-Tae Jung‡",
     journal: "Advanced Materials 28, 8439-8445 (2016)",
     doiUrl: "https://doi.org/10.1002/adma.201602523",
+    date: "2016-10",
   },
   {
     year: 2016,
@@ -545,6 +615,7 @@ const PUBLICATIONS = [
     authors: "Kyungjae Chung*, Reehyang Kim*, Taeyong Chang and Jonghwa Shin‡",
     journal: "Applied Physics Letters 109, 021114 (2016)",
     doiUrl: "https://doi.org/10.1063/1.4958987",
+    date: "2016-07-11",
   },
   {
     year: 2016,
@@ -561,6 +632,7 @@ const PUBLICATIONS = [
     authors: "Young Woo Kwon*, Junyong Park*, Taehoon Kim, Seok Hee Kang, Hyowook Kim, Jonghwa Shin, Seokwoo Jeon‡ and Suck Won Hong‡",
     journal: "ACS Nano 10, 4609-4617 (2016)",
     doiUrl: "https://doi.org/10.1021/acsnano.6b00816",
+    date: "2016-04-26",
   },
   {
     year: 2016,
@@ -569,6 +641,7 @@ const PUBLICATIONS = [
     authors: "Joonmo Park*, Hee Jun Kim, SangHyeon Nam, Hyowook Kim, Hak-Jong Choi, Youn Jeong Jang, JaeSung Lee, Jonghwa Shin, Heon Lee‡ and Jeong Min Baik‡",
     journal: "Nano Energy 21, 115-122 (2016)",
     doiUrl: "https://doi.org/10.1016/j.nanoen.2016.01.004",
+    date: "2016-03",
   },
   {
     year: 2016,
@@ -577,6 +650,7 @@ const PUBLICATIONS = [
     authors: "Ju Min Lee*, Joonwon Lim, Nayeun Lee, Hyung Il Park, Kyung Eun Lee, Taewoo Jeon, Soo Ah Nam, Jehan Kim, Jonghwa Shin, and Sang Ouk Kim‡",
     journal: "Advanced Materials 27, 1519-1525 (2016)",
     doiUrl: "https://doi.org/10.1002/adma.201404248",
+    date: "2015-03",
   },
   {
     year: 2015,
@@ -585,6 +659,7 @@ const PUBLICATIONS = [
     authors: "Sunkyu Yu*, Xianji Piao, KyungWan Yoo, Jonghwa Shin and Namkyoo Park‡",
     journal: "Optics Express 23, 24997-25008 (2015)",
     doiUrl: "https://doi.org/10.1364/oe.23.024997",
+    date: "2015-09-21",
   },
   {
     year: 2015,
@@ -593,6 +668,7 @@ const PUBLICATIONS = [
     authors: "Minah Lee*, Jong Uk Kim, Ki Joong Lee, Soohoon Ahn, Jonghwa Shin‡ and Chan Beum Park‡",
     journal: "ACS Nano 9, 6206-6213 (2015)",
     doiUrl: "https://doi.org/10.1021/acsnano.5b01541",
+    date: "2015-06-23",
   },
   {
     year: 2015,
@@ -601,6 +677,7 @@ const PUBLICATIONS = [
     authors: "Seung Keun Cha*, Jeong Ho Mun, Taeyong Chang, Sang Yun Kim, Ju Young Kim, Hyeong Min Jin, Jeong Yong Lee, Jonghwa Shin, Kwang Ho Kim‡, and Sang Ouk Kim‡",
     journal: "ACS Nano 9, 5536-5543 (2015)",
     doiUrl: "https://doi.org/10.1021/acsnano.5b01641",
+    date: "2015-05-26",
   },
   {
     year: 2015,
@@ -609,6 +686,7 @@ const PUBLICATIONS = [
     authors: "Jung-Hwan Song*, Jisu Kim*, Hoon Jang, In Yong Kim, Indra Karnadi, Jonghwa Shin, Jung H. Shin and, Yong-Hee Lee‡",
     journal: "Nature Communications 6, 7080 (2015)",
     doiUrl: "https://doi.org/10.1038/ncomms8080",
+    date: "2015-05-05",
   },
   {
     year: 2015,
@@ -617,6 +695,7 @@ const PUBLICATIONS = [
     authors: "Su-Hyun Gong*, Je-Hyung Kim, Young-Ho Ko, Christoph Rodriguez, Jonghwa Shin, Yong-Hee Lee, Le Si Dangd, Xiang Zhang, and Yong-Hoon Cho‡",
     journal: "Proceedings of the National Academy of Sciences 112, 5280-5285 (2015)",
     doiUrl: "https://doi.org/10.1073/pnas.1418049112",
+    date: "2015-04-28",
   },
   {
     year: 2015,
@@ -625,6 +704,7 @@ const PUBLICATIONS = [
     authors: "Bong Hoon Kim*, So Jung Park, Hyeong Min Jin, Ju Young Kim, Seung-Woo Son, Myung-Hyun Kim, Chong Min Koo, Jonghwa Shin, Jaeup U. Kim, and Sang Ouk Kim‡",
     journal: "Nano Letters 15, 1190-1196 (2015)",
     doiUrl: "https://doi.org/10.1021/nl5042935",
+    date: "2015-02-11",
   },
   {
     year: 2014,
@@ -633,6 +713,7 @@ const PUBLICATIONS = [
     authors: "Bong Hoon Kim*, Kyeong-Jae Byeon, Ju Young Kim, Jinseung Kim, Hyeong Min Jin, Joong-Yeon Cho, Seong-Jun Jeong, Jonghwa Shin, Heon Lee‡, and Sang Ouk Kim‡",
     journal: "Small 10, 4207-4212 (2014)",
     doiUrl: "https://doi.org/10.1002/smll.201400971",
+    date: "2014-10",
   },
   {
     year: 2014,
@@ -641,6 +722,7 @@ const PUBLICATIONS = [
     authors: "Jeong Ho Mun*, Seung Keun Cha, Hyowook Kim, Hyoung-Seok Moon, Ju Young Kim, Hyeong Min Jin, Young joo Choi, Jeong Eun Beak, Jonghwa Shin‡ and, Sang Ouk Kim‡",
     journal: "Small 10, 3742-3749 (2014)",
     doiUrl: "https://doi.org/10.1002/smll.201400600",
+    date: "2014-09",
   },
   {
     year: 2014,
@@ -649,6 +731,7 @@ const PUBLICATIONS = [
     authors: "Chunghyun Park*, Jung-Hoon Park, Christophe Rodrigues, HyeonSeung Yu, Minkwan Kim, Kyoungsuk Jin, Seungyong Han, Jonghwa Shin, Seung Hwan Ko, Ki Tae Nam, Yong-Hee Lee, Yong-Hoon Cho‡ and YongKeun Park‡",
     journal: "Physical Review Letters 113, 113901 (2014)",
     doiUrl: "https://doi.org/10.1103/PhysRevLett.113.113901",
+    date: "2014-09-09",
   },
   {
     year: 2014,
@@ -657,6 +740,7 @@ const PUBLICATIONS = [
     authors: "Minah Lee*, Jong Uk Kim, Joon Seok Lee, Byung Il Lee, Jonghwa Shin‡ and Chan Beum Park‡",
     journal: "Advanced Materials 26, 4463-4468 (2014)",
     doiUrl: "https://doi.org/10.1002/adma.201305766",
+    date: "2014-07",
   },
   {
     year: 2014,
@@ -665,6 +749,7 @@ const PUBLICATIONS = [
     authors: "Baeksik Son*, Sejeong Kim*, Yun Ho Kim K. Kalantar, Hwi-Min Kim, Hyeon-Su Jeong, Siyoung Q. Choi, Jonghwa Shin, Hee-Tae Jung and Yong-Hee Lee‡",
     journal: "Optics Express 22, 4699-4704 (2014)",
     doiUrl: "https://doi.org/10.1364/OE.22.004699",
+    date: "2014-02-24",
   },
   {
     year: 2013,
@@ -673,6 +758,7 @@ const PUBLICATIONS = [
     authors: "D.-O. Shin*, J.-H. Mun*, G.-T. Hwang, J.-M. Yoon, J.-Y. Kim, J.-M. Yun, Y.-B. Yang, Y. Oh, J.-Y. Lee, J. Shin, K.-J. Lee, S. Park, J.-U. Kim, S.-O. Kim‡",
     journal: "ACS Nano 10, 8899 (2013)",
     doiUrl: "https://doi.org/10.1021/nn403379k",
+    date: "2013-10-22",
   },
   {
     year: 2013,
@@ -681,6 +767,7 @@ const PUBLICATIONS = [
     authors: "J.-H. Park*, C. Park, H.-S. Yu, J. Park, S. Han, J. Shin, S. H. Ko, K. T. Nam, Y.-H. Cho‡, and Y. Park‡",
     journal: "Nature Photonics 7, 454 (2013)",
     doiUrl: "https://doi.org/10.1038/nphoton.2013.95",
+    date: "2013-06",
   },
   {
     year: 2012,
@@ -689,6 +776,7 @@ const PUBLICATIONS = [
     authors: "S.-Y. Kang*, J. Shin‡, K.-Y. Jeong, C.-M. Lee, K.-J. Yee, and Y.-H. Lee",
     journal: "Photonics and Nanostructures - Fundamentals and Applications 10, 534 (2012)",
     doiUrl: "https://doi.org/10.1016/j.photonics.2012.04.006",
+    date: "2012-10",
   },
   {
     year: 2011,
@@ -697,6 +785,7 @@ const PUBLICATIONS = [
     authors: "J.-H. Song*, J. Shin‡, H.-J. Lim, and Y.-H. Lee",
     journal: "Optics Express 19, 14929 (2011)",
     doiUrl: "https://doi.org/10.1364/OE.19.014929",
+    date: "2011-08-01",
   },
   {
     year: 2011,
@@ -705,6 +794,7 @@ const PUBLICATIONS = [
     authors: "S. Lee*, J. Shin, H. S. Kang, Y.-H. Lee, and J.-K. Park‡",
     journal: "Advanced Materials 23, 3244 (2011)",
     doiUrl: "https://doi.org/10.1002/adma.201100662",
+    date: "2011-08-02",
   },
   {
     year: 2011,
@@ -713,6 +803,7 @@ const PUBLICATIONS = [
     authors: "Y. Hwang*, J. Shin, J-E. Kim, H. Y. Park, and C.-S. Kee‡",
     journal: "Physical Review B 83, 235131 (2011)",
     doiUrl: "https://doi.org/10.1103/PhysRevB.83.235131",
+    date: "2011-06-30",
   },
   {
     year: 2011,
@@ -721,6 +812,7 @@ const PUBLICATIONS = [
     authors: "M. Choi*, S. H. Lee*, Y. Kim, S. B. Kang, J. Shin, M. H. Kwak, K.-Y. Kang, Y.-H. Lee, N. Park, and B. Min‡",
     journal: "Nature 470, 369 (2011)",
     doiUrl: "https://doi.org/10.1038/nature09776",
+    date: "2011-02",
   },
   {
     year: 2010,
@@ -729,6 +821,7 @@ const PUBLICATIONS = [
     authors: "S. Lee*, J. Shin, Y.-H. Lee, and J.-K. Park‡",
     journal: "ACS Nano 4, 7175 (2010)",
     doiUrl: "https://doi.org/10.1021/nn1017507",
+    date: "2010-12-28",
   },
   {
     year: 2010,
@@ -737,6 +830,7 @@ const PUBLICATIONS = [
     authors: "J. Shin*, J.-T. Shen, and S. Fan‡",
     journal: "Journal of Nanoscience and Nanotechnology 10, 1737 (2010) (invited)",
     doiUrl: "https://doi.org/10.1166/jnn.2010.2036",
+    date: "2010-03-01",
   },
   {
     year: 2010,
@@ -745,6 +839,7 @@ const PUBLICATIONS = [
     authors: "S.-J. Jeong*, H.-S. Moon, J. Shin, B. H. Kim, D. O. Shin, J. Y. Kim, Y.-H. Lee, J. U. Kim‡, and S. O. Kim‡",
     journal: "Nano Letters 10, 3500 (2010)",
     doiUrl: "https://doi.org/10.1021/nl101637f",
+    date: "2010-09-08",
   },
   {
     year: 2010,
@@ -753,6 +848,7 @@ const PUBLICATIONS = [
     authors: "S. Lee*, J. Shin, Y.-H. Lee, S. Fan, and J.-K. Park‡",
     journal: "Nano Letters 10, 296 (2010)",
     doiUrl: "https://doi.org/10.1021/nl903570c",
+    date: "2010-01-13",
   },
   {
     year: 2009,
@@ -761,6 +857,7 @@ const PUBLICATIONS = [
     authors: "S. Koo*, S. Kumar, J. Shin, D. Kim, and N. Park‡",
     journal: "Physical Review Letters 103, 263901 (2009)",
     doiUrl: "https://doi.org/10.1103/physrevlett.103.263901",
+    date: "2009-12-21",
   },
   {
     year: 2009,
@@ -769,6 +866,7 @@ const PUBLICATIONS = [
     authors: "J. Shin*, J.-T. Shen, and S. Fan‡",
     journal: "Physical Review Letters 102, 093903 (2009)",
     doiUrl: "https://doi.org/10.1103/physrevlett.102.093903",
+    date: "2009-03-05",
   },
   {
     year: 2009,
@@ -777,6 +875,7 @@ const PUBLICATIONS = [
     authors: "J.-Y. Kim*, M.-K. Kim, M.-K. Seo, S.-H. Kwon, J. Shin, and Y.-H. Lee‡",
     journal: "Optics Express 17, 13009 (2009)",
     doiUrl: "https://doi.org/10.1364/oe.17.013009",
+    date: "2009-07-20",
   },
   {
     year: 2007,
@@ -785,6 +884,7 @@ const PUBLICATIONS = [
     authors: "J. Shin*, J.-T. Shen, and S. Fan‡",
     journal: "Physical Review B 76, 113101 (2007)",
     doiUrl: "https://doi.org/10.1103/physrevb.76.113101",
+    date: "2007-09-14",
   },
   {
     year: 2006,
@@ -793,6 +893,7 @@ const PUBLICATIONS = [
     authors: "J. Shin*, J.-T. Shen, P. B. Catrysse, and S. Fan‡",
     journal: "IEEE Journal of Selected Topics in Quantum Electronics 12, 1116 (2006) (invited)",
     doiUrl: "https://doi.org/10.1109/jstqe.2006.879577",
+    date: "2006-11",
   },
   {
     year: 2006,
@@ -801,6 +902,7 @@ const PUBLICATIONS = [
     authors: "V. Lousse*, J. Shin, and S. Fan‡",
     journal: "Applied Physics Letters 89, 161103 (2006)",
     doiUrl: "https://doi.org/10.1063/1.2362983",
+    date: "2006-10-16",
   },
   {
     year: 2005,
@@ -809,6 +911,7 @@ const PUBLICATIONS = [
     authors: "J. Shin* and S. Fan‡",
     journal: "Optics Letters 30, 2397 (2005)",
     doiUrl: "https://doi.org/10.1364/ol.30.002397",
+    date: "2005-09-15",
   },
   {
     year: 2004,
@@ -825,6 +928,7 @@ const PUBLICATIONS = [
     authors: "H. K. Kim*, J. Shin, S. Fan, M. J. F. Digonnet, and G. S. Kino‡",
     journal: "IEEE Journal of Quantum Electronics 40, 551 (2004)",
     doiUrl: "https://doi.org/10.1109/jqe.2004.826429",
+    date: "2004-05",
   },
   {
     year: 2004,
