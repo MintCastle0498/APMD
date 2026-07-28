@@ -30,7 +30,7 @@ const PUBLICATIONS = [
     year: 2026,
     image: "",
     title: "Angle-and polarization-adaptive aperiodic-anisotropic metasurfaces for broadband reflectance suppression",
-    authors: "Jeongbin Yoon, Mingwan Cho*‡, Hyeonhee Kim, Hyeonjin Park, In-Sung Joe, Jonghwa Shin‡",
+    authors: "Jeongbin Yoon*, Mingwan Cho*‡, Hyeonhee Kim, Hyeonjin Park, In-Sung Joe, Jonghwa Shin‡",
     journal: "iScience 29, 8, 116833 (2026)",
     doiUrl: "https://doi.org/10.1016/j.isci.2026.116833",
   },
