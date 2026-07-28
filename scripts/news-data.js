@@ -144,13 +144,16 @@ const NEWS_POSTS = [
   },
   {
     id: "kim-hyeonhee-2024",
-    title: "김현희 선배 (설명 추가 필요)",
-    tag: "event",
+    title: "Excellence Award at 2024 KAIST Optics Group Student Research Poster Competition",
+    tag: "award",
     people: ["김현희"],
     date: "2024-07-25",
-    images: [{ src: "News/240725_김현희선배.jpg", alt: "김현희 선배" }],
-    excerpt: "사진 설명을 추가해 주세요.",
-    body: ["사진 설명을 추가해 주세요."],
+    images: [{ src: "News/240725_김현희선배.jpg", alt: "김현희 선배", credit: "APMD Lab" }],
+    excerpt: "Hyeonhee Kim received the Excellence Award at the 2024 KAIST Optics Group Student Research Poster Competition.",
+    body: [
+      "Hyeonhee Kim received the Excellence Award at the 2024 KAIST Optics Group Student Research Poster Competition, held on July 25, 2024.",
+      "The award-winning poster, titled \"Consensus ADMM for Photonic Design,\" was presented by Hyeonhee Kim of the Department of Materials Science and Engineering.",
+    ],
   },
   {
     id: "cleo-2024",

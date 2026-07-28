@@ -2669,10 +2669,14 @@ html.news-lightbox-open {
 }
 
 /* Anyone not on this lab's own People page (see publication-render.js's
-   OUR_NAMES) — same weight/size as the rest of the authors line, just
-   faded a step lighter so this lab's own people stand out at a glance. */
+   OUR_NAMES) — faded a step lighter (gray-4, unchanged) AND dropped to
+   the journal name's own Regular/400 weight, instead of staying at the
+   authors line's bolder 600 — between color and weight together this
+   reads as visually secondary to this lab's own people, closer to the
+   citation's supporting details than to the "who worked on this" names. */
 .publication-card__author--external {
   color: var(--gray-4);
+  font-weight: 400;
 }
 
 .publication-card__journal-row {
