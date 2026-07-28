@@ -49,6 +49,7 @@ function normalizeName(name) {
 const OUR_NAME_ALIASES = [
   "Minseong Heo", // this lab's Alumni entry has him as "Heo, Minsung"
   "Kyungsun Yun", // this lab's Alumni entry has her as "Yun, Kyunsun"
+  "Nayeun Lee", // this lab's Alumni entry has her as "Lee, Nayeon"
 ];
 
 // Everyone this lab page actually has a listing for — the Professor
