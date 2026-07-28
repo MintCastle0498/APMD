@@ -29,16 +29,11 @@ const PUBLICATIONS = [
   {
     year: 2026,
     image: "",
-    // Full names inferred from initials against this lab's own roster (J
-    // Yoon -> Yoon, Jeongbin; M Cho -> Dr. Cho, Mingwan; H Kim -> Dr. Kim,
-    // Hyeonhee; H Park -> Park, Hyeonjin) rather than verified against the
-    // published paper itself — it isn't turning up in search yet (likely
-    // very recently published). "I. S. Joe" doesn't match anyone in
-    // people-data.js at all (probably an outside co-author) so it's left
-    // as initials. Please double-check all of these, and fill in doiUrl
-    // once it has one.
+    // Left as initials (not spelled out) until the real full names are
+    // confirmed — doiUrl too. Mingwan Cho gets both marks per instruction
+    // (co-first + corresponding); the rest are exactly as given.
     title: "Angle-and polarization-adaptive aperiodic-anisotropic metasurfaces for broadband reflectance suppression",
-    authors: "Jeongbin Yoon, Mingwan Cho*‡, Hyeonhee Kim, Hyeonjin Park, I. S. Joe, Jonghwa Shin",
+    authors: "J Yoon, M Cho*‡, H Kim, H Park, IS Joe, J Shin",
     journal: "iScience 29, 8 (2026)",
     doiUrl: "",
   },
