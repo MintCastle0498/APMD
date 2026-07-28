@@ -14,6 +14,68 @@ function journalName(journal) {
   return (match ? match[0] : journal).trim();
 }
 
+// people-data.js (PEOPLE/ALUMNI, loaded before this file — see
+// publication.html) stores names "Family, Given" (e.g. "Kim, Hyeonhee"),
+// but a paper's authors string writes them "Given Family" (e.g. "Hyeonhee
+// Kim", matching how they're cited on the actual paper) — this converts
+// the former into the latter so the two can be compared directly, also
+// dropping the "Dr. " prefix a few roster entries use.
+function toGivenFamily(rawName) {
+  const name = rawName.replace(/^Dr\.\s*/, "").trim();
+  const commaIdx = name.indexOf(",");
+  if (commaIdx === -1) return name;
+  const family = name.slice(0, commaIdx).trim();
+  const given = name.slice(commaIdx + 1).trim();
+  return `${given} ${family}`;
+}
+
+// Everyone this lab page actually has a listing for — the Professor
+// (hardcoded in people.html, not in PEOPLE) plus every current roster
+// member and every Alumni entry. Built once (not per-card): PEOPLE/ALUMNI
+// are static arrays, not something that changes while the page is open.
+function buildOurNames() {
+  // "J. Shin" is how the Professor's own name is abbreviated on this
+  // list's older (pre-APMD, Stanford-era) entries — every single paper
+  // here is one of his, so unlike an abbreviated roster/alumni name (which
+  // would risk matching the wrong person entirely, e.g. some other "H.
+  // Kim"), this one abbreviation is unambiguous across the whole file.
+  const names = new Set(["Jonghwa Shin", "J. Shin"]);
+  if (typeof PEOPLE !== "undefined") {
+    PEOPLE.forEach((p) => names.add(toGivenFamily(p.name)));
+  }
+  if (typeof ALUMNI !== "undefined") {
+    ALUMNI.forEach((a) => names.add(toGivenFamily(a.name)));
+  }
+  return names;
+}
+
+const OUR_NAMES = buildOurNames();
+
+// Splits the authors string back into its individual names and fades
+// anyone NOT in OUR_NAMES to gray-4 — external collaborators read as
+// visually secondary to this lab's own people at a glance, without having
+// to actually read every name. A few older entries write the last name as
+// "..., and Name" or (with only two authors) "Name1 and Name2" instead of
+// a plain comma — the capturing group here keeps whichever exact
+// separator ", " / " and " / ", and " was actually used as its own
+// (untouched) array element, interleaved with the real name tokens on
+// either side of it, so splitting to find names doesn't also rewrite the
+// citation's own punctuation. Each name's trailing */‡ marks travel with
+// it into the OUR_NAMES check (stripped first so e.g. "Jonghwa Shin‡"
+// still matches "Jonghwa Shin") but stay in the displayed text.
+function authorsMarkup(authors) {
+  return authors
+    .split(/(,\s+(?:and\s+)?|\s+and\s+)/)
+    .map((part, i) => {
+      if (i % 2 === 1) return part; // a captured separator, not a name
+      const bare = part.replace(/[*‡]/g, "").trim();
+      return OUR_NAMES.has(bare)
+        ? part
+        : `<span class="publication-card__author--external">${part}</span>`;
+    })
+    .join("");
+}
+
 // Both image and doiUrl are optional (an entry gets added before its
 // figure/DOI is ready to hand) — plain <img src=""> reloads the current
 // page in some browsers rather than just failing quietly, and an empty
@@ -31,7 +93,7 @@ function publicationCardMarkup(pub) {
       ${imageMarkup}
       <div class="publication-card__info">
         <h3 class="publication-card__title">${pub.title}</h3>
-        <p class="publication-card__authors">${pub.authors}</p>
+        <p class="publication-card__authors">${authorsMarkup(pub.authors)}</p>
         <div class="publication-card__journal-row">
           <span class="publication-card__journal">${journalName(pub.journal)} (${pub.year})</span>
           ${doiMarkup}
