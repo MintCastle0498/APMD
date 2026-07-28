@@ -70,13 +70,13 @@ const NEWS_POSTS = [
   },
   {
     id: "workshop-2023",
-    title: "연구실 워크숍",
+    title: "Inverse Design Workshop with Prof. Min Seok Jang & Prof. Hamza Kurt",
     tag: "event",
     people: ["APMD"],
-    date: "2023-06-15",
+    date: "2023-06-23",
     images: [{ src: "News/230615_워크샵.jpg", alt: "연구실 워크숍" }],
-    excerpt: "연구실 워크숍을 다녀왔습니다.",
-    body: ["연구실 워크숍을 다녀왔습니다."],
+    excerpt: "Our lab held an Inverse Design Workshop with Prof. Min Seok Jang and Prof. Hamza Kurt.",
+    body: ["Our lab held an Inverse Design Workshop on June 23, 2023, together with the research groups of Prof. Min Seok Jang and Prof. Hamza Kurt."],
   },
   {
     id: "piers-2023",

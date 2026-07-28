@@ -29,6 +29,17 @@ function toGivenFamily(rawName) {
   return `${given} ${family}`;
 }
 
+// A name's internal whitespace can legitimately differ between how a
+// given paper actually prints it and how people-data.js spells the same
+// person out — e.g. one 2024 paper credits "Seung Kyu Kang" (three words)
+// while this lab's own Alumni entry has him as "Kang, Seungkyu" ("Seungkyu"
+// as one word), so a plain exact-string check missed him entirely.
+// Collapsing all whitespace away before comparing means either spelling
+// matches the same person.
+function normalizeName(name) {
+  return name.toLowerCase().replace(/\s+/g, "");
+}
+
 // Everyone this lab page actually has a listing for — the Professor
 // (hardcoded in people.html, not in PEOPLE) plus every current roster
 // member and every Alumni entry. Built once (not per-card): PEOPLE/ALUMNI
@@ -39,12 +50,12 @@ function buildOurNames() {
   // here is one of his, so unlike an abbreviated roster/alumni name (which
   // would risk matching the wrong person entirely, e.g. some other "H.
   // Kim"), this one abbreviation is unambiguous across the whole file.
-  const names = new Set(["Jonghwa Shin", "J. Shin"]);
+  const names = new Set(["Jonghwa Shin", "J. Shin"].map(normalizeName));
   if (typeof PEOPLE !== "undefined") {
-    PEOPLE.forEach((p) => names.add(toGivenFamily(p.name)));
+    PEOPLE.forEach((p) => names.add(normalizeName(toGivenFamily(p.name))));
   }
   if (typeof ALUMNI !== "undefined") {
-    ALUMNI.forEach((a) => names.add(toGivenFamily(a.name)));
+    ALUMNI.forEach((a) => names.add(normalizeName(toGivenFamily(a.name))));
   }
   return names;
 }
@@ -68,7 +79,7 @@ function authorsMarkup(authors) {
     .split(/(,\s+(?:and\s+)?|\s+and\s+)/)
     .map((part, i) => {
       if (i % 2 === 1) return part; // a captured separator, not a name
-      const bare = part.replace(/[*‡]/g, "").trim();
+      const bare = normalizeName(part.replace(/[*‡]/g, "").trim());
       return OUR_NAMES.has(bare)
         ? part
         : `<span class="publication-card__author--external">${part}</span>`;
