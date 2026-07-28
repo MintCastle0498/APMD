@@ -60,13 +60,13 @@ const NEWS_POSTS = [
   },
   {
     id: "strawberry-2023",
-    title: "딸기 파티",
+    title: "Lab Strawberry Party 2023",
     tag: "event",
     people: ["APMD"],
-    date: "2023-04-15",
-    images: [{ src: "News/230415_딸기파티.jpg", alt: "딸기 파티" }],
-    excerpt: "연구실 딸기 파티를 열었습니다.",
-    body: ["연구실 딸기 파티를 열었습니다."],
+    date: "2023-04-03",
+    images: [{ src: "News/230415_딸기파티.jpg", alt: "딸기 파티", credit: "APMD Lab" }],
+    excerpt: "Our lab held a strawberry party in April 2023.",
+    body: ["Our lab enjoyed a strawberry party together on April 3, 2023."],
   },
   {
     id: "workshop-2023",
