@@ -29,13 +29,10 @@ const PUBLICATIONS = [
   {
     year: 2026,
     image: "",
-    // Left as initials (not spelled out) until the real full names are
-    // confirmed — doiUrl too. Mingwan Cho gets both marks per instruction
-    // (co-first + corresponding); the rest are exactly as given.
     title: "Angle-and polarization-adaptive aperiodic-anisotropic metasurfaces for broadband reflectance suppression",
-    authors: "J Yoon, M Cho*‡, H Kim, H Park, IS Joe, J Shin",
-    journal: "iScience 29, 8 (2026)",
-    doiUrl: "",
+    authors: "Jeongbin Yoon, Mingwan Cho*‡, Hyeonhee Kim, Hyeonjin Park, In-Sung Joe, Jonghwa Shin‡",
+    journal: "iScience 29, 8, 116833 (2026)",
+    doiUrl: "https://doi.org/10.1016/j.isci.2026.116833",
   },
   {
     year: 2026,
