@@ -1818,11 +1818,29 @@ html.news-lightbox-open {
   color: var(--gray-2);
 }
 
+/* One row per actual appointment (title + its own year range) — was
+   previously two parallel columns (all titles stacked in one flex column,
+   all year-rows stacked in a separate one) that only *looked* like paired
+   rows because every title and every year-row happened to be exactly one
+   line tall. The moment either wrapped to a second line (a long title, or
+   just a narrower viewport) the two columns fell out of sync with each
+   other, pairing the wrong title with the wrong year. Grouping each title
+   with its own year-row in one real row fixes that structurally instead
+   of relying on both columns staying line-for-line identical. */
+.professor__appointment-list {
+  display: flex;
+  flex-direction: column;
+  /* No gap — matches the old columns' own rhythm (plain margin: 0 <p>s
+     with no separation beyond their line-height), not introducing extra
+     space between rows that wasn't there before. */
+  gap: 0;
+}
+
 /* justify-content: space-between (title hugs the row's left edge, year
    hugs its right edge) with gap as a floor — same pattern as
    .professor__research-focus-content. Since every appointment row shares
    the same row width (.professor__info-main), pinning both ends like this
-   also has the side effect of lining every block's year column up at the
+   also has the side effect of lining every row's year column up at the
    same x, without needing a fixed-width title column. */
 .professor__appointment-row {
   display: flex;
@@ -1831,24 +1849,14 @@ html.news-lightbox-open {
   gap: 32px;
 }
 
-.professor__appointment-titles {
-  display: flex;
-  flex-direction: column;
-  flex: none;
+.professor__appointment-title {
+  margin: 0;
+  flex: 1;
+  min-width: 0;
   font-family: var(--font-body);
   font-weight: 500;
   font-size: 16px;
   color: var(--gray-3);
-}
-
-.professor__appointment-titles p {
-  margin: 0;
-}
-
-.professor__appointment-years {
-  display: flex;
-  flex-direction: column;
-  flex: none;
 }
 
 /* Year row: start | dash | end, both value columns the same fixed width
@@ -1859,6 +1867,7 @@ html.news-lightbox-open {
    hugging its box's outer edge). */
 .professor__year-row {
   display: grid;
+  flex: none;
   grid-template-columns: 64px 16px 64px;
   font-family: var(--font-body);
   font-weight: 500;
@@ -2028,15 +2037,18 @@ html.news-lightbox-open {
 
   /* align-items defaults to flex-start on .professor__appointment-row —
      fine at desktop width where it's a row, but once this stacks into a
-     column here, flex-start on the cross axis means each of
-     .professor__appointment-titles/-years hugs its own content width
-     instead of the row's full width, so long titles ran out of room to
-     wrap into and overflowed instead. stretch gives both back the full
-     width to wrap against. */
+     column here, flex-start on the cross axis means .professor__appointment-title
+     hugs its own content width instead of the row's full width, so a long
+     title ran out of room to wrap into and overflowed instead. stretch
+     gives it back the full width to wrap against. */
   .professor__appointment-row {
     flex-direction: column;
     align-items: stretch;
-    gap: 8px;
+    gap: 4px;
+  }
+
+  .professor__appointment-list {
+    gap: 12px;
   }
 
   /* Same issue as .professor__appointment-row above, one level up: two
@@ -3173,9 +3185,18 @@ html.news-lightbox-open {
   resize: none;
 }
 
+/* min-width: 0 — without it, this row's own min-content width (the two
+   fixed-144px recipient buttons plus the submit button's own nowrap
+   "Send message to <name>" text) became a hard floor .contact-form
+   couldn't shrink below, so on any viewport narrower than that floor the
+   whole form rendered far wider than the page and sat shifted/cut off on
+   both sides instead of actually shrinking to fit — the same min-width:
+   auto flex default already worked around everywhere else in this
+   codebase (.professor__info-main, .news-post__body, etc.). */
 .contact-form__actions {
   display: flex;
   align-items: center;
+  min-width: 0;
   gap: 8px;
 }
 
@@ -3305,5 +3326,32 @@ html.news-lightbox-open {
     width: 100%;
     height: auto;
     aspect-ratio: 1 / 1;
+  }
+
+  .contact-image__title {
+    font-size: clamp(32px, 9vw, 56px);
+  }
+
+  .contact-image__subtitle {
+    font-size: 18px;
+  }
+
+  /* The two recipient buttons keep their fixed 144px (they still fit two
+     to a row down to fairly narrow phones) but wrap onto their own line
+     from the submit button once the row as a whole runs out of room,
+     rather than everyone staying on one line and forcing .contact-form
+     wider than the page (see .contact-form__actions's own comment).
+     flex-basis: 100% is what actually forces that break — a flex item
+     wider than the remaining space on a wrap line drops to the next one
+     on its own, but nothing here is that wide by itself, so the row just
+     unevenly cramped itself instead of ever wrapping without this. */
+  .contact-form__actions {
+    flex-wrap: wrap;
+    row-gap: 12px;
+  }
+
+  .contact-form__button--submit {
+    flex-basis: 100%;
+    margin-left: 0;
   }
 }
