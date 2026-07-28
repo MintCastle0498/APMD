@@ -27,6 +27,46 @@ const PUBLICATIONS = [
     doiUrl: "https://doi.org/10.1002/adma.202519106",
   },
   {
+    year: 2026,
+    image: "",
+    // Full names inferred from initials against this lab's own roster (J
+    // Yoon -> Yoon, Jeongbin; M Cho -> Dr. Cho, Mingwan; H Kim -> Dr. Kim,
+    // Hyeonhee; H Park -> Park, Hyeonjin) rather than verified against the
+    // published paper itself — it isn't turning up in search yet (likely
+    // very recently published). "I. S. Joe" doesn't match anyone in
+    // people-data.js at all (probably an outside co-author) so it's left
+    // as initials. Please double-check all of these, and fill in doiUrl
+    // once it has one.
+    title: "Angle-and polarization-adaptive aperiodic-anisotropic metasurfaces for broadband reflectance suppression",
+    authors: "Jeongbin Yoon, Mingwan Cho*‡, Hyeonhee Kim, Hyeonjin Park, I. S. Joe, Jonghwa Shin",
+    journal: "iScience 29, 8 (2026)",
+    doiUrl: "",
+  },
+  {
+    year: 2026,
+    image: "",
+    title: "Analogs of Spontaneous Emission and Lasing in Photonic Time Crystals",
+    authors: "Kyungmin Lee, Minwook Kyung, Yung Kim, Jagang Park, Hansuek Lee, Joonhee Choi, C. T. Chan, Jonghwa Shin, Kun Woo Kim, Bumki Min",
+    journal: "Physical Review Letters 136, 9, 093802 (2026)",
+    doiUrl: "https://doi.org/10.1103/hh9h-qzpk",
+  },
+  {
+    year: 2026,
+    image: "",
+    title: "Electronic Trap Detection with Carrier-Resolved Photo-Hall Effect",
+    authors: "Oki Gunawan, Chaeyoun Kim, Bonfilio Nainggolan, Minyeul Lee, Jonghwa Shin, Dong Suk Kim, Yimhyun Jo, Minjin Kim, Julie Euvrard, Douglas Bishop, Frank Libsch, Teodor Todorov, Yunna Kim, Byungha Shin",
+    journal: "Science Advances 12, 1, eadz0460 (2026)",
+    doiUrl: "https://doi.org/10.1126/sciadv.adz0460",
+  },
+  {
+    year: 2026,
+    image: "",
+    title: "Eschallot: A Topology Nucleation Algorithm for Designing Stratified, Spherically Symmetric Systems That Exhibit Complex Angular Scattering of Electromagnetic Waves",
+    authors: "Seokhwan Min, Jonghwa Shin",
+    journal: "Computer Physics Communications 320, 109966 (2026)",
+    doiUrl: "https://doi.org/10.1016/j.cpc.2025.109966",
+  },
+  {
     year: 2025,
     image: "Publication/Dynamic realization of emergent high-dimensional optical vortices.webp",
     title: "Dynamic realization of emergent high-dimensional optical vortices",
@@ -73,6 +113,14 @@ const PUBLICATIONS = [
     authors: "Junhyeong Kim*, Jae-Yong Kim*, Jungmin Kim, Yun Hyeong, Berkay Neseli, Jong-Bum You, Joonsup Shim, Jonghwa Shin, Hyo-Hoom Park, Hamza Kurt‡",
     journal: "Nanophotonics 14, 2, 121-151 (2025)",
     doiUrl: "https://doi.org/10.1515/nanoph-2024-0536",
+  },
+  {
+    year: 2025,
+    image: "",
+    title: "Manufacturing of a Bitmap-Type Lightweight Microwave Absorber Metasurface",
+    authors: "Je-Ryung Lee, Myungjoon Kim, Seung Hwan Moon, Doo-Sun Choi, Jonghwa Shin, Ik Soo Kang, Tae-Jin Je, Eun-chae Jeon",
+    journal: "International Journal of Precision Engineering and Manufacturing 26, 3461-3472 (2025)",
+    doiUrl: "https://doi.org/10.1007/s12541-025-01326-2",
   },
   {
     year: 2024,
@@ -134,7 +182,7 @@ const PUBLICATIONS = [
     year: 2024,
     image: "Publication/Realization of all two-dimensional Bravais lattices with metasurface-based interference lithography.png",
     title: "Realization of all two-dimensional Bravais lattices with metasurface-based interference lithography",
-    authors: "Myungjoon Kim*, Nayoung Kim, Jonghwa Shin‡",
+    authors: "Myungjoon Kim*, Nayoung Kim*, Jonghwa Shin‡",
     journal: "Nanophotonics 13, 8, 1467-1474 (2024)",
     doiUrl: "https://doi.org/10.1515/nanoph-2023-0786",
   },

@@ -14,16 +14,27 @@ function journalName(journal) {
   return (match ? match[0] : journal).trim();
 }
 
+// Both image and doiUrl are optional (an entry gets added before its
+// figure/DOI is ready to hand) — plain <img src=""> reloads the current
+// page in some browsers rather than just failing quietly, and an empty
+// href on the DOI link would "link" to this same page too, so each gets
+// its own graceful stand-in instead of just leaving the field blank.
 function publicationCardMarkup(pub) {
+  const imageMarkup = pub.image
+    ? `<img class="publication-card__image" src="${pub.image}" alt="${pub.title}" loading="lazy" />`
+    : `<div class="publication-card__image publication-card__image--empty" aria-hidden="true"></div>`;
+  const doiMarkup = pub.doiUrl
+    ? `<a class="publication-card__doi" href="${pub.doiUrl}" target="_blank" rel="noopener noreferrer">DOI</a>`
+    : `<span class="publication-card__doi publication-card__doi--pending">DOI</span>`;
   return `
     <div class="publication-card">
-      <img class="publication-card__image" src="${pub.image}" alt="${pub.title}" loading="lazy" />
+      ${imageMarkup}
       <div class="publication-card__info">
         <h3 class="publication-card__title">${pub.title}</h3>
         <p class="publication-card__authors">${pub.authors}</p>
         <div class="publication-card__journal-row">
           <span class="publication-card__journal">${journalName(pub.journal)} (${pub.year})</span>
-          <a class="publication-card__doi" href="${pub.doiUrl}" target="_blank" rel="noopener noreferrer">DOI</a>
+          ${doiMarkup}
         </div>
       </div>
     </div>

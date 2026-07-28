@@ -2623,6 +2623,15 @@ html.news-lightbox-open {
   box-shadow: 0 0 16px rgba(0, 0, 0, 0.15);
 }
 
+/* Stand-in for an entry added before its real figure exists yet (see
+   publication-render.js) — same box, no shadow (nothing to lift off the
+   page yet) so it reads as empty rather than as a real photo that failed
+   to load. */
+.publication-card__image--empty {
+  background: var(--gray-6);
+  box-shadow: none;
+}
+
 .publication-card__info {
   flex: 1;
   min-width: 0;
@@ -2684,6 +2693,18 @@ html.news-lightbox-open {
    as soon as you're looking at it. */
 .publication-card:hover .publication-card__doi {
   border-color: var(--accent);
+}
+
+/* No DOI yet (a <span>, not a link — see publication-render.js) — dashed
+   instead of solid so it reads as "not filled in yet" rather than a real,
+   currently-inactive link. */
+.publication-card__doi--pending {
+  border-style: dashed;
+  color: var(--gray-4);
+}
+
+.publication-card:hover .publication-card__doi--pending {
+  border-color: var(--divider-color);
 }
 
 @media (max-width: 900px) {
