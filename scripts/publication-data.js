@@ -148,6 +148,10 @@ const PUBLICATIONS = [
     image: "Publication/Realizing Square-Ordered Nanopillars with a 0.1-Tera-Density through a Superimposed Masking Strategy for Advanced Surface-Enhanced Raman Spectroscopy.gif",
     title: "Realizing Square-Ordered Nanopillars with a 0.1-Tera-Density through a Superimposed Masking Strategy for Advanced Surface-Enhanced Raman Spectroscopy",
     authors: "Seungkyun Lee*, Minjae Ku*, Heejin Lim*, Jisung Hwang, Jong Min Kim, Hanhwi Kim, Jonghwa Shin, Hyeuk Jin Han‡, Yeon Sik Jung‡",
+    // This "Jong Min Kim" isn't this lab's own Kim, Jongmin — a different
+    // person, real name collision confirmed by hand (see
+    // publication-render.js's externalAuthors handling).
+    externalAuthors: ["Jong Min Kim"],
     journal: "ACS Applied Materials & Interfaces 16, 50, 69703-69712 (2024)",
     doiUrl: "https://doi.org/10.1021/acsami.4c15062",
     date: "2024-12-18",

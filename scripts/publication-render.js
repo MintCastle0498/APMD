@@ -29,16 +29,27 @@ function toGivenFamily(rawName) {
   return `${given} ${family}`;
 }
 
-// A name's internal whitespace can legitimately differ between how a
-// given paper actually prints it and how people-data.js spells the same
-// person out — e.g. one 2024 paper credits "Seung Kyu Kang" (three words)
-// while this lab's own Alumni entry has him as "Kang, Seungkyu" ("Seungkyu"
-// as one word), so a plain exact-string check missed him entirely.
-// Collapsing all whitespace away before comparing means either spelling
-// matches the same person.
+// A name's internal whitespace/hyphenation can legitimately differ
+// between how a given paper actually prints it and how people-data.js
+// spells the same person out — e.g. one 2024 paper credits "Seung Kyu
+// Kang" (three words) while this lab's own Alumni entry has him as "Kang,
+// Seungkyu" ("Seungkyu" as one word), and "Sang-Hyeon Nam" (hyphenated)
+// vs. this lab's "Nam, Sanghyeon" (not). A plain exact-string check missed
+// both. Collapsing whitespace AND hyphens away before comparing means any
+// of those spellings matches the same person.
 function normalizeName(name) {
-  return name.toLowerCase().replace(/\s+/g, "");
+  return name.toLowerCase().replace(/[\s-]+/g, "");
 }
+
+// A few more people whose paper-credited name is a genuinely different
+// romanization of the same syllables from their own People-page spelling
+// (not just whitespace/hyphenation, which normalizeName above already
+// handles) — confirmed by hand, not guessed, since two different-looking
+// romanizations of a Korean name can't be told apart programmatically.
+const OUR_NAME_ALIASES = [
+  "Minseong Heo", // this lab's Alumni entry has him as "Heo, Minsung"
+  "Kyungsun Yun", // this lab's Alumni entry has her as "Yun, Kyunsun"
+];
 
 // Everyone this lab page actually has a listing for — the Professor
 // (hardcoded in people.html, not in PEOPLE) plus every current roster
@@ -50,7 +61,7 @@ function buildOurNames() {
   // here is one of his, so unlike an abbreviated roster/alumni name (which
   // would risk matching the wrong person entirely, e.g. some other "H.
   // Kim"), this one abbreviation is unambiguous across the whole file.
-  const names = new Set(["Jonghwa Shin", "J. Shin"].map(normalizeName));
+  const names = new Set(["Jonghwa Shin", "J. Shin", ...OUR_NAME_ALIASES].map(normalizeName));
   if (typeof PEOPLE !== "undefined") {
     PEOPLE.forEach((p) => names.add(normalizeName(toGivenFamily(p.name))));
   }
@@ -74,13 +85,21 @@ const OUR_NAMES = buildOurNames();
 // citation's own punctuation. Each name's trailing */‡ marks travel with
 // it into the OUR_NAMES check (stripped first so e.g. "Jonghwa Shin‡"
 // still matches "Jonghwa Shin") but stay in the displayed text.
-function authorsMarkup(authors) {
+//
+// pub.externalAuthors (optional, per-entry) forces specific same-named
+// people to render as external regardless of the OUR_NAMES match — for
+// the rare case where a real outside collaborator happens to share an
+// exact name with an actual roster member (e.g. a different "Jong Min
+// Kim" than this lab's own), which no amount of normalization can
+// distinguish since they're genuinely the same string.
+function authorsMarkup(authors, externalAuthors) {
+  const overrides = new Set((externalAuthors || []).map(normalizeName));
   return authors
     .split(/(,\s+(?:and\s+)?|\s+and\s+)/)
     .map((part, i) => {
       if (i % 2 === 1) return part; // a captured separator, not a name
       const bare = normalizeName(part.replace(/[*‡]/g, "").trim());
-      return OUR_NAMES.has(bare)
+      return OUR_NAMES.has(bare) && !overrides.has(bare)
         ? part
         : `<span class="publication-card__author--external">${part}</span>`;
     })
@@ -104,7 +123,7 @@ function publicationCardMarkup(pub) {
       ${imageMarkup}
       <div class="publication-card__info">
         <h3 class="publication-card__title">${pub.title}</h3>
-        <p class="publication-card__authors">${authorsMarkup(pub.authors)}</p>
+        <p class="publication-card__authors">${authorsMarkup(pub.authors, pub.externalAuthors)}</p>
         <div class="publication-card__journal-row">
           <span class="publication-card__journal">${journalName(pub.journal)} (${pub.year})</span>
           ${doiMarkup}
