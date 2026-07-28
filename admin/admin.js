@@ -869,6 +869,7 @@ async function startEditPublication(index) {
   form.authors.value = o.authors || "";
   form.journal.value = o.journal || "";
   form.doiUrl.value = o.doiUrl || "";
+  form.date.value = o.date || "";
   form.image.required = false;
   form.image.value = "";
 
@@ -896,6 +897,32 @@ function cancelPublicationEdit() {
   document.getElementById("publication-cancel-edit").hidden = true;
 }
 
+// Best-effort only — this is the one place admin.js reaches out to the
+// network at all (everything else is local file I/O), so any failure
+// (offline, bad/not-yet-registered DOI, Crossref hiccup) just leaves the
+// date field for the user to type in by hand rather than blocking them.
+// Prefers published-print over published-online over issued, matching
+// the same preference order used when the existing 103 entries' own
+// dates were originally looked up (see publication-render.js's comment).
+async function lookupDateFromDoi(doiUrl) {
+  const doi = doiUrl.replace(/^https?:\/\/doi\.org\//i, "").trim();
+  if (!doi) return null;
+  try {
+    const res = await fetch(`https://api.crossref.org/works/${encodeURIComponent(doi)}`);
+    if (!res.ok) return null;
+    const data = await res.json();
+    const msg = data.message || {};
+    const source = msg["published-print"] || msg["published-online"] || msg.issued;
+    const parts = source && source["date-parts"] && source["date-parts"][0];
+    if (!parts || !parts[0]) return null;
+    if (!parts[1]) return null;
+    const mm = String(parts[1]).padStart(2, "0");
+    return parts[2] ? `${parts[0]}-${mm}-${String(parts[2]).padStart(2, "0")}` : `${parts[0]}-${mm}`;
+  } catch {
+    return null;
+  }
+}
+
 async function submitPublicationForm(e) {
   e.preventDefault();
   const form = e.target;
@@ -906,6 +933,7 @@ async function submitPublicationForm(e) {
     const authors = form.authors.value.trim();
     const journal = form.journal.value.trim();
     const doiUrl = form.doiUrl.value.trim();
+    const date = form.date.value.trim();
     const imageFile = form.image.files[0];
 
     if (!title) throw new Error("논문 제목을 입력해주세요.");
@@ -923,7 +951,7 @@ async function submitPublicationForm(e) {
       throw new Error("대표 이미지를 선택해주세요.");
     }
 
-    const entry = { year, image, title, authors, journal, doiUrl };
+    const entry = { year, image, title, authors, journal, doiUrl, ...(date ? { date } : {}) };
     const source = await readTextFile(DATA_FILES.publication);
 
     if (publicationEditIndex !== null) {
@@ -1057,6 +1085,12 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("people-alumni-form").addEventListener("submit", submitAlumniForm);
   document.getElementById("people-staff-form").addEventListener("submit", submitStaffForm);
   document.getElementById("publication-form").addEventListener("submit", submitPublicationForm);
+  document.getElementById("publication-form").doiUrl.addEventListener("blur", async (e) => {
+    const form = e.target.form;
+    if (!e.target.value.trim() || form.date.value.trim()) return;
+    const date = await lookupDateFromDoi(e.target.value.trim());
+    if (date) form.date.value = date;
+  });
   document.getElementById("add-degree-row").addEventListener("click", addDegreeRow);
 
   document.getElementById("news-cancel-edit").addEventListener("click", cancelNewsEdit);

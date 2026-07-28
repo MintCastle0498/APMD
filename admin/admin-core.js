@@ -272,6 +272,7 @@ const AdminCore = (() => {
     lines.push(`    authors: ${j(o.authors)},`);
     lines.push(`    journal: ${j(o.journal)},`);
     lines.push(`    doiUrl: ${j(o.doiUrl)},`);
+    if (o.date) lines.push(`    date: ${j(o.date)},`);
     lines.push("  }");
     return lines.join("\n");
   }
