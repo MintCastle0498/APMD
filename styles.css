@@ -2867,8 +2867,17 @@ html.news-lightbox-open {
   --research-hero-node-gap: clamp(56px, 7vw, 110px);
 }
 
-/* Left/right anchor is the shared --research-hero-col-inset (see
-   .research-hero__content) — the same grid line the arrows below use.
+/* Anchored via the FAR side (right for the left-hand pair, left for the
+   right-hand pair) at the shared --research-hero-col-inset boundary (see
+   .research-hero__content) — not the near side. Wave and the down arrow
+   sit entirely to the LEFT of that grid line (its right edge touches the
+   line), Structured Material and the up arrow sit entirely to the RIGHT
+   of the mirrored line (its left edge touches it) — the reverse of an
+   earlier version that anchored each one's near edge and let it grow
+   away from the line instead of stopping right at it. calc(100% -
+   var(...)) converts a "distance from the near edge" into the matching
+   "distance from the far edge" needed to land the far property on the
+   exact same boundary.
 
    Vertically, each is positioned from its NEAR edge relative to the seam
    (50%) by the same --research-hero-node-gap, rather than a flat top/
@@ -2881,12 +2890,12 @@ html.news-lightbox-open {
    how many lines either one wraps to. */
 .research-hero__node--wave {
   bottom: calc(50% + var(--research-hero-node-gap));
-  left: var(--research-hero-col-inset);
+  right: calc(100% - var(--research-hero-col-inset));
 }
 
 .research-hero__node--structured {
   top: calc(50% + var(--research-hero-node-gap));
-  right: var(--research-hero-col-inset);
+  left: calc(100% - var(--research-hero-col-inset));
   text-align: left;
 }
 
@@ -2895,25 +2904,25 @@ html.news-lightbox-open {
    arrow--down's top edge and .research-hero__arrow--up's bottom edge are
    both set to the same 50%, so the tail of one and the tail of the other
    both start flush against the photo boundary, growing away from it in
-   opposite directions. Horizontally, left/right is the same
-   --research-hero-col-inset the text above uses — no flex row anymore
-   (label + svg used to share one flex container anchored as a unit,
-   which meant the LABEL's edge sat on the grid line, not the arrow's own
-   edge); the label is now positioned independently off the arrow's own
-   box (see .research-hero__arrow-label below) so the anchor here lands
-   exactly on the arrow shape itself. */
+   opposite directions. Horizontally, same far-side anchor as the text
+   above (see its own comment) — no flex row anymore (label + svg used to
+   share one flex container anchored as a unit, which meant the LABEL's
+   edge sat on the grid line, not the arrow's own edge); the label is now
+   positioned independently off the arrow's own box (see
+   .research-hero__arrow-label below) so the anchor here lands exactly on
+   the arrow shape itself. */
 .research-hero__arrow {
   position: absolute;
 }
 
 .research-hero__arrow--down {
   top: 50%;
-  left: var(--research-hero-col-inset);
+  right: calc(100% - var(--research-hero-col-inset));
 }
 
 .research-hero__arrow--up {
   bottom: 50%;
-  right: var(--research-hero-col-inset);
+  left: calc(100% - var(--research-hero-col-inset));
 }
 
 /* aspect-ratio (matching the viewBox) instead of a fixed height — lets the
@@ -2958,13 +2967,26 @@ html.news-lightbox-open {
     --research-hero-node-gap: clamp(84px, 15vw, 120px);
   }
 
-  /* 5 columns in is a sane amount of inset on desktop but way too much
-     once --col-w has collapsed to a few px on a phone-width viewport —
-     overriding the shared variable itself (rather than each of the 4
-     elements that reference it) keeps all 4 on the same boundary here
-     too, just a much shallower one. */
-  .research-hero__content {
-    --research-hero-col-inset: 8%;
+  /* Desktop anchors each element from its FAR side (calc(100% - inset)) so
+     it lands on the exact same grid line as its counterpart on the other
+     side of the seam — see .research-hero__node--wave's own comment. That
+     math depends on --research-hero-col-inset being a small fraction of
+     the width; on a phone-width viewport 8% is still small, so far-side
+     anchoring would place these right at the OPPOSITE edge from where
+     there's room, pushing them off-screen. Mobile doesn't try to match
+     the real grid anyway (5 columns' worth of --col-w has collapsed to a
+     few px here), so it just goes back to a plain near-side inset instead
+     of reusing the desktop far-side formula. */
+  .research-hero__node--wave,
+  .research-hero__arrow--down {
+    right: auto;
+    left: 8%;
+  }
+
+  .research-hero__node--structured,
+  .research-hero__arrow--up {
+    left: auto;
+    right: 8%;
   }
 
   .research-hero__arrow-svg {
