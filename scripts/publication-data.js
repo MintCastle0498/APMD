@@ -391,15 +391,6 @@ const PUBLICATIONS = [
     date: "2021-03-15",
   },
   {
-    year: 2021,
-    image: "Publication/Broadband Meta-Absorber with AuNi Core–Shell Nanowires for Solar Vapor Generator.jpg",
-    title: "Broadband Meta-Absorber with Au/Ni Core-Shell Nanowires for Solar Vapor Generator",
-    authors: "Soomin Son*, Jaemin Park, Sucheol Ju, Daihong Huh, Junho Jun, Kwan Kim, Pil-Hoon Jung, Heon Lee‡, Seokhwan Min, Jonghwa Shin",
-    journal: "Advanced Sustainable Systems 5, 2000217 (2021)",
-    doiUrl: "https://doi.org/10.1002/adsu.202000217",
-    date: "2021-03",
-  },
-  {
     year: 2020,
     image: "Publication/Extreme anti-reflection enhanced magneto-optic Kerr effect microscopy.webp",
     title: "Extreme anti-reflection enhanced magneto-optic Kerr effect microscopy",
