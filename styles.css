@@ -2810,20 +2810,25 @@ html.news-lightbox-open {
 }
 
 /* Solid black exactly on the seam between the two photos (50%), fading to
-   fully transparent by each end — one shared gradient spanning the whole
-   hero (not a separate one per photo half) lifts whatever sits on top
-   (the text/arrows) off both busy, differently-lit photos at once. */
+   a light wash (not fully transparent) by each end — one shared gradient
+   spanning the whole hero (not a separate one per photo half) lifts
+   whatever sits on top (the text/arrows) off both busy, differently-lit
+   photos at once. The 0%/100% stops carry a little opacity of their own
+   (not 0) so the hero reads less bright everywhere, not just at the seam;
+   the small blur softens the gradient's own banding between stops into a
+   smoother falloff. */
 .research-hero__seam {
   position: absolute;
   inset: 0;
   z-index: 1;
+  filter: blur(6px);
   background: linear-gradient(
     to bottom,
-    transparent 0%,
-    rgba(0, 0, 0, 0.9) 38%,
+    rgba(0, 0, 0, 0.28) 0%,
+    rgba(0, 0, 0, 0.92) 38%,
     #000 50%,
-    rgba(0, 0, 0, 0.9) 62%,
-    transparent 100%
+    rgba(0, 0, 0, 0.92) 62%,
+    rgba(0, 0, 0, 0.28) 100%
   );
 }
 
@@ -2838,6 +2843,14 @@ html.news-lightbox-open {
   position: absolute;
   inset: 0;
   z-index: 1;
+  /* Shared boundary: the right edge of column 5 (counting from the left)
+     and the left edge of column 5 (counting from the right) — the same
+     distance in from either side, per --col-w's own left/right-edge-of-
+     column-N formulas. Wave + the down arrow anchor to the left one,
+     Structured Material + the up arrow to the right one, so all four
+     actually land on the same grid line instead of each being tuned to
+     merely look close. */
+  --research-hero-col-inset: calc(var(--side-padding) + 5 * var(--col-w) + 4 * var(--grid-gap));
 }
 
 .research-hero__node {
@@ -2854,11 +2867,8 @@ html.news-lightbox-open {
   --research-hero-node-gap: clamp(56px, 7vw, 110px);
 }
 
-/* Inset 2 grid columns in from each edge (not a flat %) — lines the
-   labels up with this page's own 12-column grid instead of sitting an
-   arbitrary distance from the raw viewport edge, the same
-   --side-padding/--col-w/--grid-gap arithmetic .professor and
-   .student-card already use elsewhere (see --col-w's own comment).
+/* Left/right anchor is the shared --research-hero-col-inset (see
+   .research-hero__content) — the same grid line the arrows below use.
 
    Vertically, each is positioned from its NEAR edge relative to the seam
    (50%) by the same --research-hero-node-gap, rather than a flat top/
@@ -2871,13 +2881,13 @@ html.news-lightbox-open {
    how many lines either one wraps to. */
 .research-hero__node--wave {
   bottom: calc(50% + var(--research-hero-node-gap));
-  left: calc(var(--side-padding) + 2 * (var(--col-w) + var(--grid-gap)));
+  left: var(--research-hero-col-inset);
 }
 
 .research-hero__node--structured {
   top: calc(50% + var(--research-hero-node-gap));
-  right: calc(var(--side-padding) + 2 * (var(--col-w) + var(--grid-gap)));
-  text-align: right;
+  right: var(--research-hero-col-inset);
+  text-align: left;
 }
 
 /* Each arrow's "attachment" edge sits exactly on the seam (the hero's own
@@ -2885,22 +2895,25 @@ html.news-lightbox-open {
    arrow--down's top edge and .research-hero__arrow--up's bottom edge are
    both set to the same 50%, so the tail of one and the tail of the other
    both start flush against the photo boundary, growing away from it in
-   opposite directions. */
+   opposite directions. Horizontally, left/right is the same
+   --research-hero-col-inset the text above uses — no flex row anymore
+   (label + svg used to share one flex container anchored as a unit,
+   which meant the LABEL's edge sat on the grid line, not the arrow's own
+   edge); the label is now positioned independently off the arrow's own
+   box (see .research-hero__arrow-label below) so the anchor here lands
+   exactly on the arrow shape itself. */
 .research-hero__arrow {
   position: absolute;
-  display: flex;
-  align-items: center;
-  gap: 10px;
 }
 
 .research-hero__arrow--down {
   top: 50%;
-  left: 30%;
+  left: var(--research-hero-col-inset);
 }
 
 .research-hero__arrow--up {
   bottom: 50%;
-  left: 66%;
+  right: var(--research-hero-col-inset);
 }
 
 /* aspect-ratio (matching the viewBox) instead of a fixed height — lets the
@@ -2913,13 +2926,28 @@ html.news-lightbox-open {
   display: block;
 }
 
+/* Positioned off the arrow's own box (not a flex sibling) so the arrow
+   box's own left/right edge — what .research-hero__arrow--down/--up
+   anchor to the grid — stays exactly the svg's edge, unaffected by
+   however wide this label happens to be. */
 .research-hero__arrow-label {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
   font-family: var(--font-display);
   font-weight: 700;
   font-size: clamp(16px, 1.8vw, 22px);
   letter-spacing: 0.02em;
   color: var(--accent);
   white-space: nowrap;
+}
+
+.research-hero__arrow--down .research-hero__arrow-label {
+  right: calc(100% + 12px);
+}
+
+.research-hero__arrow--up .research-hero__arrow-label {
+  left: calc(100% + 12px);
 }
 
 @media (max-width: 900px) {
@@ -2930,20 +2958,50 @@ html.news-lightbox-open {
     --research-hero-node-gap: clamp(84px, 15vw, 120px);
   }
 
-  .research-hero__arrow--down {
-    left: 20%;
-  }
-
-  .research-hero__arrow--up {
-    left: 50%;
+  /* 5 columns in is a sane amount of inset on desktop but way too much
+     once --col-w has collapsed to a few px on a phone-width viewport —
+     overriding the shared variable itself (rather than each of the 4
+     elements that reference it) keeps all 4 on the same boundary here
+     too, just a much shallower one. */
+  .research-hero__content {
+    --research-hero-col-inset: 8%;
   }
 
   .research-hero__arrow-svg {
     width: clamp(48px, 10vw, 72px);
   }
 
+  /* Beside the arrow (the desktop layout) needs more clear horizontal
+     room than an 8%-inset phone viewport has — labels were clipping
+     against the hero's own edge (overflow: hidden). Centered under/over
+     the arrow instead, in the direction each one points, needs only
+     vertical room, which --research-hero-node-gap already keeps clear.
+
+     Overridden on the same .research-hero__arrow--down/--up-qualified
+     selectors as the desktop rule (not the bare .research-hero__arrow-
+     label alone) — that compound selector is just as specific whether or
+     not it's inside this media query, so a plain .research-hero__arrow-
+     label { right: auto } here would lose to it regardless of source
+     order, leaving BOTH left and right set and the label's auto width
+     resolving to 0 instead of shrink-wrapping the text. */
   .research-hero__arrow-label {
     font-size: clamp(13px, 3.2vw, 17px);
+  }
+
+  .research-hero__arrow--down .research-hero__arrow-label {
+    left: 50%;
+    right: auto;
+    top: calc(100% + 8px);
+    bottom: auto;
+    transform: translateX(-50%);
+  }
+
+  .research-hero__arrow--up .research-hero__arrow-label {
+    left: 50%;
+    right: auto;
+    top: auto;
+    bottom: calc(100% + 8px);
+    transform: translateX(-50%);
   }
 }
 
