@@ -2775,13 +2775,59 @@ html.news-lightbox-open {
   height: 100vh;
   height: 100svh;
   overflow: hidden;
-  background-image: url("assets/research-background.jpg");
-  background-size: cover;
-  background-position: center;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1;
+}
+
+/* Two stacked photos (top/bottom half each) instead of one full-bleed
+   background — position: absolute + top/bottom: 0 (not a flex split)
+   because both need to independently object-fit their own half
+   regardless of the hero's own flex layout for .research-hero__diagram. */
+.research-hero__image {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.research-hero__image--top {
+  top: 0;
+  background-image: url("Research/Research_1.png");
+  /* bottom: the seam-adjacent edge is the one that actually needs to line
+     up with its other half — center would crop whichever edge happens to
+     overflow first instead of reliably keeping this one. */
+  background-position: center bottom;
+}
+
+.research-hero__image--bottom {
+  bottom: 0;
+  background-image: url("Research/Research_2.png");
+  background-position: center top;
+}
+
+/* Solid black exactly on the seam between the two photos (50%), fading to
+   fully transparent by each end — lifts whatever sits on top (the
+   diagram) off of two busy, differently-lit photos without an even tint
+   over the whole hero. .research-hero__diagram gets its own position +
+   z-index below specifically so it still paints above this and the two
+   image layers — a non-positioned flex child (what it was before this)
+   loses to ANY positioned sibling regardless of DOM order, the same
+   stacking gotcha .site-header__logo-invert's own comment documents. */
+.research-hero__seam {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.9) 38%,
+    #000 50%,
+    rgba(0, 0, 0, 0.9) 62%,
+    transparent 100%
+  );
 }
 
 /* Was min(900px, 70vw) — at full width that rendered ~810px tall (the
@@ -2789,6 +2835,11 @@ html.news-lightbox-open {
    in the 100vh hero around it. Capped smaller so there's real margin on
    every side instead of the diagram nearly filling the hero. */
 .research-hero__diagram {
+  /* Needs its own stacking context: the two image layers and the seam
+     gradient above are all position: absolute, and a plain non-positioned
+     flex child always loses to ANY positioned sibling regardless of DOM
+     order — without this the diagram would paint underneath them. */
+  position: relative;
   width: min(480px, 38vw);
 }
 
