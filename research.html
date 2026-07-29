@@ -24,26 +24,35 @@
         <div class="research-hero__diagram">
           <svg viewBox="0 0 620 600" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <defs>
-              <marker id="research-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-                <path d="M0,0 L10,5 L0,10 Z" fill="currentColor" />
+              <!-- A <marker>'s content resolves currentColor against its
+                   OWN place in the DOM (inside <defs>, under the svg
+                   root's gray-6), not the accent-colored <line> that
+                   references it, which left the arrowhead a mismatched
+                   off-white — styled directly (.research-hero__arrowhead
+                   in styles.css) instead of relying on that inheritance. -->
+              <marker id="research-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="3" markerHeight="3" orient="auto-start-reverse">
+                <path class="research-hero__arrowhead" d="M0,0 L10,5 L0,10 Z" />
               </marker>
             </defs>
-            <path
+            <!-- Straight in each direction now (was a curved oval loop) —
+                 same cycle, just reads as two bold, deliberate strokes
+                 instead of a soft swoop. Down = Wave shaped into a
+                 Structured Material via Nanofabrication; up = that
+                 structure (a Metamaterial) acting back on the wave. -->
+            <line
               class="research-hero__arrow"
-              d="M 260 85 Q 90 300 260 500"
-              fill="none"
+              x1="205" y1="120" x2="205" y2="460"
               marker-end="url(#research-arrow)"
             />
-            <path
+            <line
               class="research-hero__arrow"
-              d="M 360 500 Q 530 300 360 85"
-              fill="none"
+              x1="415" y1="460" x2="415" y2="120"
               marker-end="url(#research-arrow)"
             />
-            <text class="research-hero__arrow-label" x="151" y="300" text-anchor="end">Nanofabrication</text>
-            <text class="research-hero__arrow-label" x="469" y="300" text-anchor="start">Metamaterial</text>
-            <text class="research-hero__node" x="310" y="50" text-anchor="middle">Wave</text>
-            <text class="research-hero__node" x="310" y="564" text-anchor="middle">Structured Material</text>
+            <text class="research-hero__arrow-label" x="170" y="290" text-anchor="middle" transform="rotate(-90, 170, 290)">Nanofabrication</text>
+            <text class="research-hero__arrow-label" x="450" y="290" text-anchor="middle" transform="rotate(-90, 450, 290)">Metamaterial</text>
+            <text class="research-hero__node" x="310" y="68" text-anchor="middle">Wave</text>
+            <text class="research-hero__node" x="310" y="556" text-anchor="middle">Structured Material</text>
           </svg>
         </div>
       </section>

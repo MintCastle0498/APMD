@@ -2801,25 +2801,47 @@ html.news-lightbox-open {
   filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.6));
 }
 
+/* Straight and thick now (was a thin 2.5px curved swoop) — color: accent
+   (not just stroke) so the arrowhead <marker>'s own fill="currentColor"
+   picks up the same yellow, not just the line itself. markerWidth/Height
+   are in stroke-width units by default (markerUnits="strokeWidth"), so
+   dropping them to 3 keeps the arrowhead in proportion now that the line
+   itself is ~5x thicker — left at the old 7 it would have scaled up right
+   along with it into a comically oversized head. */
 .research-hero__arrow {
+  color: var(--accent);
   stroke: currentColor;
-  stroke-width: 2.5;
+  stroke-width: 12;
+  stroke-linecap: round;
 }
 
+.research-hero__arrowhead {
+  fill: var(--accent);
+}
+
+/* Uppercase (was mixed-case) + bigger/bolder — reads as a punchier, more
+   graphic label to match the arrows' own heavier new weight. */
 .research-hero__node {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 40px;
+  font-size: 52px;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
   fill: var(--gray-6);
 }
 
-/* 24px (was 20px) — both this and .research-hero__node stay on the 8px
-   scale, and this reads a little bigger than before. */
+/* Set vertical (rotated -90 in the markup) alongside its own arrow rather
+   than horizontal beside it — lets the label run the full length of the
+   now-much-longer straight line instead of competing with it for width.
+   Bumped up + bolded + uppercased to match, and colored to the same
+   accent as its arrow so each label reads as that arrow's own caption. */
 .research-hero__arrow-label {
   font-family: var(--font-display);
-  font-weight: 500;
-  font-size: 24px;
-  fill: var(--gray-6);
+  font-weight: 700;
+  font-size: 26px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  fill: var(--accent);
 }
 
 @media (max-width: 900px) {
@@ -2828,11 +2850,15 @@ html.news-lightbox-open {
   }
 
   .research-hero__node {
-    font-size: 32px;
+    font-size: 38px;
   }
 
   .research-hero__arrow-label {
-    font-size: 16px;
+    font-size: 18px;
+  }
+
+  .research-hero__arrow {
+    stroke-width: 9;
   }
 }
 
