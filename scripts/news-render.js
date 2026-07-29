@@ -303,7 +303,13 @@ function getNewsLightbox() {
 // Mirrors the desktop hover-then-click flow instead of the icon sitting
 // permanently on top of every photo, which is what unconditionally
 // showing it on touch used to do.
-const isTouch = window.matchMedia("(hover: none)").matches;
+//
+// Named newsIsTouch (not isTouch) because this file and script.js are both
+// loaded as plain <script>s on the same pages (index.html, news.html) and
+// share one top-level scope — a same-named top-level const in both is a
+// redeclaration SyntaxError that silently kills whichever file parses
+// second (script.js, breaking the home hero interaction entirely).
+const newsIsTouch = window.matchMedia("(hover: none)").matches;
 
 // Wires every zoom button on the page, independent of initCarousel — a
 // single-photo post/card has no carousel at all (initCarousel bails out
@@ -313,7 +319,7 @@ function initZoom(root) {
   root.querySelectorAll("[data-zoom]").forEach((btn) => {
     const slide = btn.closest(".news-carousel__slide");
 
-    if (isTouch && slide) {
+    if (newsIsTouch && slide) {
       slide.addEventListener("click", (e) => {
         if (e.target.closest("[data-zoom]")) return;
         slide.classList.add("is-zoom-visible");
