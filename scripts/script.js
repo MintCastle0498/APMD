@@ -86,13 +86,12 @@ recipientButtons.forEach((button) => {
 // emails that inbox on your behalf. Two keys because Professor and Lab
 // manager are two different real inboxes — one access key per destination.
 //
-// These two placeholders are NOT usable as-is. Whoever owns each inbox
-// needs to get their own key (free, no account beyond entering that email)
-// at https://web3forms.com/ and paste it in here — I can't generate these
-// myself since they're tied to real email addresses I don't have access to.
+// TEMPORARY: both point at the same one (real) inbox for testing — swap
+// in the Professor's and Lab manager's own separate keys (each gotten the
+// same way, at https://web3forms.com/) once this is confirmed working.
 const WEB3FORMS_ACCESS_KEYS = {
-  professor: 'REPLACE_WITH_PROFESSOR_WEB3FORMS_ACCESS_KEY',
-  'lab-manager': 'REPLACE_WITH_LAB_MANAGER_WEB3FORMS_ACCESS_KEY',
+  professor: 'c56435ba-d755-4759-989b-391c689dec46',
+  'lab-manager': 'c56435ba-d755-4759-989b-391c689dec46',
 };
 
 const contactForm = document.querySelector('[data-contact-form]');
@@ -128,7 +127,7 @@ if (contactForm) {
       name: formData.get('name'),
       email: formData.get('email'),
       message: formData.get('message'),
-      subject: `APMD Lab contact form — ${formData.get('name')}`,
+      subject: `[Lab Contact] ${formData.get('name')}`,
     };
 
     submitButton.disabled = true;
