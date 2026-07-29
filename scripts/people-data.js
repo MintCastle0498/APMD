@@ -58,8 +58,8 @@ const PEOPLE = [
     admissionSeason: "Spring",
     email: "phj1870@kaist.ac.kr",
     degrees: [
-      { label: "M.S.", major: "Materials Science and Engineering", university: "APMD University", year: "2020" },
-      { label: "B.S.", major: "Materials Science and Engineering", university: "KAIST", year: "2018" },
+      { label: "M.S.", major: "Materials Science and Engineering", university: "KAIST", year: "2020" },
+      { label: "B.S.", major: "Materials Science and Engineering", university: "Hanyang University", year: "2018" },
     ],
   },
   {
