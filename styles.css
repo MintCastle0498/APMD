@@ -2816,20 +2816,37 @@ html.news-lightbox-open {
    photos at once. The 0%/100% stops carry a little opacity of their own
    (not 0) so the hero reads less bright everywhere, not just at the seam;
    the small blur softens the gradient's own banding between stops into a
-   smoother falloff. */
+   smoother falloff.
+
+   The vertical gradient alone leaves the far left/right edges completely
+   untouched at any height where it's weak (top/bottom thirds, ~0.28) —
+   both photos happen to have their brightest content (the prism's light
+   beams, the butterfly wing's teal) running right along those edges, so
+   those corners read as barely darkened at all next to the seam. A
+   second, horizontal gradient layered on top darkens just the outer ~12%
+   on each side, fading to nothing by the time it reaches the middle,
+   independent of the vertical one. */
 .research-hero__seam {
   position: absolute;
   inset: 0;
   z-index: 1;
   filter: blur(6px);
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.28) 0%,
-    rgba(0, 0, 0, 0.92) 38%,
-    #000 50%,
-    rgba(0, 0, 0, 0.92) 62%,
-    rgba(0, 0, 0, 0.28) 100%
-  );
+  background:
+    linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.4) 0%,
+      transparent 12%,
+      transparent 88%,
+      rgba(0, 0, 0, 0.4) 100%
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.28) 0%,
+      rgba(0, 0, 0, 0.92) 38%,
+      #000 50%,
+      rgba(0, 0, 0, 0.92) 62%,
+      rgba(0, 0, 0, 0.28) 100%
+    );
 }
 
 /* Text/arrows sit in their own full-hero-sized layer (not confined to a
@@ -2967,26 +2984,31 @@ html.news-lightbox-open {
     --research-hero-node-gap: clamp(84px, 15vw, 120px);
   }
 
-  /* Desktop anchors each element from its FAR side (calc(100% - inset)) so
-     it lands on the exact same grid line as its counterpart on the other
-     side of the seam — see .research-hero__node--wave's own comment. That
-     math depends on --research-hero-col-inset being a small fraction of
-     the width; on a phone-width viewport 8% is still small, so far-side
-     anchoring would place these right at the OPPOSITE edge from where
-     there's room, pushing them off-screen. Mobile doesn't try to match
-     the real grid anyway (5 columns' worth of --col-w has collapsed to a
-     few px here), so it just goes back to a plain near-side inset instead
-     of reusing the desktop far-side formula. */
+  /* Desktop anchors Wave/Structured Material off the grid (see their own
+     comment) — mobile drops that entirely and just centers both, since
+     there's no real 12-column grid left to match at this width anyway (5
+     columns' worth of --col-w has collapsed to a few px here). */
   .research-hero__node--wave,
-  .research-hero__arrow--down {
+  .research-hero__node--structured {
+    left: 50%;
     right: auto;
-    left: 8%;
+    transform: translateX(-50%);
+    text-align: center;
   }
 
-  .research-hero__node--structured,
-  .research-hero__arrow--up {
+  /* The arrows can't both sit dead-center like the text above (they'd
+     overlap), so instead they're placed symmetrically just off-center —
+     close enough to read as a pair, far enough apart that the two shapes
+     (and their now above/below-stacked labels, not beside them) never
+     touch. */
+  .research-hero__arrow--down {
+    right: 55%;
     left: auto;
-    right: 8%;
+  }
+
+  .research-hero__arrow--up {
+    left: 55%;
+    right: auto;
   }
 
   .research-hero__arrow-svg {
