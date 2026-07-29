@@ -2825,10 +2825,19 @@ html.news-lightbox-open {
    those corners read as barely darkened at all next to the seam. A
    second, horizontal gradient layered on top darkens just the outer ~12%
    on each side, fading to nothing by the time it reaches the middle,
-   independent of the vertical one. */
+   independent of the vertical one.
+
+   inset: -20px (not 0) — filter: blur on an element sized exactly to its
+   clipped container dilutes the effect right at the visible edge itself:
+   there's nothing beyond the box to blend with, so blur pulls each edge
+   toward transparent exactly where the gradient is supposed to be
+   darkest. Extending the layer 20px past every side (and letting
+   .research-hero's own overflow: hidden clip the excess) moves that
+   dilution into the part that never gets seen, so the true visible edge
+   reads at full, undiluted strength. */
 .research-hero__seam {
   position: absolute;
-  inset: 0;
+  inset: -20px;
   z-index: 1;
   filter: blur(6px);
   background:
@@ -2998,16 +3007,17 @@ html.news-lightbox-open {
 
   /* The arrows can't both sit dead-center like the text above (they'd
      overlap), so instead they're placed symmetrically just off-center —
-     close enough to read as a pair, far enough apart that the two shapes
-     (and their now above/below-stacked labels, not beside them) never
-     touch. */
+     wide enough apart (60/40, not 55/45) that the labels below, now
+     stacked right at the seam on both sides (see .research-hero__arrow--
+     down/--up .research-hero__arrow-label below), have room without
+     touching each other. */
   .research-hero__arrow--down {
-    right: 55%;
+    right: 60%;
     left: auto;
   }
 
   .research-hero__arrow--up {
-    left: 55%;
+    left: 60%;
     right: auto;
   }
 
@@ -3032,19 +3042,28 @@ html.news-lightbox-open {
     font-size: clamp(13px, 3.2vw, 17px);
   }
 
+  /* At the START of each arrow (its tail, right at the seam) rather than
+     the tip — .research-hero__arrow--down's own box top edge IS the seam
+     (it grows downward from there), so its label sits just ABOVE the box;
+     .research-hero__arrow--up's box BOTTOM edge is the seam (it grows
+     upward), so its label sits just BELOW. That puts both labels close
+     to the same horizontal band straddling the seam, which is exactly
+     why the arrows themselves needed the wider 60/40 split above — with
+     the old 55/45 split the two labels' shrink-wrapped boxes would have
+     overlapped there. */
   .research-hero__arrow--down .research-hero__arrow-label {
     left: 50%;
     right: auto;
-    top: calc(100% + 8px);
-    bottom: auto;
+    top: auto;
+    bottom: calc(100% + 8px);
     transform: translateX(-50%);
   }
 
   .research-hero__arrow--up .research-hero__arrow-label {
     left: 50%;
     right: auto;
-    top: auto;
-    bottom: calc(100% + 8px);
+    top: calc(100% + 8px);
+    bottom: auto;
     transform: translateX(-50%);
   }
 }
