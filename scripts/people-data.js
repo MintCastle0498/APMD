@@ -136,7 +136,7 @@ const PEOPLE = [
     admissionSeason: "Spring",
     email: "noh980331@kaist.ac.kr",
     degrees: [
-      { label: "M.S.", major: "Materials Science and Engineering", university: "APMD University", year: "2025" },
+      { label: "M.S.", major: "Materials Science and Engineering", university: "KAIST", year: "2025" },
       { label: "B.S.", major: "Materials Science and Engineering", university: "Ajou University", year: "2023" },
     ],
   },

@@ -23,40 +23,56 @@
       <section class="research-hero">
         <div class="research-hero__image research-hero__image--top" aria-hidden="true"></div>
         <div class="research-hero__image research-hero__image--bottom" aria-hidden="true"></div>
-        <div class="research-hero__seam" aria-hidden="true"></div>
-        <div class="research-hero__diagram">
-          <svg viewBox="0 0 620 600" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <defs>
-              <!-- A <marker>'s content resolves currentColor against its
-                   OWN place in the DOM (inside <defs>, under the svg
-                   root's gray-6), not the accent-colored <line> that
-                   references it, which left the arrowhead a mismatched
-                   off-white — styled directly (.research-hero__arrowhead
-                   in styles.css) instead of relying on that inheritance. -->
-              <marker id="research-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="2.4" markerHeight="2.4" orient="auto-start-reverse">
-                <path class="research-hero__arrowhead" d="M0,0 L10,5 L0,10 Z" />
-              </marker>
-            </defs>
-            <!-- Straight in each direction now (was a curved oval loop) —
-                 same cycle, just reads as two bold, deliberate strokes
-                 instead of a soft swoop. Down = Wave shaped into a
-                 Structured Material via Nanofabrication; up = that
-                 structure (a Metamaterial) acting back on the wave. -->
-            <line
-              class="research-hero__arrow"
-              x1="165" y1="130" x2="165" y2="450"
-              marker-end="url(#research-arrow)"
-            />
-            <line
-              class="research-hero__arrow"
-              x1="455" y1="450" x2="455" y2="130"
-              marker-end="url(#research-arrow)"
-            />
-            <text class="research-hero__arrow-label" x="128" y="290" text-anchor="middle" transform="rotate(-90, 128, 290)">Nanofabrication</text>
-            <text class="research-hero__arrow-label" x="492" y="290" text-anchor="middle" transform="rotate(-90, 492, 290)">Metamaterial</text>
-            <text class="research-hero__node" x="310" y="72" text-anchor="middle">Wave</text>
-            <text class="research-hero__node" x="310" y="552" text-anchor="middle">Structured Material</text>
-          </svg>
+
+        <div class="research-hero__content" aria-hidden="true">
+          <span class="research-hero__node research-hero__node--wave">Wave</span>
+          <span class="research-hero__node research-hero__node--structured">Structured<br />Material</span>
+
+          <!-- Tail (the plain end, y=8) sits at this box's own top edge,
+               which styles.css pins exactly to the seam (top: 50%). The
+               arrow is drawn TWICE: first solid accent color (the base,
+               always fully visible on its own), then the same shape again
+               on top in black at a gradient opacity — opaque right at the
+               seam, fading to fully transparent by the tip. That overlay
+               is what darkens the arrow toward black near the boundary
+               and lets its true accent color re-emerge away from it,
+               tracking the same black-at-the-seam fade the photo layers
+               themselves use (a plain solid-black arrow disappeared
+               entirely against the seam's own near-black backdrop). -->
+          <div class="research-hero__arrow research-hero__arrow--down">
+            <span class="research-hero__arrow-label">Metamaterial</span>
+            <svg class="research-hero__arrow-svg" viewBox="0 0 48 220" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="research-fade-down" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="220">
+                  <stop offset="0%" stop-color="#000" stop-opacity="0.95" />
+                  <stop offset="100%" stop-color="#000" stop-opacity="0" />
+                </linearGradient>
+              </defs>
+              <line class="research-hero__arrow-base" x1="24" y1="8" x2="24" y2="176" stroke-width="16" stroke-linecap="round" />
+              <path class="research-hero__arrow-base" d="M24,212 L4,172 L44,172 Z" />
+              <line x1="24" y1="8" x2="24" y2="176" stroke="url(#research-fade-down)" stroke-width="16" stroke-linecap="round" />
+              <path fill="url(#research-fade-down)" d="M24,212 L4,172 L44,172 Z" />
+            </svg>
+          </div>
+
+          <!-- Mirror of the arrow above: tail (y=212) sits at this box's
+               own bottom edge, which styles.css pins to the same seam
+               (bottom: 50%), growing upward instead of down. -->
+          <div class="research-hero__arrow research-hero__arrow--up">
+            <svg class="research-hero__arrow-svg" viewBox="0 0 48 220" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="research-fade-up" gradientUnits="userSpaceOnUse" x1="0" y1="220" x2="0" y2="0">
+                  <stop offset="0%" stop-color="#000" stop-opacity="0.95" />
+                  <stop offset="100%" stop-color="#000" stop-opacity="0" />
+                </linearGradient>
+              </defs>
+              <line class="research-hero__arrow-base" x1="24" y1="212" x2="24" y2="44" stroke-width="16" stroke-linecap="round" />
+              <path class="research-hero__arrow-base" d="M24,8 L4,48 L44,48 Z" />
+              <line x1="24" y1="212" x2="24" y2="44" stroke="url(#research-fade-up)" stroke-width="16" stroke-linecap="round" />
+              <path fill="url(#research-fade-up)" d="M24,8 L4,48 L44,48 Z" />
+            </svg>
+            <span class="research-hero__arrow-label">Nanofabrication</span>
+          </div>
         </div>
       </section>
 

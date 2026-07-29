@@ -296,12 +296,30 @@ function getNewsLightbox() {
   return newsLightbox;
 }
 
+// Touch has no hover to reveal the zoom icon before a tap commits to
+// opening it, so on touch the icon starts hidden (see .news-carousel__zoom
+// in styles.css) and a first tap on the slide reveals it — a second tap,
+// now landing on the actually-visible icon, is what opens the lightbox.
+// Mirrors the desktop hover-then-click flow instead of the icon sitting
+// permanently on top of every photo, which is what unconditionally
+// showing it on touch used to do.
+const isTouch = window.matchMedia("(hover: none)").matches;
+
 // Wires every zoom button on the page, independent of initCarousel — a
 // single-photo post/card has no carousel at all (initCarousel bails out
 // below 2 slides) but its one photo should still be zoomable.
 function initZoom(root) {
   const lightbox = getNewsLightbox();
   root.querySelectorAll("[data-zoom]").forEach((btn) => {
+    const slide = btn.closest(".news-carousel__slide");
+
+    if (isTouch && slide) {
+      slide.addEventListener("click", (e) => {
+        if (e.target.closest("[data-zoom]")) return;
+        slide.classList.add("is-zoom-visible");
+      });
+    }
+
     btn.addEventListener("click", (e) => {
       e.stopPropagation();
       lightbox.open(btn.dataset.zoomSrc, btn.dataset.zoomAlt);
