@@ -23,35 +23,29 @@
       <section class="research-hero">
         <div class="research-hero__image research-hero__image--top" aria-hidden="true"></div>
         <div class="research-hero__image research-hero__image--bottom" aria-hidden="true"></div>
+        <div class="research-hero__seam" aria-hidden="true"></div>
 
         <div class="research-hero__content" aria-hidden="true">
           <span class="research-hero__node research-hero__node--wave">Wave</span>
           <span class="research-hero__node research-hero__node--structured">Structured<br />Material</span>
 
           <!-- Single polygon (the exact shape from Arrow.svg, flipped to
-               point down) instead of a separately-drawn line + arrowhead
-               — those were two distinct primitives with their own
-               antialiased edges, which left a visible seam/blotch where
-               the round line-cap met the triangular head. One shape has
-               no internal join. Drawn twice: solid accent color first
-               (the base, fully visible on its own), then the identical
-               shape again on top in a black gradient — opaque at the
-               seam (this polygon's flat top edge, which sits exactly on
-               the seam per styles.css's top: 50%), fading to transparent
-               by the tip — so it darkens toward black at the boundary and
-               lets its true accent color re-emerge away from it, the same
-               curve the photo layers themselves fade on. -->
+               point down), filled with ONE gradient that goes from black
+               (at the seam end) to the accent color (at the tip) — not two
+               stacked polygons (a solid-accent one plus a black-fade one on
+               top), which left a faint mismatched rim where their two
+               independently-antialiased edges didn't fall on quite the
+               same pixels. One shape, one fill, no seam. -->
           <div class="research-hero__arrow research-hero__arrow--down">
             <span class="research-hero__arrow-label">Metamaterial</span>
             <svg class="research-hero__arrow-svg" viewBox="0 0 623.08 635.58" xmlns="http://www.w3.org/2000/svg">
               <defs>
                 <linearGradient id="research-fade-down" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="635.58">
-                  <stop offset="0%" stop-color="#000" stop-opacity="1" />
-                  <stop offset="20%" stop-color="#000" stop-opacity="1" />
-                  <stop offset="100%" stop-color="#000" stop-opacity="0" />
+                  <stop offset="0%" stop-color="#000" />
+                  <stop offset="65%" style="stop-color: var(--accent)" />
+                  <stop offset="100%" style="stop-color: var(--accent)" />
                 </linearGradient>
               </defs>
-              <polygon class="research-hero__arrow-base" points="623.08,296.36 311.54,635.58 0,296.36 110.7,296.36 110.7,0 512.38,0 512.38,296.36" />
               <polygon fill="url(#research-fade-down)" points="623.08,296.36 311.54,635.58 0,296.36 110.7,296.36 110.7,0 512.38,0 512.38,296.36" />
             </svg>
           </div>
@@ -64,12 +58,11 @@
             <svg class="research-hero__arrow-svg" viewBox="0 0 623.08 635.58" xmlns="http://www.w3.org/2000/svg">
               <defs>
                 <linearGradient id="research-fade-up" gradientUnits="userSpaceOnUse" x1="0" y1="635.58" x2="0" y2="0">
-                  <stop offset="0%" stop-color="#000" stop-opacity="1" />
-                  <stop offset="20%" stop-color="#000" stop-opacity="1" />
-                  <stop offset="100%" stop-color="#000" stop-opacity="0" />
+                  <stop offset="0%" stop-color="#000" />
+                  <stop offset="65%" style="stop-color: var(--accent)" />
+                  <stop offset="100%" style="stop-color: var(--accent)" />
                 </linearGradient>
               </defs>
-              <polygon class="research-hero__arrow-base" points="623.08,339.22 311.54,0 0,339.22 110.7,339.22 110.7,635.58 512.38,635.58 512.38,339.22" />
               <polygon fill="url(#research-fade-up)" points="623.08,339.22 311.54,0 0,339.22 110.7,339.22 110.7,635.58 512.38,635.58 512.38,339.22" />
             </svg>
             <span class="research-hero__arrow-label">Nanofabrication</span>

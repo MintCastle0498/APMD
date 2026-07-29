@@ -136,9 +136,8 @@ customElements.define(
 // choice is remembered in localStorage so it stays consistent while
 // clicking between pages.
 (function () {
-  // Disabled for now (kept for later use, not deleted) — flip to true to
-  // bring the grid overlay + its toggle button back.
-  const ENABLED = false;
+  // Flip to false to hide the grid overlay + its toggle button again.
+  const ENABLED = true;
   const STORAGE_KEY = 'design-grid-overlay-visible';
 
   const overlay = document.createElement('div');

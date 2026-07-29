@@ -2809,28 +2809,22 @@ html.news-lightbox-open {
   background-position: center top;
 }
 
-/* Each photo fades to black on its OWN seam-adjacent edge (not one shared
-   gradient spanning both halves) — Research_1 is solid black at its
-   bottom edge fading to transparent going up, Research_2 is solid black
-   at its top edge fading to transparent going down, so the two black
-   edges meet exactly at the seam and each half dims independently. A
-   held #000 (opacity 1, not just a high percentage) from the very edge
-   out to 14% is what makes the boundary read as genuinely solid black —
-   starting the fade immediately at 0% left whatever color the photo
-   itself has (Research_2's blue/green especially) still showing through
-   faintly right at the seam. */
-.research-hero__image::after {
-  content: "";
+/* Solid black exactly on the seam between the two photos (50%), fading to
+   fully transparent by each end — one shared gradient spanning the whole
+   hero (not a separate one per photo half) lifts whatever sits on top
+   (the text/arrows) off both busy, differently-lit photos at once. */
+.research-hero__seam {
   position: absolute;
   inset: 0;
-}
-
-.research-hero__image--top::after {
-  background: linear-gradient(to top, #000 0%, #000 14%, transparent 100%);
-}
-
-.research-hero__image--bottom::after {
-  background: linear-gradient(to bottom, #000 0%, #000 14%, transparent 100%);
+  z-index: 1;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.9) 38%,
+    #000 50%,
+    rgba(0, 0, 0, 0.9) 62%,
+    transparent 100%
+  );
 }
 
 /* Text/arrows sit in their own full-hero-sized layer (not confined to a
@@ -2855,20 +2849,33 @@ html.news-lightbox-open {
   letter-spacing: 0.01em;
   color: var(--gray-6);
   text-shadow: 0 2px 14px rgba(0, 0, 0, 0.7);
+  /* Shared by both .research-hero__node--wave/--structured below, so the
+     two stay in sync by construction — see their own comment. */
+  --research-hero-node-gap: clamp(56px, 7vw, 110px);
 }
 
 /* Inset 2 grid columns in from each edge (not a flat %) — lines the
    labels up with this page's own 12-column grid instead of sitting an
    arbitrary distance from the raw viewport edge, the same
    --side-padding/--col-w/--grid-gap arithmetic .professor and
-   .student-card already use elsewhere (see --col-w's own comment). */
+   .student-card already use elsewhere (see --col-w's own comment).
+
+   Vertically, each is positioned from its NEAR edge relative to the seam
+   (50%) by the same --research-hero-node-gap, rather than a flat top/
+   bottom % from the container edge — with "Structured Material" wrapping
+   to 2 lines against "Wave"'s 1, matching top/bottom %s only keeps their
+   OUTER edges symmetric, not the inner ones actually facing each other
+   across the seam, since the boxes are different heights. Anchoring
+   bottom/top directly off 50% makes Wave's own bottom edge and
+   Structured Material's own top edge equidistant from the seam no matter
+   how many lines either one wraps to. */
 .research-hero__node--wave {
-  top: 9%;
+  bottom: calc(50% + var(--research-hero-node-gap));
   left: calc(var(--side-padding) + 2 * (var(--col-w) + var(--grid-gap)));
 }
 
 .research-hero__node--structured {
-  bottom: 9%;
+  top: calc(50% + var(--research-hero-node-gap));
   right: calc(var(--side-padding) + 2 * (var(--col-w) + var(--grid-gap)));
   text-align: right;
 }
@@ -2900,42 +2907,43 @@ html.news-lightbox-open {
    arrow scale uniformly with its clamp()-driven width at any viewport
    size/aspect ratio instead of stretching. */
 .research-hero__arrow-svg {
-  width: clamp(40px, 4.5vw, 68px);
+  width: clamp(64px, 7vw, 108px);
   aspect-ratio: 623.08 / 635.58;
   overflow: visible;
   display: block;
 }
 
-/* The full-color layer underneath each arrow's black seam-fade overlay
-   (see research.html's own comment). */
-.research-hero__arrow-base {
-  fill: var(--accent);
-}
-
 .research-hero__arrow-label {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(12px, 1.3vw, 16px);
+  font-size: clamp(16px, 1.8vw, 22px);
   letter-spacing: 0.02em;
   color: var(--accent);
   white-space: nowrap;
 }
 
 @media (max-width: 900px) {
-  .research-hero__node--wave {
-    top: 7%;
-  }
-
-  .research-hero__node--structured {
-    bottom: 7%;
+  .research-hero__node {
+    /* Bigger than the arrow's own mobile height below (~65px at the 64px
+       min width) — otherwise the text's near edge and the arrow's far tip
+       land on top of each other instead of just meeting at the seam. */
+    --research-hero-node-gap: clamp(84px, 15vw, 120px);
   }
 
   .research-hero__arrow--down {
-    left: 26%;
+    left: 20%;
   }
 
   .research-hero__arrow--up {
-    left: 62%;
+    left: 50%;
+  }
+
+  .research-hero__arrow-svg {
+    width: clamp(48px, 10vw, 72px);
+  }
+
+  .research-hero__arrow-label {
+    font-size: clamp(13px, 3.2vw, 17px);
   }
 }
 
