@@ -28,48 +28,49 @@
           <span class="research-hero__node research-hero__node--wave">Wave</span>
           <span class="research-hero__node research-hero__node--structured">Structured<br />Material</span>
 
-          <!-- Tail (the plain end, y=8) sits at this box's own top edge,
-               which styles.css pins exactly to the seam (top: 50%). The
-               arrow is drawn TWICE: first solid accent color (the base,
-               always fully visible on its own), then the same shape again
-               on top in black at a gradient opacity — opaque right at the
-               seam, fading to fully transparent by the tip. That overlay
-               is what darkens the arrow toward black near the boundary
-               and lets its true accent color re-emerge away from it,
-               tracking the same black-at-the-seam fade the photo layers
-               themselves use (a plain solid-black arrow disappeared
-               entirely against the seam's own near-black backdrop). -->
+          <!-- Single polygon (the exact shape from Arrow.svg, flipped to
+               point down) instead of a separately-drawn line + arrowhead
+               — those were two distinct primitives with their own
+               antialiased edges, which left a visible seam/blotch where
+               the round line-cap met the triangular head. One shape has
+               no internal join. Drawn twice: solid accent color first
+               (the base, fully visible on its own), then the identical
+               shape again on top in a black gradient — opaque at the
+               seam (this polygon's flat top edge, which sits exactly on
+               the seam per styles.css's top: 50%), fading to transparent
+               by the tip — so it darkens toward black at the boundary and
+               lets its true accent color re-emerge away from it, the same
+               curve the photo layers themselves fade on. -->
           <div class="research-hero__arrow research-hero__arrow--down">
             <span class="research-hero__arrow-label">Metamaterial</span>
-            <svg class="research-hero__arrow-svg" viewBox="0 0 48 220" xmlns="http://www.w3.org/2000/svg">
+            <svg class="research-hero__arrow-svg" viewBox="0 0 623.08 635.58" xmlns="http://www.w3.org/2000/svg">
               <defs>
-                <linearGradient id="research-fade-down" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="220">
-                  <stop offset="0%" stop-color="#000" stop-opacity="0.95" />
+                <linearGradient id="research-fade-down" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="635.58">
+                  <stop offset="0%" stop-color="#000" stop-opacity="1" />
+                  <stop offset="20%" stop-color="#000" stop-opacity="1" />
                   <stop offset="100%" stop-color="#000" stop-opacity="0" />
                 </linearGradient>
               </defs>
-              <line class="research-hero__arrow-base" x1="24" y1="8" x2="24" y2="176" stroke-width="16" stroke-linecap="round" />
-              <path class="research-hero__arrow-base" d="M24,212 L4,172 L44,172 Z" />
-              <line x1="24" y1="8" x2="24" y2="176" stroke="url(#research-fade-down)" stroke-width="16" stroke-linecap="round" />
-              <path fill="url(#research-fade-down)" d="M24,212 L4,172 L44,172 Z" />
+              <polygon class="research-hero__arrow-base" points="623.08,296.36 311.54,635.58 0,296.36 110.7,296.36 110.7,0 512.38,0 512.38,296.36" />
+              <polygon fill="url(#research-fade-down)" points="623.08,296.36 311.54,635.58 0,296.36 110.7,296.36 110.7,0 512.38,0 512.38,296.36" />
             </svg>
           </div>
 
-          <!-- Mirror of the arrow above: tail (y=212) sits at this box's
-               own bottom edge, which styles.css pins to the same seam
-               (bottom: 50%), growing upward instead of down. -->
+          <!-- Mirror of the arrow above: the polygon's flat bottom edge
+               sits at this box's own bottom edge, which styles.css pins
+               to the same seam (bottom: 50%), pointing up instead of
+               down. -->
           <div class="research-hero__arrow research-hero__arrow--up">
-            <svg class="research-hero__arrow-svg" viewBox="0 0 48 220" xmlns="http://www.w3.org/2000/svg">
+            <svg class="research-hero__arrow-svg" viewBox="0 0 623.08 635.58" xmlns="http://www.w3.org/2000/svg">
               <defs>
-                <linearGradient id="research-fade-up" gradientUnits="userSpaceOnUse" x1="0" y1="220" x2="0" y2="0">
-                  <stop offset="0%" stop-color="#000" stop-opacity="0.95" />
+                <linearGradient id="research-fade-up" gradientUnits="userSpaceOnUse" x1="0" y1="635.58" x2="0" y2="0">
+                  <stop offset="0%" stop-color="#000" stop-opacity="1" />
+                  <stop offset="20%" stop-color="#000" stop-opacity="1" />
                   <stop offset="100%" stop-color="#000" stop-opacity="0" />
                 </linearGradient>
               </defs>
-              <line class="research-hero__arrow-base" x1="24" y1="212" x2="24" y2="44" stroke-width="16" stroke-linecap="round" />
-              <path class="research-hero__arrow-base" d="M24,8 L4,48 L44,48 Z" />
-              <line x1="24" y1="212" x2="24" y2="44" stroke="url(#research-fade-up)" stroke-width="16" stroke-linecap="round" />
-              <path fill="url(#research-fade-up)" d="M24,8 L4,48 L44,48 Z" />
+              <polygon class="research-hero__arrow-base" points="623.08,339.22 311.54,0 0,339.22 110.7,339.22 110.7,635.58 512.38,635.58 512.38,339.22" />
+              <polygon fill="url(#research-fade-up)" points="623.08,339.22 311.54,0 0,339.22 110.7,339.22 110.7,635.58 512.38,635.58 512.38,339.22" />
             </svg>
             <span class="research-hero__arrow-label">Nanofabrication</span>
           </div>
