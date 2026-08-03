@@ -86,13 +86,17 @@ function initResearchDetail() {
     <div class="page-title-container">
       <h1 class="page-title">${item.topic}<span class="page-title__dot">.</span></h1>
     </div>
-    <div class="research-detail__gallery">
-      ${researchDetailGalleryMarkup(images, item.topic)}
+    <div class="research-detail__layout">
+      <div class="research-detail__gallery">
+        ${researchDetailGalleryMarkup(images, item.topic)}
+      </div>
+      <div class="research-detail__content">
+        <div class="research-detail__body">
+          ${researchDetailBodyMarkup(body)}
+        </div>
+        ${researchDetailPublicationsMarkup(detail.publications)}
+      </div>
     </div>
-    <div class="research-detail__body">
-      ${researchDetailBodyMarkup(body)}
-    </div>
-    ${researchDetailPublicationsMarkup(detail.publications)}
   `;
 }
 

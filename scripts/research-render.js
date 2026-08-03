@@ -6,28 +6,30 @@
 // .research-card--reverse in styles.css — so the list reads as an
 // alternating zigzag instead of every row lining up the same way.
 //
-// The whole card is a real <a> (not a JS click handler on a <div>) so it
-// gets native link behavior for free — middle-click/Cmd-click open a new
-// tab, right-click gives "open in new tab", etc.
+// Only "more >" is a real <a> — the card itself is a plain <div>. Clicking
+// the image or text does nothing; only the affordance that actually lights
+// up on hover (.research-card__more:hover in styles.css) is clickable, so
+// the click target matches the visual hover target exactly instead of the
+// whole card silently being a link.
 function researchCardMarkup(item, index) {
   const reverseClass = index % 2 === 1 ? " research-card--reverse" : "";
   const href = `research-detail.html?topic=${slugifyResearchTopic(item.topic)}`;
   return `
-    <a class="research-card${reverseClass}" href="${href}">
+    <div class="research-card${reverseClass}">
       <img class="research-card__image" src="${item.image}" alt="${item.topic}" loading="lazy" />
       <div class="research-card__info">
         <h3 class="research-card__topic">${item.topic}</h3>
         <div class="research-card__summary">
           <p class="research-card__excerpt">${item.summary}</p>
-          <span class="research-card__more" aria-hidden="true">
+          <a class="research-card__more" href="${href}" aria-label="More about ${item.topic}">
             <span class="research-card__more-text">more</span>
             <svg class="research-card__more-chevron" width="7" height="11" viewBox="0 0 7 11" fill="none">
               <path d="M1 1L6 5.5L1 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
-          </span>
+          </a>
         </div>
       </div>
-    </a>
+    </div>
   `;
 }
 

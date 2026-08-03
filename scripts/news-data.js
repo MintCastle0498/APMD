@@ -222,10 +222,10 @@ const NEWS_POSTS = [
       { src: "News/260719_신종화교수님_2.jpg", alt: "Optics and Photonics Congress 2026 (OPC 2026) 참석", credit: "APMD Lab" },
       { src: "News/260719_김현희-2.jpg", alt: "Optics and Photonics Congress 2026 (OPC 2026) 참석", credit: "APMD Lab" },
     ],
-    excerpt: "Optics and Photonics Congress 2026 (OPC 2026) 참석",
+    excerpt: "Our lab attended the Optics and Photonics Congress 2026 (OPC 2026), held at Jeju ICC.",
     body: [
-      "제주 ICC에서 열린 Optics and Photonics Congress 2026 (OPC 2026)에 참석했습니다.",
-      "신종화 교수님은 \"Periodicity, homogeneity and consistency in metasurfaces\"를, 김현희 Ph.D.는 \"Bi-layer metasurfaces as a versatile platform for vectorial light control\"을 주제로 발표를 진행했습니다.",
+      "Our lab attended the Optics and Photonics Congress 2026 (OPC 2026), held at Jeju ICC (Jeju International Convention Center) from July 19 to 22, 2026.",
+      "Prof. Jonghwa Shin presented a talk titled \"Periodicity, homogeneity and consistency in metasurfaces,\" and Dr. Hyeonhee Kim presented a talk titled \"Bi-layer metasurfaces as a versatile platform for vectorial light control.\"",
     ],
   },
   {

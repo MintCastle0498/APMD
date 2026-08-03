@@ -3148,11 +3148,6 @@ html.news-lightbox-open {
   opacity: 0;
   transform: translateY(28px);
   transition: opacity 0.6s ease, transform 0.6s ease;
-  /* Now a real <a> (see research-render.js) rather than a plain <div> —
-     reset link defaults so it still reads as a card, not a text link. */
-  text-decoration: none;
-  color: inherit;
-  cursor: pointer;
 }
 
 .research-card.is-visible {
@@ -3160,9 +3155,10 @@ html.news-lightbox-open {
   transform: translateY(0);
 }
 
-/* Only hovering "more >" itself highlights it — a tighter hit area than
-   .publication-card__doi's "hover anywhere on the card" pattern, scoped to
-   just this affordance rather than the whole card. */
+/* "more >" is the only clickable part of the card (see research-render.js)
+   — hovering it is what lights it up, and that same element is the real
+   <a>, so the click target matches the hover affordance exactly instead of
+   the whole card silently being a link underneath it. */
 .research-card__more:hover {
   color: var(--accent);
 }
@@ -3223,13 +3219,15 @@ html.news-lightbox-open {
 }
 
 /* Same visual as .news-card__more/.news-card__chevron in their "open"
-   resting state (text visible, chevron pointing right), just static —
-   there's no hover/click behavior to open into here. */
+   resting state (text visible, chevron pointing right). A real <a> (see
+   research-render.js) — text-decoration/color reset so it still reads as
+   this same static affordance, not a text link, until it's hovered. */
 .research-card__more {
   display: inline-flex;
   align-items: center;
   gap: 4px;
   color: var(--gray-4);
+  text-decoration: none;
   transition: color 0.25s ease;
 }
 
@@ -3302,15 +3300,30 @@ html.news-lightbox-open {
   color: var(--accent);
 }
 
+/* Photo column on the left, text on the right — same arrangement as
+   .news-post (news.html), not the old top-photo/bottom-text stack. The
+   fixed column width is the exact same formula as .news-post__frame (5
+   grid columns, or 506px flat below 1440) so both pages' photo columns
+   line up at the same size. align-items: flex-start for the same reason
+   as .news-post: a short topic's gallery shouldn't stretch tall to match
+   a long one's text, nor vice versa. */
+.research-detail__layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 40px;
+}
+
 /* More than one image wraps into an even grid, each a fixed-ratio box
    (object-fit: contain, same as the list card's own image — these are
-   figures, not photos, so nothing should get cropped to fill a box). A
-   single image does NOT stretch across the full row: capping the grid to
-   one centered, capped-width track (below) keeps one lone figure from
-   ballooning into an oversized, mostly-empty box on wide viewports. */
+   figures, not photos, so nothing should get cropped to fill a box). The
+   column's own fixed width (above) already keeps a single image from
+   ballooning oversized, so unlike the old top-of-page layout this needs no
+   separate single-image size cap. */
 .research-detail__gallery {
+  flex: 0 0 max(506px, calc(5 * var(--col-w) + 4 * var(--grid-gap)));
+  width: max(506px, calc(5 * var(--col-w) + 4 * var(--grid-gap)));
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 24px;
 }
 
@@ -3324,9 +3337,22 @@ html.news-lightbox-open {
   background: var(--gray-4);
 }
 
-.research-detail__gallery:has(.research-detail__image:only-child) {
-  grid-template-columns: minmax(0, 560px);
-  justify-content: center;
+.research-detail__content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+@media (max-width: 900px) {
+  .research-detail__layout {
+    flex-direction: column;
+  }
+
+  .research-detail__gallery {
+    width: 100%;
+  }
 }
 
 .research-detail__body {
