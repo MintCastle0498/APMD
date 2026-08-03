@@ -3140,15 +3140,9 @@ html.news-lightbox-open {
   transform: translateY(0);
 }
 
-/* Hover feedback for the whole card: the image gets the same accent-colored
-   glow used elsewhere on this site for an active/focused photo, and the
-   topic heading plus "more" affordance switch to the accent color, so it
-   reads as one unit lighting up rather than several unrelated hover rules. */
-.research-card:hover .research-card__image {
-  box-shadow: 0 0 0 2px var(--accent), 0 0 16px rgba(0, 0, 0, 0.15);
-}
-
-.research-card:hover .research-card__topic,
+/* Hovering anywhere on the card highlights just the "more" affordance in
+   the accent color — the same "hover the card, one specific element lights
+   up" pattern as .publication-card:hover .publication-card__doi. */
 .research-card:hover .research-card__more {
   color: var(--accent);
 }
@@ -3174,7 +3168,6 @@ html.news-lightbox-open {
   display: block;
   border-radius: 4px;
   box-shadow: 0 0 16px rgba(0, 0, 0, 0.15);
-  transition: box-shadow 0.25s ease;
 }
 
 .research-card__info {
@@ -3193,7 +3186,6 @@ html.news-lightbox-open {
   font-weight: 700;
   font-size: 36px;
   color: var(--gray-1);
-  transition: color 0.25s ease;
 }
 
 .research-card__summary {
