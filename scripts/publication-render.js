@@ -120,7 +120,7 @@ function publicationCardMarkup(pub) {
     ? `<a class="publication-card__doi" href="${pub.doiUrl}" target="_blank" rel="noopener noreferrer">DOI</a>`
     : `<span class="publication-card__doi publication-card__doi--pending">DOI</span>`;
   return `
-    <div class="publication-card">
+    <div class="publication-card" data-pub-slug="${slugifyPublicationTitle(pub.title)}">
       ${imageMarkup}
       <div class="publication-card__info">
         <h3 class="publication-card__title">${pub.title}</h3>
@@ -363,6 +363,25 @@ function initYearSidebar(years) {
   document.querySelectorAll("[data-year-block]").forEach((el) => observer.observe(el));
 }
 
+// Deep-link entry point: a research topic's own detail page (see
+// research-detail-render.js) links each of its related publications to
+// `publication.html?paper=<slug>` — this is what actually finds and shows
+// that one paper once this page has finished rendering. block: "center"
+// (not "start"/the fixed header offset math the year sidebar uses) is
+// enough here since this only needs to run once on load, not stay synced
+// to scroll.
+function scrollToRequestedPublication() {
+  const slug = new URLSearchParams(window.location.search).get("paper");
+  if (!slug) return;
+
+  const card = document.querySelector(`[data-pub-slug="${slug}"]`);
+  if (!card) return;
+
+  card.scrollIntoView({ block: "center", behavior: "smooth" });
+  card.classList.add("publication-card--highlight");
+  card.addEventListener("animationend", () => card.classList.remove("publication-card--highlight"), { once: true });
+}
+
 function initPublicationYears() {
   const container = document.querySelector("[data-publication-years]");
   if (!container) return;
@@ -374,6 +393,7 @@ function initPublicationYears() {
     .join('<div class="dash-line" role="separator" aria-hidden="true"></div>');
 
   initYearSidebar(grouped.map(([year]) => year));
+  scrollToRequestedPublication();
 }
 
 if (typeof PUBLICATIONS !== "undefined") {

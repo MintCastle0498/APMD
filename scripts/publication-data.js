@@ -937,3 +937,21 @@ const PUBLICATIONS = [
     doiUrl: "https://doi.org/10.1364/opex.12.001864",
   },
 ];
+
+// Same slugify shape as research-data.js's slugifyResearchTopic — derived
+// from the title (not a hand-maintained field) so it can't drift out of
+// sync with it, and used the same way: as the ?paper=<slug> query param
+// publication.html reads to scroll to and highlight one specific entry
+// (see publication-render.js), which is what research-detail-render.js
+// links each of a topic's `detail.publications` titles to.
+function slugifyPublicationTitle(title) {
+  return title
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function findPublicationByTitle(title) {
+  return PUBLICATIONS.find((pub) => pub.title === title);
+}

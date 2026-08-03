@@ -2620,6 +2620,26 @@ html.news-lightbox-open {
   display: flex;
   align-items: flex-start;
   gap: 24px;
+  border-radius: 8px;
+}
+
+/* Flashes once when this card is the one a ?paper=<slug> deep link (a
+   research topic's "Representative Publications" citation, see
+   research-detail-render.js) pointed at — scrollToRequestedPublication in
+   publication-render.js adds this class and removes it again once the
+   animation ends, so it doesn't linger as a permanent visual state. */
+@keyframes publication-card-highlight-flash {
+  0%,
+  40% {
+    box-shadow: 0 0 0 3px var(--accent);
+  }
+  100% {
+    box-shadow: 0 0 0 3px transparent;
+  }
+}
+
+.publication-card--highlight {
+  animation: publication-card-highlight-flash 1.8s ease-out;
 }
 
 /* object-fit: contain (not cover) — these are real paper figures, often
@@ -3282,9 +3302,12 @@ html.news-lightbox-open {
   color: var(--accent);
 }
 
-/* One image fills the row; more than one wrap into an even grid — same
-   object-fit: contain as the list card's own image (these are figures, not
-   photos, so nothing should get cropped to fill a box). */
+/* More than one image wraps into an even grid, each a fixed-ratio box
+   (object-fit: contain, same as the list card's own image — these are
+   figures, not photos, so nothing should get cropped to fill a box). A
+   single image does NOT stretch across the full row: capping the grid to
+   one centered, capped-width track (below) keeps one lone figure from
+   ballooning into an oversized, mostly-empty box on wide viewports. */
 .research-detail__gallery {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -3293,7 +3316,7 @@ html.news-lightbox-open {
 
 .research-detail__image {
   width: 100%;
-  height: 432px;
+  aspect-ratio: 4 / 3;
   object-fit: contain;
   display: block;
   border-radius: 4px;
@@ -3301,8 +3324,9 @@ html.news-lightbox-open {
   background: var(--gray-4);
 }
 
-.research-detail__gallery:has(.research-detail__image:only-child) .research-detail__image {
-  grid-column: 1 / -1;
+.research-detail__gallery:has(.research-detail__image:only-child) {
+  grid-template-columns: minmax(0, 560px);
+  justify-content: center;
 }
 
 .research-detail__body {
@@ -3321,11 +3345,54 @@ html.news-lightbox-open {
   color: var(--gray-2);
 }
 
-@media (max-width: 900px) {
-  .research-detail__image {
-    height: auto;
-    aspect-ratio: 4 / 3;
-  }
+/* Related publications listed under a topic's own body text (see
+   research-data.js's detail.publications and research-detail-render.js) —
+   plain citation lines, no figure thumbnails needed since publication.html
+   already carries each paper's image. */
+.research-detail__publications {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 800px;
+}
+
+.research-detail__publications-heading {
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 20px;
+  color: var(--gray-2);
+}
+
+.research-detail__publications-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* The whole citation is the hover target — clicking it deep-links to that
+   exact paper's own highlighted spot on publication.html (see
+   publication-render.js's scrollToRequestedPublication). */
+.research-detail__publication-link {
+  display: block;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--gray-3);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.research-detail__publication-link:hover {
+  color: var(--accent);
+}
+
+.research-detail__publication-journal {
+  font-style: italic;
 }
 
 /* ============================================================

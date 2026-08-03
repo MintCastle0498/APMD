@@ -12,6 +12,41 @@ function researchDetailBodyMarkup(paragraphs) {
   return paragraphs.map((p) => `<p class="research-detail__paragraph">${p}</p>`).join("");
 }
 
+// `titles` is a topic's detail.publications — exact PUBLICATIONS titles
+// (see research-data.js) resolved here via findPublicationByTitle
+// (publication-data.js, loaded before this file — see research-detail.html)
+// into full citations, each linking to that paper's own highlighted spot on
+// publication.html via the same ?paper=<slug> deep link publication-render.js
+// reads. Titles that don't resolve (a typo, or a paper not yet in
+// PUBLICATIONS) are silently skipped rather than rendering a broken citation.
+function researchDetailPublicationsMarkup(titles) {
+  if (!titles || !titles.length) return "";
+
+  const items = titles
+    .map((title) => (typeof findPublicationByTitle === "function" ? findPublicationByTitle(title) : null))
+    .filter(Boolean)
+    .map((pub) => {
+      const slug = slugifyPublicationTitle(pub.title);
+      return `
+        <li class="research-detail__publication">
+          <a class="research-detail__publication-link" href="publication.html?paper=${slug}">
+            ${pub.authors}, &ldquo;${pub.title},&rdquo; <span class="research-detail__publication-journal">${pub.journal}</span>
+          </a>
+        </li>
+      `;
+    })
+    .join("");
+
+  if (!items) return "";
+
+  return `
+    <div class="research-detail__publications">
+      <h2 class="research-detail__publications-heading">Representative Publications</h2>
+      <ul class="research-detail__publications-list">${items}</ul>
+    </div>
+  `;
+}
+
 function researchDetailBackLink() {
   return `
     <a class="research-detail__back" href="research.html">
@@ -57,6 +92,7 @@ function initResearchDetail() {
     <div class="research-detail__body">
       ${researchDetailBodyMarkup(body)}
     </div>
+    ${researchDetailPublicationsMarkup(detail.publications)}
   `;
 }
 
