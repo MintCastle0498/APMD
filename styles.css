@@ -3334,7 +3334,6 @@ html.news-lightbox-open {
   display: block;
   border-radius: 4px;
   box-shadow: 0 0 16px rgba(0, 0, 0, 0.15);
-  background: var(--gray-4);
 }
 
 .research-detail__content {
