@@ -1,4 +1,11 @@
 // One entry per research topic, each with its own real figure in /Research.
+//
+// `detail` is what research-detail.html renders for that topic's own page:
+// `images` (one or more photos/figures, shown in a simple gallery) and
+// `body` (one or more paragraphs). Left unset here, both fall back to the
+// card's own single `image` and `summary` (see research-detail-render.js) —
+// fill either in per-topic once there's more material to show than the
+// list card's short excerpt.
 const RESEARCH_TOPICS = [
   {
     image: "Research/Vectorial Holography.jpg",
@@ -37,3 +44,18 @@ const RESEARCH_TOPICS = [
       "Passive cooling technologies that exploit selective thermal emission and solar reflection to dissipate heat to the cold sky without energy input, extended to full-color and directional designs.",
   },
 ];
+
+// Derived from the topic name (not a hand-maintained field) so adding a new
+// topic above can't accidentally skip giving it a slug/URL — lowercase,
+// spaces and anything non-alphanumeric collapsed to single hyphens.
+function slugifyResearchTopic(topic) {
+  return topic
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function findResearchTopicBySlug(slug) {
+  return RESEARCH_TOPICS.find((item) => slugifyResearchTopic(item.topic) === slug);
+}

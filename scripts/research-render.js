@@ -5,10 +5,15 @@
 // Every other card swaps image/info sides (image right, info left) — see
 // .research-card--reverse in styles.css — so the list reads as an
 // alternating zigzag instead of every row lining up the same way.
+//
+// The whole card is a real <a> (not a JS click handler on a <div>) so it
+// gets native link behavior for free — middle-click/Cmd-click open a new
+// tab, right-click gives "open in new tab", etc.
 function researchCardMarkup(item, index) {
   const reverseClass = index % 2 === 1 ? " research-card--reverse" : "";
+  const href = `research-detail.html?topic=${slugifyResearchTopic(item.topic)}`;
   return `
-    <div class="research-card${reverseClass}">
+    <a class="research-card${reverseClass}" href="${href}">
       <img class="research-card__image" src="${item.image}" alt="${item.topic}" loading="lazy" />
       <div class="research-card__info">
         <h3 class="research-card__topic">${item.topic}</h3>
@@ -22,7 +27,7 @@ function researchCardMarkup(item, index) {
           </span>
         </div>
       </div>
-    </div>
+    </a>
   `;
 }
 

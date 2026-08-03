@@ -158,7 +158,7 @@ if (contactForm) {
         setStatus('Something went wrong. Please try again.', 'error');
       }
     } catch (error) {
-      setStatus('Network error — please try again.', 'error');
+      setStatus('Network error — please try again. (This may not work on the KAIST campus network.)', 'error');
     } finally {
       submitButton.disabled = false;
     }
