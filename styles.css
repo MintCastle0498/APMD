@@ -3140,10 +3140,10 @@ html.news-lightbox-open {
   transform: translateY(0);
 }
 
-/* Hovering anywhere on the card highlights just the "more" affordance in
-   the accent color — the same "hover the card, one specific element lights
-   up" pattern as .publication-card:hover .publication-card__doi. */
-.research-card:hover .research-card__more {
+/* Only hovering "more >" itself highlights it — a tighter hit area than
+   .publication-card__doi's "hover anywhere on the card" pattern, scoped to
+   just this affordance rather than the whole card. */
+.research-card__more:hover {
   color: var(--accent);
 }
 
@@ -3209,7 +3209,7 @@ html.news-lightbox-open {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  color: var(--gray-3);
+  color: var(--gray-4);
   transition: color 0.25s ease;
 }
 
