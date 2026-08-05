@@ -39,10 +39,12 @@ const NEWS_POSTS = [
       {
         src: "News/빛의 방향에 따라 두 얼굴 야누스같은 메타표면 개발​_1.jpg",
         alt: "메타표면의 방향에 따른 이중 기능을 보여주는 개념도",
+        credit: "KAIST",
       },
       {
         src: "News/빛의 방향에 따라 두 얼굴 야누스같은 메타표면 개발​_2.jpg",
         alt: "편광 상태별 원거리 투과 이미지 실험 결과",
+        credit: "KAIST",
       },
     ],
     excerpt:
