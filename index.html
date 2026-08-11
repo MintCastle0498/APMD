@@ -14,7 +14,7 @@
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
-  <body>
+  <body class="hero-intro">
     <script src="scripts/components.js"></script>
 
     <site-header></site-header>
@@ -22,6 +22,12 @@
     <main class="page-container">
       <section class="hero">
         <div class="hero__spotlight" aria-hidden="true"></div>
+        <!-- A burst of small lights flies in and converges here before the
+             header/title reveal — see hero-intro.js. Only index.html's
+             <body> carries the "hero-intro" class this all keys off of
+             (styles.css), so every other page's header/hero keeps its
+             normal, immediate entrance. -->
+        <div class="hero__intro-lights" data-hero-intro aria-hidden="true"></div>
         <div class="hero__content">
           <h1 class="hero__title">
             LIGHT,<br />
@@ -49,6 +55,7 @@
 
     <script src="scripts/news-data.js"></script>
     <script src="scripts/news-render.js"></script>
+    <script src="scripts/hero-intro.js"></script>
     <script src="scripts/script.js"></script>
   </body>
 </html>

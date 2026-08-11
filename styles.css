@@ -237,6 +237,88 @@ img {
   }
 }
 
+/* Home only (see index.html's <body class="hero-intro">): the header and
+   the hero's own title/subtitle stay hidden — overriding .site-header's
+   own unconditional reveal animation above, higher specificity (a class +
+   :not() + descendant beats a bare class) rather than reordering anything
+   — until hero-intro.js adds .hero-intro-ready once its light-convergence
+   animation actually finishes. Removing the override (by that class
+   appearing) is what lets .site-header's own animation actually run — a
+   CSS animation (re)plays whenever its animation-name value changes from
+   none to a real one, which is exactly what happens here. */
+body.hero-intro:not(.hero-intro-ready) .site-header,
+body.hero-intro:not(.hero-intro-ready) .site-header__glass-blur {
+  opacity: 0;
+  animation: none;
+}
+
+/* All three start at opacity: 0 — the CSS default before hero-intro.js's
+   first animation frame runs, matching the actual ask (nothing visible at
+   all at first, not even the spotlight glow sitting there pre-lit while
+   streaks fly into it, and not the logo popping in on its own separate
+   0.4s timer — .site-header__logo lives OUTSIDE .site-header, as a
+   sibling, specifically so the header's own backdrop-filter doesn't blur
+   it, which also means the header's own gating above never touched it).
+   From that first frame on, hero-intro.js owns all three directly (inline
+   style, overriding these), fading each in continuously as its own
+   light-convergence progress increases — not a single CSS animation fired
+   after some fixed delay, so "the text gradually appears as the point
+   brightens" is one continuous relationship, not separately-timed effects
+   that happen to land close together. The transition here is what makes
+   that reveal read as slow: hero-intro.js still writes a new opacity/
+   filter value every animation frame (~16ms apart), but with this in
+   place the ELEMENT never actually catches up to any single one of those
+   before the next arrives — it's continuously chasing a moving target,
+   which reads as one slow, smooth fade rather than however fast the
+   underlying progress value itself actually climbs. */
+body.hero-intro:not(.hero-intro-ready) .hero__content,
+body.hero-intro:not(.hero-intro-ready) .hero__spotlight,
+body.hero-intro:not(.hero-intro-ready) .site-header__logo {
+  opacity: 0;
+}
+
+body.hero-intro:not(.hero-intro-ready) .hero__content,
+body.hero-intro:not(.hero-intro-ready) .site-header__logo {
+  transition: opacity 1.1s ease-out, filter 1.1s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.hero-intro:not(.hero-intro-ready) .hero__content,
+  body.hero-intro:not(.hero-intro-ready) .hero__spotlight,
+  body.hero-intro:not(.hero-intro-ready) .site-header__logo {
+    opacity: 1;
+    transition: none;
+  }
+}
+
+/* display: none (not just hidden) — .home-news and site-footer are
+   everything below .hero, and removing them from layout entirely, rather
+   than just hiding them in place, is what makes the page's own total
+   height exactly .hero's own 100vh while the intro is running. That's
+   the actual mechanism behind "can't scroll down during the intro": with
+   nothing below the hero taking up any layout space, there's nothing to
+   scroll TO. .hero itself already clips its own overflow, so no separate
+   overflow: hidden on the page/body is needed either. Reappearing (a
+   plain fade, matching .site-header's own reveal-fade) happens at the
+   exact same trigger — .hero-intro-ready appearing — as the header's own
+   drop-in, per the ask that this show up at that same moment. */
+body.hero-intro:not(.hero-intro-ready) .home-news,
+body.hero-intro:not(.hero-intro-ready) site-footer {
+  display: none;
+}
+
+body.hero-intro.hero-intro-ready .home-news,
+body.hero-intro.hero-intro-ready site-footer {
+  animation: reveal-fade 0.4s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.hero-intro.hero-intro-ready .home-news,
+  body.hero-intro.hero-intro-ready site-footer {
+    animation: none;
+  }
+}
+
 /* Reusable divider: sized to whatever container it's placed in (100% of its
    parent), never the raw viewport — drop it inside a padded container to
    inherit that padding, the way .site-footer does. */
@@ -387,6 +469,16 @@ img {
   gap: 32px;
 }
 
+/* Close to its original, unmodified look — several attempts at making
+   the final gathered light "shine more strongly" (a --spot-boost custom
+   property scaling these stops up, then consolidating into one gradient
+   with brighter/paler stops) ended up reading as simply too bright
+   against .hero's own dark background, so all of that was reverted. Only
+   change from the true original: every alpha nudged up slightly (0.3→
+   0.36, 0.1→0.13, 0.22→0.28) — "just a little brighter," not another
+   attempt at "shines strongly." hero-intro.js's own opacity fade-in
+   (0 → 1 as its light-convergence progresses — see its own comment)
+   still applies on top of this, unchanged. */
 .hero__spotlight {
   position: absolute;
   inset: 0;
@@ -397,15 +489,148 @@ img {
   background:
     radial-gradient(
       circle 700px at var(--spot-x, 50%) var(--spot-y, 40%),
-      rgba(255, 255, 255, 0.3),
-      rgba(255, 255, 255, 0.1) 40%,
+      rgba(255, 255, 255, 0.36),
+      rgba(255, 255, 255, 0.13) 40%,
       transparent 72%
     ),
     radial-gradient(
       circle 240px at var(--spot-x, 50%) var(--spot-y, 40%),
-      rgba(245, 196, 0, 0.22),
+      rgba(245, 196, 0, 0.28),
       transparent 70%
     );
+}
+
+/* Home hero intro — see hero-intro.js, which drives every streak's
+   transform/opacity directly, frame by frame, via requestAnimationFrame
+   rather than a CSS @keyframes animation. A shared CSS `perspective`
+   was tried first for the "3D" depth cue; its vanishing point (its own
+   center, by default) didn't line up with wherever a streak was actually
+   converging to, so the depth scaling and the 2D convergence disagreed
+   with each other instead of reinforcing the same motion. A manually
+   computed depth scale, driven by the same per-frame progress value that
+   also drives position, is what replaced it — position and depth can't
+   disagree with each other when one function computes both every frame.
+   hero-intro.js's own comment covers the rest (live pointer-tracking with
+   damping, the per-streak taper/stretch, the brightness-tied text/spotlight
+   fade-in). */
+.hero__intro-lights {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  /* Scopes each streak's mix-blend-mode: screen (.hero__intro-light) to
+     blending against ITS OWN SIBLINGS inside this container, rather than
+     the entire stacking context below it (the hero photo, .hero__spotlight,
+     everything) — same visual result here (blending screen against the
+     hero's own near-black background is close to a no-op either way), but
+     a much smaller/simpler composited group for the browser to actually
+     blend on every frame. With 200 streaks each running blur + two
+     box-shadow layers + a blend mode simultaneously, that per-frame
+     compositing cost is the most likely real cause of the animation
+     visibly stuttering, not the (one-time, not-per-frame) scroll-lock
+     toggle elsewhere. */
+  isolation: isolate;
+}
+
+/* Base resting look only — position (left/top: 0, moved via `transform:
+   translate()`) and every bit of motion/depth/stretch is set inline, per
+   frame, by hero-intro.js. Bright "head" at the bottom edge, fading to
+   nothing at the top: hero-intro.js's rotation always aligns this bottom
+   edge with the streak's actual current direction of travel (computed
+   from its real frame-to-frame position, not a pre-computed angle fixed
+   at creation time), so the brightest part of the streak is always the
+   one actually leading the motion, the way a real motion-blurred trail
+   works.
+
+   Plain rounded pill, no clip-path — a tapered trapezoid was tried (full
+   width trailing end, narrow leading tip, per the "start thick, end thin"
+   ask) and broke badly: combined with the filter: blur and mix-blend-mode
+   already on this element, it rendered as a solid black bar instead of a
+   light streak — clip-path + filter + mix-blend-mode together is a known
+   rough edge across browsers/GPUs, not something to keep fighting blind
+   with no way to see the actual result here. The "start thick, end thin"
+   perspective still needs a real fix, just not that one — see
+   hero-intro.js, which is a better place for it anyway (it already knows
+   each streak's real distance-to-target every frame; a per-frame scaleX
+   there doesn't need clip-path at all). */
+.hero__intro-light {
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* hero-intro.js always sets its own width/height inline per streak
+     before this ever paints — these are just the sane fallback if that
+     somehow didn't run. */
+  width: 5px;
+  height: 44px;
+  border-radius: 999px;
+  /* Pivot at the bottom-center, not the element's default center. The
+     bottom edge is the opaque, leading end (see the gradient below — it
+     fades to 0 at the top), and hero-intro.js rotates/scales this element
+     so that end always points at the live target. With the default
+     center-based origin, translate(x, y) in hero-intro.js placed the
+     SHAPE'S CENTER at (x, y) — but at up to 5x size and several x more
+     motion-blur stretch, a streak can be 200+ visual pixels long, so its
+     leading tip could already be well past the live target (poking out
+     visibly) while its still-far center hadn't tripped the disappear-
+     radius check yet. Anchoring the pivot at the tip instead makes (x, y)
+     BE the tip's real on-screen position — growing the streak via scale()
+     extends it backward, away from the target, and the distance check in
+     hero-intro.js now tests the exact point that was overshooting. */
+  transform-origin: 50% 100%;
+  /* --hue is set per-streak, inline, by hero-intro.js — a narrow warm band
+     (40–60), not a full rainbow, and LOW saturation here (25%, was 85%)
+     — aiming at a reference photo of a classic hyperspace starfield,
+     whose streaks are essentially white with the faintest warm/blue
+     tint, not distinctly colored. High, shared lightness/saturation
+     still means every streak reads as equally "pale," just with a
+     whisper of hue difference, not some looking washed out next to
+     punchier ones.
+
+     Peak alpha 0.92, not 0.55 — at 0.55, the box-shadow below (which
+     draws OUTSIDE the shape's own edge, not inside it) was the brightest
+     thing here, and this fill — the only thing actually covering the
+     INTERIOR — was comparatively dim. Blurring the whole element then
+     smeared that outer glow into a bright ring right around the edge
+     while the dimmer interior stayed relatively dark in the middle — a
+     donut, not a solid streak. A near-opaque fill is what actually makes
+     the inside as bright as the edge. Still faded to 0 at the trailing
+     end (the top), via alpha — that's a different axis (along the
+     streak's length) from the ring problem above (across its width) and
+     is unaffected by this. */
+  background: linear-gradient(
+    to bottom,
+    hsl(var(--hue, 45) 15% 96% / 0) 0%,
+    hsl(var(--hue, 45) 15% 99% / 1) 60%,
+    hsl(var(--hue, 45) 10% 100% / 1) 100%
+  );
+  /* Down from 14px, then 11px, then 7px, then 3px, briefly up to 5px —
+     that 5px read as hazy/foggy rather than bright, because blur spreads
+     brightness out instead of concentrating it; a "light" reads as
+     bright and fairly crisp, not diffuse. Back to 3px, with the actual
+     fix for the flat/glow-less look being the gradient above instead: a
+     near-white, fully-opaque, LOW-saturation hot core (was a warm-hued
+     0.98-alpha fill) — a real bright light desaturates toward white at
+     its brightest point rather than staying tinted. */
+  filter: blur(3px);
+  /* Removed entirely (was one layer, down from two) — box-shadow is its
+     own separate blurred layer the browser recomputes every frame on top
+     of filter: blur and mix-blend-mode below, and at the bigger per-streak
+     sizes now in play (see sizeScale in hero-intro.js) that extra layer's
+     own blur radius scales with it too. The fill's high alpha plus
+     filter: blur already carries most of the "soft halo" look on their
+     own — this was the next-cheapest thing to cut when 6x-scale streaks
+     were still stuttering. */
+  opacity: 0;
+  /* Normal alpha blending (the default) mixes overlapping colors like
+     paint, not light — where many differently-hued, semi-transparent
+     streaks converge on the same point, that averages toward a muddy,
+     DARKER tone instead of a brighter one, which is exactly the "dark
+     spot right where they meet" this was causing. screen is the
+     standard "light adding to light" blend: two overlapping streaks
+     brighten each other toward white instead of averaging toward gray,
+     which is what real overlapping light actually does. */
+  mix-blend-mode: screen;
+  will-change: transform, opacity;
 }
 
 .hero__content {
@@ -962,6 +1187,17 @@ html.news-lightbox-open {
 
 .news-card.is-open .news-card__toggle {
   color: var(--gray-4);
+}
+
+/* Once open, "more" is what actually navigates to news.html on the next
+   click (see news-render.js) — this highlights it, specifically, on hover,
+   the same per-element hover-to-accent affordance .research-card__more:hover
+   uses, rather than leaving it at the flat gray-4 the rule above sets for
+   the whole time the card is open regardless of where the pointer is. One
+   extra class of specificity over that rule (0,4,0 vs. 0,3,0) is what lets
+   this win on hover without needing !important or reordering either rule. */
+.news-card.is-open .news-card__toggle:hover {
+  color: var(--accent);
 }
 
 /* Two SEPARATE SVGs crossfading, not one down-chevron rotated -90° and
