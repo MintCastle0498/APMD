@@ -197,13 +197,13 @@ const PEOPLE = [
 // row/span entirely rather than render an empty one (same pattern as the
 // Staff cards' admissionYear/admissionSeason).
 const ALUMNI = [
-  { name: "Kim, Hyowook", program: "Ph.D.", year: "2018", season: "", current: "ASML" },
-  { name: "Choe, Meensoo", program: "M.S.", year: "2015", season: "", current: "LG Innotek" },
   { name: "Chung, Kyungjae", program: "Post Doc.", year: "2014.03–2015.10", season: "", current: "Samsung Electronics" },
+  { name: "Choe, Meensoo", program: "M.S.", year: "2015", season: "", current: "LG Innotek" },
+  { name: "Kim, Juyoung", program: "Ph.D.", year: "2015", season: "", current: "Electronics and Telecommunications Research Institute (ETRI)" },
   { name: "Lee, Nayeon", program: "M.S.", year: "2016", season: "", current: "Apple" },
   { name: "Nam, Sanghyeon", program: "M.S.", year: "2016", season: "", current: "Samsung Electronics" },
-  { name: "Kim, Juyoung", program: "Ph.D.", year: "2015", season: "", current: "Electronics and Telecommunications Research Institute (ETRI)" },
   { name: "Mun, Jeongho", program: "Ph.D.", year: "2016", season: "", current: "Samsung Electronics" },
+  { name: "Kim, Hyowook", program: "Ph.D.", year: "2018", season: "", current: "ASML" },
   { name: "Park, Junha", program: "M.S.", year: "2018", season: "", current: "Applied Materials Korea" },
   { name: "Kang, Seokyoung", program: "M.S.", year: "2018", season: "", current: "SK Hynix" },
   { name: "Heo, Minsung", program: "Ph.D.", year: "2019", season: "", current: "Samsung Electronics" },
