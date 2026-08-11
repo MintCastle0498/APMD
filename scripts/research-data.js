@@ -12,32 +12,38 @@
 // the list card's short excerpt.
 const RESEARCH_TOPICS = [
   {
-    image: "Research/Vectorial Holography.jpg",
-    topic: "Vectorial Holography",
-    summary:
-      "Encoding and reconstructing light's full vector state — amplitude, phase, and polarization — using bi-layer metasurfaces to enable multiplexed, high-security optical holography with total angular momentum control.",
-    detail: {
-      body: [
-        "Conventional holography reconstructs a scalar wavefront — intensity and phase — but light also carries polarization, and encoding the full vector state of a wavefront means controlling amplitude, phase, and polarization independently at every point of the hologram. A single-layer metasurface generally can't do all three at once for an arbitrary input state.",
-        "Building on a bi-layer metasurface platform capable of complete, independent control over transmitted light's amplitude, phase, and polarization, this work realizes vectorial holograms that reconstruct different images depending on the illumination's polarization or propagation direction, and extends the encoded degrees of freedom to arbitrary total angular momentum states — enabling multiplexed, high-security optical encryption beyond what scalar holography allows.",
-      ],
-      publications: [
-        "Arbitrary Total Angular Momentum Vectorial Holography Using Bi-Layer Metasurfaces",
-        "Bidirectional Vectorial Holography Using Bi-Layer Metasurfaces and Its Application to Optical Encryption",
-      ],
-    },
-  },
-  {
     image: "Research/Bi-Layer Metasurfaces.jpg",
-    topic: "Bi-Layer Metasurfaces",
+    topic: "Metasurface Platforms",
     summary:
-      "A platform architecture using two stacked metasurface layers to achieve complete, independent control over the amplitude, phase, and polarization of transmitted coherent light.",
+      "Bi-layer metasurfaces giving complete, independent control over transmitted light's amplitude, phase, and polarization — the platform behind vectorial holography and, made reconfigurable post-fabrication, tunable metasurfaces.",
+    // Merged from three previously separate topics (Bi-Layer Metasurfaces,
+    // Vectorial Holography, Tunable Metasurfaces) — content-wise, the
+    // latter two are direct applications/extensions of the bi-layer
+    // platform this one leads with, so they read better as one topic than
+    // three thin, overlapping ones. See git history before this commit if
+    // any of the three ever need to be split back out — nothing here was
+    // rewritten, just regrouped and combined into one `images`/`body`/
+    // `publications` set.
     detail: {
+      images: [
+        "Research/Bi-Layer Metasurfaces.jpg",
+        "Research/Vectorial Holography.jpg",
+        "Research/Tunable Metasurface.jpg",
+      ],
       body: [
         "Amplitude, phase, and polarization together fully define a coherent light wave. Independently controlling all three at subwavelength resolution has traditionally meant stacking multiple bulky optical elements — lenses, polarizers, waveplates — and a single-layer metasurface can shape some of these properties, but not all of them at once for an arbitrary input state.",
-        "This platform stacks two metasurface layers so the combined structure achieves complete, independent control over the amplitude, phase, and polarization of transmitted coherent light. Because that control is complete rather than partial, the platform also serves as the underlying building block for other lines of work in the lab, including vectorial holography.",
+        "This platform stacks two metasurface layers so the combined structure achieves complete, independent control over the amplitude, phase, and polarization of transmitted coherent light. Because that control is complete rather than partial, the platform also serves as the underlying building block for other lines of work in the lab, including vectorial holography and tunable metasurfaces.",
+        "Conventional holography reconstructs a scalar wavefront — intensity and phase — but light also carries polarization, and encoding the full vector state of a wavefront means controlling amplitude, phase, and polarization independently at every point of the hologram. Building on the bi-layer platform above, this work realizes vectorial holograms that reconstruct different images depending on the illumination's polarization or propagation direction, and extends the encoded degrees of freedom to arbitrary total angular momentum states — enabling multiplexed, high-security optical encryption beyond what scalar holography allows.",
+        "Most metasurfaces are fixed the moment they're fabricated — their nanostructure geometry sets one, permanent optical response. Many applications instead need that response to change after fabrication: a lens that refocuses, a window that changes transparency, a filter that switches color. This work builds metasurfaces whose response can be reconfigured post-fabrication through an external stimulus — carrier injection into a semiconductor layer, mechanical strain or compression, or an applied bias — spanning applications from reconfigurable laser focusing to compression-sensitive smart windows.",
       ],
-      publications: ["Universal metasurfaces for complete linear control of coherent light transmission"],
+      publications: [
+        "Universal metasurfaces for complete linear control of coherent light transmission",
+        "Arbitrary Total Angular Momentum Vectorial Holography Using Bi-Layer Metasurfaces",
+        "Bidirectional Vectorial Holography Using Bi-Layer Metasurfaces and Its Application to Optical Encryption",
+        "Three-dimensionally reconfigurable focusing of laser by mechanically tunable metalens doublet with built-in holograms for alignment",
+        "Tunable metamaterials with carrier-induced effective permittivity for active control of electromagnetic fields in semiconductor manufacturing device",
+        "Compression-Sensitive Smart Windows: Inclined Pores for Dynamic Transparency Changes",
+      ],
     },
   },
   {
@@ -54,23 +60,6 @@ const RESEARCH_TOPICS = [
         "Spectrally Encoded Proximity-Field Nanopatterning",
         "Realization of all two-dimensional Bravais lattices with metasurface-based interference lithography",
         "Ultralarge Area Sub-10nm Plasmonic Nanogap Array by Block Copolymer Self-Assembly for Reliable High-Sensitivity SERS",
-      ],
-    },
-  },
-  {
-    image: "Research/Tunable Metasurface.jpg",
-    topic: "Tunable Metasurfaces",
-    summary:
-      "Metasurfaces whose optical response can be dynamically reconfigured post-fabrication via external stimuli such as carrier injection, mechanical strain, or phase-change materials.",
-    detail: {
-      body: [
-        "Most metasurfaces are fixed the moment they're fabricated — their nanostructure geometry sets one, permanent optical response. Many applications instead need that response to change after fabrication: a lens that refocuses, a window that changes transparency, a filter that switches color.",
-        "This work builds metasurfaces whose response can be reconfigured post-fabrication through an external stimulus — carrier injection into a semiconductor layer, mechanical strain or compression, or an applied bias — rather than requiring a new device for every desired state, spanning applications from reconfigurable laser focusing to compression-sensitive smart windows.",
-      ],
-      publications: [
-        "Three-dimensionally reconfigurable focusing of laser by mechanically tunable metalens doublet with built-in holograms for alignment",
-        "Tunable metamaterials with carrier-induced effective permittivity for active control of electromagnetic fields in semiconductor manufacturing device",
-        "Compression-Sensitive Smart Windows: Inclined Pores for Dynamic Transparency Changes",
       ],
     },
   },

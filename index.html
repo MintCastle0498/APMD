@@ -14,7 +14,14 @@
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
-  <body class="hero-intro">
+  <!-- The light-convergence intro (hero-intro.js) is gated entirely on
+       this class — removing it here is the actual "off switch": every
+       CSS rule keyed on body.hero-intro stops applying (so the header/
+       hero content/spotlight just render normally, immediately), and
+       hero-intro.js's own top-level check on this class turns its whole
+       script into a no-op. Nothing else needs to change to re-enable it
+       later — just add "hero-intro" back. -->
+  <body>
     <script src="scripts/components.js"></script>
 
     <site-header></site-header>
