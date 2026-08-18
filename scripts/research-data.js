@@ -15,7 +15,7 @@ const RESEARCH_TOPICS = [
     image: "Research/Bi-Layer Metasurfaces.jpg",
     topic: "Metasurface Platforms",
     summary:
-      "Bi-layer metasurfaces giving complete, independent control over transmitted light's amplitude, phase, and polarization — the platform behind vectorial holography and, made reconfigurable post-fabrication, tunable metasurfaces.",
+      "Two stacked metasurface layers giving complete, independent control over a transmitted beam's amplitude, phase, and polarization, the platform behind the lab's vectorial holography and tunable metasurface work.",
     // Merged from three previously separate topics (Bi-Layer Metasurfaces,
     // Vectorial Holography, Tunable Metasurfaces) — content-wise, the
     // latter two are direct applications/extensions of the bi-layer
@@ -31,10 +31,9 @@ const RESEARCH_TOPICS = [
         "Research/Tunable Metasurface.jpg",
       ],
       body: [
-        "Amplitude, phase, and polarization together fully define a coherent light wave. Independently controlling all three at subwavelength resolution has traditionally meant stacking multiple bulky optical elements — lenses, polarizers, waveplates — and a single-layer metasurface can shape some of these properties, but not all of them at once for an arbitrary input state.",
-        "This platform stacks two metasurface layers so the combined structure achieves complete, independent control over the amplitude, phase, and polarization of transmitted coherent light. Because that control is complete rather than partial, the platform also serves as the underlying building block for other lines of work in the lab, including vectorial holography and tunable metasurfaces.",
-        "Conventional holography reconstructs a scalar wavefront — intensity and phase — but light also carries polarization, and encoding the full vector state of a wavefront means controlling amplitude, phase, and polarization independently at every point of the hologram. Building on the bi-layer platform above, this work realizes vectorial holograms that reconstruct different images depending on the illumination's polarization or propagation direction, and extends the encoded degrees of freedom to arbitrary total angular momentum states — enabling multiplexed, high-security optical encryption beyond what scalar holography allows.",
-        "Most metasurfaces are fixed the moment they're fabricated — their nanostructure geometry sets one, permanent optical response. Many applications instead need that response to change after fabrication: a lens that refocuses, a window that changes transparency, a filter that switches color. This work builds metasurfaces whose response can be reconfigured post-fabrication through an external stimulus — carrier injection into a semiconductor layer, mechanical strain or compression, or an applied bias — spanning applications from reconfigurable laser focusing to compression-sensitive smart windows.",
+        "A coherent light wave is fully described by its amplitude, phase, and polarization. A single metasurface layer can shape some of these at once, but not all three independently for an arbitrary input. Stacking two metasurface layers removes that limit: the combined structure gives complete, independent control over transmitted amplitude, phase, and polarization, and it's the platform the lab's vectorial holography and tunable metasurface work below builds on.",
+        "Ordinary holograms reconstruct a scalar wavefront, intensity and phase, with no polarization information. Using the bi-layer platform, this group builds holograms that reconstruct different images depending on the illumination's polarization or propagation direction, and extends the encoded degrees of freedom to arbitrary total angular momentum states for multiplexed, high-security optical encryption.",
+        "Most metasurfaces are fixed once fabricated, but many applications need the optical response to change afterward: a lens that refocuses, a window that changes transparency, a filter that switches color. These metasurfaces are reconfigured post-fabrication through an external stimulus (carrier injection into a semiconductor layer, mechanical strain or compression, or an applied bias), with applications from reconfigurable laser focusing to compression-sensitive smart windows.",
       ],
       publications: [
         "Universal metasurfaces for complete linear control of coherent light transmission",
@@ -53,8 +52,7 @@ const RESEARCH_TOPICS = [
       "Scalable patterning techniques, including proximity-field and interference lithography, for realizing nanophotonic structures over macroscopic areas at low cost.",
     detail: {
       body: [
-        "A nanophotonic design only matters if it can actually be manufactured, and the highest-resolution nanofabrication techniques — electron-beam lithography, focused ion beam milling — are inherently serial and slow, making them impractical for structures that need to cover macroscopic areas.",
-        "This work develops parallel, scalable patterning techniques — including proximity-field nanopatterning and interference lithography — that replicate complex, high-resolution photonic structures over wafer-scale or larger areas in a single exposure, at a fraction of the cost and time of direct-write methods, while still reaching the subwavelength feature sizes nanophotonic devices require.",
+        "High-resolution nanofabrication techniques such as electron-beam lithography and focused ion beam milling are inherently serial, which makes them impractical once a structure needs to cover a macroscopic area. This group develops parallel, wafer-scale patterning methods, including proximity-field nanopatterning and interference lithography, that replicate complex photonic structures over large areas in a single exposure, at a fraction of the cost and time of direct-write methods, while keeping the subwavelength resolution these devices need.",
       ],
       publications: [
         "Spectrally Encoded Proximity-Field Nanopatterning",
@@ -70,8 +68,7 @@ const RESEARCH_TOPICS = [
       "Machine learning and optimization algorithms, including large language models, applied to automate and accelerate the design of nanophotonic devices and metasurfaces.",
     detail: {
       body: [
-        "Designing a nanophotonic device conventionally means guessing a structure, simulating its optical response, and iterating by hand — a process that scales poorly as the number of design parameters grows. Inverse design flips this around: starting from a target optical response and letting an algorithm search for the structure that produces it.",
-        "This work applies machine learning and optimization algorithms — including generative adversarial networks, topology optimization, and, more recently, large language models — to automate and accelerate that search for both multilayer thin-film stacks and metasurfaces, turning manual trial-and-error into automated, data-driven design.",
+        "Nanophotonic devices are conventionally designed by guessing a structure, simulating its optical response, and iterating by hand, which scales poorly as the number of design parameters grows. Inverse design starts instead from a target optical response and searches for the structure that produces it, using machine learning and optimization methods, including generative adversarial networks, topology optimization, and, more recently, large language models, applied to both multilayer thin-film stacks and metasurfaces.",
       ],
       publications: [
         "Nanophotonic device design based on large language models: multilayer and metasurface examples",
@@ -87,8 +84,7 @@ const RESEARCH_TOPICS = [
       "Passive cooling technologies that exploit selective thermal emission and solar reflection to dissipate heat to the cold sky without energy input, extended to full-color and directional designs.",
     detail: {
       body: [
-        "Every object radiates heat as thermal infrared light. One engineered to emit strongly in the narrow band where the atmosphere is transparent to space, while reflecting sunlight, can lose more heat to the cold sky than it absorbs from the sun and its surroundings — cooling below ambient air temperature with no energy input at all.",
-        "This work designs the spectral and directional emission properties behind that passive cooling effect, and extends it beyond the plain white or metallic-looking coatings the effect usually requires — to full-color, photoluminescence-based, and angle-selective radiative cooling surfaces, so the technology isn't limited to applications where a specific color or an unobstructed daytime view of the sky isn't required.",
+        "Every object radiates heat as thermal infrared light. A surface engineered to emit strongly in the narrow band where the atmosphere is transparent to space, while reflecting sunlight, can lose more heat to the sky than it absorbs and cool below ambient temperature with no energy input at all. This group designs the spectral and directional emission behind that effect and extends it beyond the plain white or metallic-looking coatings it usually requires, to full-color, photoluminescence-based, and angle-selective radiative cooling surfaces.",
       ],
       publications: [
         "Daylong sub-ambient radiative cooling with full-color exterior based on thermal radiation and solar decoupling",

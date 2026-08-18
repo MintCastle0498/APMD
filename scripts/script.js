@@ -117,7 +117,7 @@ if (contactForm) {
 
     const accessKey = WEB3FORMS_ACCESS_KEYS[selectedRecipient];
     if (!accessKey || accessKey.startsWith('REPLACE_WITH_')) {
-      setStatus('This form isn’t connected to a real inbox yet — see script.js.', 'error');
+      setStatus('This form isn’t connected to a real inbox yet. See script.js.', 'error');
       return;
     }
 
@@ -142,7 +142,7 @@ if (contactForm) {
       const result = await response.json();
 
       if (result.success) {
-        setStatus('Message sent — thank you!', 'success');
+        setStatus('Message sent. Thank you!', 'success');
         contactForm.reset();
         // Back to the same Lab manager default the form loads with,
         // not neither button selected — see the default's own comment
@@ -158,7 +158,7 @@ if (contactForm) {
         setStatus('Something went wrong. Please try again.', 'error');
       }
     } catch (error) {
-      setStatus('Network error — please try again. (This may not work on the KAIST campus network.)', 'error');
+      setStatus('Network error. Please try again. (This may not work on the KAIST campus network.)', 'error');
     } finally {
       submitButton.disabled = false;
     }
