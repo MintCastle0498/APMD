@@ -86,12 +86,13 @@ recipientButtons.forEach((button) => {
 // emails that inbox on your behalf. Two keys because Professor and Lab
 // manager are two different real inboxes — one access key per destination.
 //
-// TEMPORARY: both point at the same one (real) inbox for testing — swap
-// in the Professor's and Lab manager's own separate keys (each gotten the
-// same way, at https://web3forms.com/) once this is confirmed working.
+// Lab manager has its own real inbox's key now. Professor is still the
+// TEMPORARY placeholder key, shared with the old testing setup, until
+// the Professor's own key (gotten the same way, at https://web3forms.com/)
+// replaces it too.
 const WEB3FORMS_ACCESS_KEYS = {
   professor: 'c56435ba-d755-4759-989b-391c689dec46',
-  'lab-manager': 'c56435ba-d755-4759-989b-391c689dec46',
+  'lab-manager': 'fba3896b-53b9-4add-9e77-b6d48f31d9e6',
 };
 
 const contactForm = document.querySelector('[data-contact-form]');
