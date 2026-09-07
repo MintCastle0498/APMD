@@ -23,20 +23,6 @@ const PEOPLE = [
   },
   {
     category: "postdoc",
-    photo: "People/Cho, Mingwan.jpg",
-    name: "Dr. Cho, Mingwan",
-    role: "Post Doc. Researcher",
-    admissionYear: "2025",
-    admissionSeason: "Fall",
-    email: "whalsrhks56@kaist.ac.kr",
-    degrees: [
-      { label: "Ph.D.", major: "Materials Science and Engineering", university: "KAIST", year: "2025" },
-      { label: "M.S.", major: "Materials Science and Engineering", university: "KAIST", year: "2019" },
-      { label: "B.S.", major: "Chemical Engineering", university: "UNIST", year: "2017" },
-    ],
-  },
-  {
-    category: "postdoc",
     photo: "People/Kim, Hyeonhee.jpg",
     name: "Dr. Kim, Hyeonhee",
     role: "Post Doc. Researcher",
@@ -221,6 +207,7 @@ const ALUMNI = [
   { name: "Yoon, Jeongbin", program: "M.S.", year: "2025", season: "", current: "Samsung Electronics" },
   { name: "Kang, Seungkyu", program: "Ph.D.", year: "2025", season: "", current: "Korea Electronics Technology Institute (KETI)" },
   { name: "Min, Seokhwan", program: "Ph.D.", year: "2025", season: "", current: "Postdoc, Cornell University" },
+  { name: "Cho, Mingwan", program: "Post Doc.", year: "2025.09–2026.08", season: "", current: "Samsung Electronics" },
   { name: "Chen, Qiang", program: "Ph.D.", year: "2026", season: "", current: "Contemporary Amperex Technology (CATL)" },
 ];
 
