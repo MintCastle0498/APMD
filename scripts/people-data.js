@@ -79,7 +79,7 @@ const PEOPLE = [
     photo: "People/Hyeong, Yun.jpg",
     name: "Hyeong, Yun",
     role: "Ph. D. Student",
-    admissionYear: "2024",
+    admissionYear: "2023",
     admissionSeason: "Spring",
     email: "j_hy@kaist.ac.kr",
     degrees: [
