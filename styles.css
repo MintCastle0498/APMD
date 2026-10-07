@@ -404,6 +404,71 @@ body.hero-intro.hero-intro-ready site-footer {
   z-index: 1;
 }
 
+/* Scroll-down cue: both full-bleed heroes (.hero, .research-hero) fill the
+   entire viewport, so there's no peek of the next section hinting that
+   there's more below. A small bouncing chevron pinned to the bottom
+   center signals that, and doubles as a click-to-scroll shortcut to the
+   section right after the hero — the existing global a[href^="#"]
+   handler in script.js already smooth-scrolls it into view, so no extra
+   JS is needed for the click itself.
+   One shared selector (not duplicated per page): both hero sections are
+   already position: relative + overflow: hidden + 100svh, so this just
+   slots in as an absolutely positioned child of either. */
+.hero-scroll-cue {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(20px, 5vh, 40px);
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.hero-scroll-cue:hover,
+.hero-scroll-cue:focus-visible {
+  opacity: 1;
+}
+
+/* The bounce lives on this wrapper as a plain translateY, kept separate
+   from the chevron's own static rotate(45deg) below — animating both on
+   one element would have the bounce's translate happen inside the
+   chevron's already-rotated coordinate space and drift diagonally
+   instead of straight down. */
+.hero-scroll-cue__icon {
+  display: block;
+  animation: hero-scroll-cue-bounce 1.8s ease-in-out infinite;
+}
+
+.hero-scroll-cue__chevron {
+  display: block;
+  width: 14px;
+  height: 14px;
+  border-right: 2px solid var(--accent);
+  border-bottom: 2px solid var(--accent);
+  transform: rotate(45deg);
+}
+
+@keyframes hero-scroll-cue-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-scroll-cue__icon {
+    animation: none;
+  }
+}
+
 /* Wraps the NEWS title + grid so the two scroll together as one solid
    sheet that slides up and fully covers the (slower, parallaxed) hero
    behind it — rather than the title/grid overlapping the hero as two
