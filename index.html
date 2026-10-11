@@ -46,11 +46,86 @@
           </p>
         </div>
 
-        <a href="#home-news" class="hero-scroll-cue" aria-label="Scroll to content">
+        <a href="#application-areas" class="hero-scroll-cue" aria-label="Scroll to content">
           <span class="hero-scroll-cue__icon" aria-hidden="true">
             <span class="hero-scroll-cue__chevron"></span>
           </span>
         </a>
+      </section>
+
+      <section class="application-areas" id="application-areas">
+        <div class="application-areas__inner">
+          <div class="page-title-container">
+            <h2 class="page-title">Research Applications<span class="page-title__dot">.</span></h2>
+          </div>
+
+          <div class="application-grid">
+            <button
+              type="button"
+              class="application-card"
+              style="--app-photo: url('assets/applications/optical-semiconductors.jpg')"
+            >
+              <span class="application-card__bg" aria-hidden="true"></span>
+              <span class="application-card__scrim" aria-hidden="true"></span>
+              <span class="application-card__glass">
+                <span class="application-card__title">Optical Semiconductors</span>
+                <span class="application-card__desc"
+                  >Metasurface-integrated photonic components that bring on-chip light control to
+                  semiconductor devices, from beam steering to wavelength-selective filtering.</span
+                >
+              </span>
+            </button>
+
+            <button
+              type="button"
+              class="application-card"
+              style="--app-photo: url('assets/applications/co-packaged-optics.jpg')"
+            >
+              <span class="application-card__bg" aria-hidden="true"></span>
+              <span class="application-card__scrim" aria-hidden="true"></span>
+              <span class="application-card__glass">
+                <span class="application-card__title">Co-Packaged Optics</span>
+                <span class="application-card__desc"
+                  >Ultra-compact metasurface optics packaged directly alongside electronic chips,
+                  enabling the dense, low-loss optical interconnects next-generation data centers
+                  need.</span
+                >
+              </span>
+            </button>
+
+            <button
+              type="button"
+              class="application-card"
+              style="--app-photo: url('assets/applications/quantum-applications.jpg')"
+            >
+              <span class="application-card__bg" aria-hidden="true"></span>
+              <span class="application-card__scrim" aria-hidden="true"></span>
+              <span class="application-card__glass">
+                <span class="application-card__title">Quantum Applications</span>
+                <span class="application-card__desc"
+                  >Structured-light metasurfaces for generating and manipulating entangled photon
+                  states, toward compact building blocks for quantum communication and sensing.</span
+                >
+              </span>
+            </button>
+
+            <button
+              type="button"
+              class="application-card"
+              style="--app-photo: url('assets/applications/display-technology.jpg')"
+            >
+              <span class="application-card__bg" aria-hidden="true"></span>
+              <span class="application-card__scrim" aria-hidden="true"></span>
+              <span class="application-card__glass">
+                <span class="application-card__title">Display Technology</span>
+                <span class="application-card__desc"
+                  >Nanostructured color and holographic metasurfaces for ultra-thin displays and
+                  augmented-reality optics, in place of bulky conventional optical stacks.</span
+                >
+              </span>
+            </button>
+          </div>
+        </div>
       </section>
 
       <section class="home-news" id="home-news">
@@ -58,6 +133,13 @@
           <div class="page-title-container">
             <h2 class="page-title">Latest News<span class="page-title__dot">.</span></h2>
           </div>
+
+          <a class="recruit-banner" href="contact.html">
+            <span class="recruit-banner__text">2027년 봄학기 신입생 모집중</span>
+            <svg class="recruit-banner__chevron" width="7" height="11" viewBox="0 0 7 11" fill="none" aria-hidden="true">
+              <path d="M1 1L6 5.5L1 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
 
           <div class="news-grid" data-news-grid></div>
         </div>
@@ -68,6 +150,7 @@
 
     <script src="scripts/news-data.js"></script>
     <script src="scripts/news-render.js"></script>
+    <script src="scripts/application-cards.js"></script>
     <script src="scripts/hero-intro.js"></script>
     <script src="scripts/script.js"></script>
   </body>

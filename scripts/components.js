@@ -65,7 +65,7 @@ const SITE_HEADER_TEMPLATE = `
             <li><a href="index.html" data-nav>Home</a></li>
             <li><a href="people.html" data-nav>People</a></li>
             <li><a href="research.html" data-nav>Research</a></li>
-            <li><a href="publication.html" data-nav>Publication</a></li>
+            <li><a href="publication.html" data-nav>Publications</a></li>
             <li><a href="news.html" data-nav>News</a></li>
           </ul>
           <a class="site-header__contact" href="contact.html" data-nav>

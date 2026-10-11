@@ -302,17 +302,20 @@ body.hero-intro:not(.hero-intro-ready) .site-header__logo {
    plain fade, matching .site-header's own reveal-fade) happens at the
    exact same trigger — .hero-intro-ready appearing — as the header's own
    drop-in, per the ask that this show up at that same moment. */
+body.hero-intro:not(.hero-intro-ready) .application-areas,
 body.hero-intro:not(.hero-intro-ready) .home-news,
 body.hero-intro:not(.hero-intro-ready) site-footer {
   display: none;
 }
 
+body.hero-intro.hero-intro-ready .application-areas,
 body.hero-intro.hero-intro-ready .home-news,
 body.hero-intro.hero-intro-ready site-footer {
   animation: reveal-fade 0.4s ease-out both;
 }
 
 @media (prefers-reduced-motion: reduce) {
+  body.hero-intro.hero-intro-ready .application-areas,
   body.hero-intro.hero-intro-ready .home-news,
   body.hero-intro.hero-intro-ready site-footer {
     animation: none;
@@ -504,16 +507,91 @@ body.hero-intro.hero-intro-ready site-footer {
   background-size: 1px 1px;
 }
 
-/* The "elevated above the hero" shadow lives on a zero-height pseudo-element
-   pinned to .home-news's own TOP edge, not as a box-shadow on .home-news
-   itself. Tuning a box-shadow's blur/offset/spread so it never bleeds past
-   the element's own bottom edge (reaching the footer below it) turned out
-   to be fragile — the actual rendered blur extent isn't guaranteed to match
-   that arithmetic exactly. Anchoring it to a 0-height strip at the top
-   instead means even its worst-case downward bleed lands well inside
-   .home-news's own (opaque, several-hundred-px-tall) box, nowhere near its
-   bottom edge, regardless of exactly how far the blur really reaches. */
-.home-news::before {
+/* The "elevated above the hero" shadow used to live here, but .home-news
+   isn't the section directly covering the parallaxed hero anymore —
+   .application-areas (inserted right after .hero) is, and now owns that
+   shadow instead. See .application-areas::before. */
+
+.home-news__inner {
+  margin: 0 auto;
+  padding: 64px var(--side-padding) 0;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* Admissions call-to-action, sitting right above "Latest News." — solid
+   accent fill (the one spot of real color-block emphasis on an otherwise
+   grayscale/editorial home page) is deliberate: this is a time-bound
+   announcement competing for attention, not another piece of long-lived
+   editorial content, so it's styled to read as urgent rather than blend
+   in with the rest of the page. */
+.recruit-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px 24px;
+  border-radius: 16px;
+  background: var(--accent);
+  color: var(--gray-1);
+  text-decoration: none;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 17px;
+  text-align: center;
+  box-shadow: 0 10px 24px -10px rgba(245, 196, 0, 0.6);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.recruit-banner:hover,
+.recruit-banner:focus-visible {
+  background: #ffd633;
+  transform: translateY(-2px);
+  box-shadow: 0 16px 32px -10px rgba(245, 196, 0, 0.7);
+}
+
+.recruit-banner__chevron {
+  flex: none;
+  color: var(--gray-1);
+  transition: transform 0.25s ease;
+}
+
+.recruit-banner:hover .recruit-banner__chevron,
+.recruit-banner:focus-visible .recruit-banner__chevron {
+  transform: translateX(4px);
+}
+
+/* Applications — sits between .hero and .home-news, same full-bleed
+   opaque-sheet pattern as .home-news (see its own comments above for why:
+   break out of .page-container, explicit z-index above .hero's parallax,
+   opaque image-not-color background). Being the section directly after
+   .hero, it's also the one that now carries the "elevated above the
+   hero" top-edge shadow .home-news used to own. */
+.application-areas {
+  position: relative;
+  left: 50%;
+  right: 50%;
+  width: 100vw;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  /* Cancels .page-container's own 32px flex `gap` to .home-news right
+     after it. Without this, that 32px is a literal transparent hole in an
+     otherwise unbroken opaque-sheet chain — normally harmless (whatever
+     sits behind is the same white as both sheets), but .hero's parallax
+     (see script.js) makes it drag visibly behind real scroll speed, so it
+     can still be showing through that gap by the time the gap itself
+     scrolls past. Flush against .home-news removes the hole outright
+     instead of just tuning how long it stays hidden. */
+  margin-bottom: -32px;
+  z-index: 2;
+  background-color: var(--bg);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'%3E%3Crect width='1' height='1' fill='%23fff'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 1px 1px;
+}
+
+.application-areas::before {
   content: "";
   position: absolute;
   top: 0;
@@ -526,12 +604,300 @@ body.hero-intro.hero-intro-ready site-footer {
     0 -48px 80px -36px rgba(0, 0, 0, 0.4);
 }
 
-.home-news__inner {
+/* Top padding matches .home-news__inner's own convention (64px above a
+   96px-tall .page-title-container). Bottom padding is the odd one out,
+   and load-bearing: .application-areas's own -32px margin-bottom (see its
+   own comment) pulls .home-news up to overlap it by 32px so there's no
+   gap for the parallaxed hero to show through, and since .home-news
+   paints after it (opaque, same z-index), that overlap band is a hard
+   clip, not a fade — anything of .application-areas's own that reaches
+   into those last 32px just gets sliced off. The cards' own soft drop
+   shadow (see .application-card) extends well past their bottom edge, so
+   without this, that shadow was the thing getting visibly guillotined —
+   first by too little padding here, then (even after this padding grew)
+   by the shadow itself reaching further than the padding allowed once 4
+   of them sat side by side and their outer layers merged into one
+   continuous band; see that shadow's own comment for the fix on that
+   side. 98px leaves about 66px of actual clearance below the cards
+   before .home-news's overlap cuts it off, comfortably more than the
+   hover-state shadow's own ~62px farthest reach. */
+.application-areas__inner {
   margin: 0 auto;
-  padding: 64px var(--side-padding) 0;
+  padding: 64px var(--side-padding) 98px;
   display: flex;
   flex-direction: column;
   gap: 32px;
+}
+
+/* 4 cards across 12 columns — same column math as .news-card's span-4/
+   3-up layout, just split differently (span 3 × 4 cards). */
+.application-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), 1fr);
+  gap: 32px var(--grid-gap);
+}
+
+.application-card {
+  grid-column: span 3;
+}
+
+@media (max-width: 900px) {
+  .application-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+  }
+
+  .application-card {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .application-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Tall glass cards: a real photo (cropped from the lab's own prism/
+   dispersion and SEM-into-butterfly-wing shots — see each card's
+   --app-photo in index.html) under a per-card color wash (--app-tint),
+   a dark scrim for legibility at rest, and an inset frosted-glass chip
+   that grows upward on hover/focus to reveal the description. Reset to a
+   plain <button> (left-aligned block, no native chrome) since these
+   aren't links, just a hover/focus/tap reveal — see application-cards.js
+   for the touch-tap toggle and the scroll-reveal that mirrors
+   .news-card's. The dual-direction soft shadow (a bright, broad one below
+   and a faint highlight along the top edge) is the same soft/raised
+   "neumorphic" idea as a light-on-light embossed card, adapted for a
+   white page background — the light member of the pair is an inset
+   highlight rather than a second cast shadow, since a pale shadow cast
+   onto white itself would simply be invisible. */
+.application-card {
+  position: relative;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  aspect-ratio: 3 / 4;
+  padding: 0;
+  margin: 0;
+  border: none;
+  border-radius: 24px;
+  overflow: hidden;
+  isolation: isolate;
+  background: none;
+  -webkit-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(28px);
+  /* Layered near-to-far (a tight, higher-contrast "contact" shadow right
+     at the edge, then a couple of progressively softer/broader ones)
+     reads as an actually-grounded shadow — a single wide, heavily
+     negative-spread blur had no contact point at all, just a vague haze.
+     Deliberately capped short, though: with 4 of these sitting side by
+     side, their outer layers merge into one continuous band under the
+     whole row, and .application-areas__inner only sets aside about 66px
+     of real clearance below the cards before .home-news's opaque overlap
+     cuts it off outright (see that padding's own comment) — a farther-
+     reaching version of this shadow was getting guillotined right there,
+     the exact same hard-clip problem as before, just from the shadow
+     being too long rather than the padding being too short. */
+  box-shadow:
+    0 2px 4px rgba(16, 24, 32, 0.18),
+    0 8px 16px rgba(16, 24, 32, 0.2),
+    0 18px 30px -8px rgba(16, 24, 32, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transition: opacity 0.6s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+}
+
+.application-card.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.application-card:hover,
+.application-card:focus-visible,
+.application-card.is-open {
+  transform: translateY(-8px);
+  box-shadow:
+    0 3px 6px rgba(16, 24, 32, 0.2),
+    0 12px 22px rgba(16, 24, 32, 0.26),
+    0 28px 44px -10px rgba(16, 24, 32, 0.36),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.application-card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* No color wash here (--app-tint was dropped) — these are illustrated
+   renders with their own strong, deliberate neon palette per card, not
+   the muted real photo crops that version was built to recolor. Overlaying
+   a tint on top would just mute the color they're actually there for. */
+.application-card__bg {
+  position: absolute;
+  inset: 0;
+  background-image: var(--app-photo);
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.04);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.application-card:hover .application-card__bg,
+.application-card:focus-visible .application-card__bg,
+.application-card.is-open .application-card__bg {
+  transform: scale(1.12);
+}
+
+/* Center vignette (new) + the original bottom-weighted fade: at rest the
+   title sits in the middle of the card with no glass panel behind it yet
+   (see .application-card__glass below), so it needs contrast against
+   whatever the photo is doing in the MIDDLE of the frame too, not just
+   along the bottom edge. */
+.application-card__scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at center, rgba(0, 0, 0, 0.4) 0%, transparent 62%),
+    linear-gradient(to top, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0.08) 48%, transparent 72%);
+  pointer-events: none;
+}
+
+/* No glass at rest — just the title, centered in the card, directly over
+   the photo (the scrim above, plus the title's own text-shadow, are what
+   keep it legible with nothing behind it yet). The glass pane itself only
+   exists once you interact: .application-card__glass starts as a small
+   box just big enough for the title, pinned to the card's vertical CENTER
+   via top: 50% + translateY(-50%), then on hover/focus grows taller while
+   staying pinned to that same center — so the box grows symmetrically up
+   and down around the title instead of the title relocating to wherever
+   a bottom-anchored box happens to land. (A top-pinned, bottom-fixed box
+   whose top edge slides down was tried first; anchoring that way means
+   the box's own center — and the centered title inside it — drifts
+   noticeably toward the bottom edge as it shrinks, which read as the
+   title "jumping down" into the glass rather than the glass growing
+   around it.) */
+/* A CSS grid with a 0fr/1fr row is what makes the description's reveal
+   track its own REAL content height instead of a guessed fixed px or %
+   of the card — the previous fixed-height version (a flat 62% of the
+   card) clipped the longer descriptions at a lot of real card widths,
+   since text that wraps to more lines at narrower widths needs more
+   height right as the (also narrower, same aspect-ratio) card has less
+   of it to give. 0fr collapses the description row to zero regardless of
+   its content's size; 1fr hands it exactly the space it asks for once
+   the box's own height is otherwise unconstrained — and both ends
+   transition smoothly in browsers that animate grid-template-rows
+   (all current evergreen browsers), degrading to an instant snap rather
+   than a broken/clipped state in any that don't. max-height + overflow:
+   hidden stay on as a hard safety net for the one remaining edge case
+   (content genuinely taller than the card itself). */
+.application-card__glass {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  top: 50%;
+  max-height: calc(100% - 28px);
+  transform: translateY(-50%);
+  border-radius: 18px;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: auto 0fr;
+  row-gap: 0px;
+  justify-items: center;
+  align-content: center;
+  text-align: center;
+  padding: 24px;
+  background: transparent;
+  box-shadow: none;
+  transition: grid-template-rows 0.5s cubic-bezier(0.16, 1, 0.3, 1), row-gap 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    background 0.4s ease, box-shadow 0.4s ease, backdrop-filter 0.4s ease;
+}
+
+.application-card:hover .application-card__glass,
+.application-card:focus-visible .application-card__glass,
+.application-card.is-open .application-card__glass {
+  grid-template-rows: auto 1fr;
+  row-gap: 10px;
+  /* Flat and low-opacity (not the earlier diagonal sheen) — the lower the
+     tint, the more of the actual blurred photo shows through, which is
+     what reads as "more transparent" rather than a frosted-white card. */
+  background: rgba(255, 255, 255, 0.08);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  backdrop-filter: blur(14px) saturate(160%);
+  /* inset 0 0 0 1px (zero offset, zero blur, 1px spread) is a uniform
+     ring — the same distance from the edge on all 4 sides — unlike the
+     earlier top-only "inset 0 1px 0" version (a highlight that, by
+     construction, only ever existed along the top edge and read as
+     lopsided once you looked for it). */
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.45), 0 8px 20px rgba(0, 0, 0, 0.18);
+}
+
+.application-card__title {
+  margin: 0;
+  max-width: 100%;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 26px;
+  line-height: 1.2;
+  color: #fff;
+  /* Tight, near-opaque shadow for crisp edge contrast right against the
+     letterforms, plus a softer, wider one for separation from busy photo
+     detail further out — one blur alone either looked too thin to read
+     against the brighter photos or too mushy against the dark ones. Only
+     needed at rest, when the title sits directly on the photo with
+     nothing behind it — the glass pane itself already provides plenty of
+     contrast once it's up, so the shadow switches off there instead of
+     stacking on top of it unnecessarily. */
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85), 0 6px 18px rgba(0, 0, 0, 0.5);
+  transition: text-shadow 0.3s ease;
+}
+
+.application-card:hover .application-card__title,
+.application-card:focus-visible .application-card__title,
+.application-card.is-open .application-card__title {
+  text-shadow: none;
+}
+
+/* min-height: 0 — a grid item's implicit min-height:auto would otherwise
+   keep it from ever actually shrinking to the 0fr row above, content
+   size or not (the same "min-size:auto" behavior grid/flex items both
+   default to). */
+.application-card__desc {
+  margin: 0;
+  min-height: 0;
+  overflow: hidden;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.85);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.application-card:hover .application-card__desc,
+.application-card:focus-visible .application-card__desc,
+.application-card.is-open .application-card__desc {
+  opacity: 1;
+  transition: opacity 0.4s ease 0.15s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .application-card {
+    opacity: 1;
+    transform: none;
+    transition: box-shadow 0.4s ease;
+  }
+
+  .application-card__bg {
+    transition: none;
+  }
 }
 
 /* Close to its original, unmodified look — several attempts at making
