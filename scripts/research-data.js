@@ -13,9 +13,9 @@
 const RESEARCH_TOPICS = [
   {
     image: "Research/Bi-Layer Metasurfaces.jpg",
-    topic: "Metasurface Platforms",
+    topic: "Metasurface and Co-Packaged Optics",
     summary:
-      "Two stacked metasurface layers giving complete, independent control over a transmitted beam's amplitude, phase, and polarization, the platform behind the lab's vectorial holography and tunable metasurface work.",
+      "Metasurfaces integrated directly onto chips such as GPUs and quantum processors, replacing bulky conventional optics with a compact layer that cuts the power and speed limits of today's electronic interconnects.",
     // Merged from three previously separate topics (Bi-Layer Metasurfaces,
     // Vectorial Holography, Tunable Metasurfaces) — content-wise, the
     // latter two are direct applications/extensions of the bi-layer
@@ -31,7 +31,7 @@ const RESEARCH_TOPICS = [
         "Research/Tunable Metasurface.jpg",
       ],
       body: [
-        "A coherent light wave is fully described by its amplitude, phase, and polarization. A single metasurface layer can shape some of these at once, but not all three independently for an arbitrary input. Stacking two metasurface layers removes that limit: the combined structure gives complete, independent control over transmitted amplitude, phase, and polarization, and it's the platform the lab's vectorial holography and tunable metasurface work below builds on.",
+        "A bi-layer metasurface platform gives independent control over a transmitted beam's amplitude, phase, and polarization, enough to replace several conventional optical components with one compact layer. Integrated directly onto a chip, the same platform works as co-packaged optics: optical interconnects placed next to compute hardware such as GPUs or quantum processors, where electrical wiring is now the main limit on power consumption and signal speed.",
         "Ordinary holograms reconstruct a scalar wavefront, intensity and phase, with no polarization information. Using the bi-layer platform, this group builds holograms that reconstruct different images depending on the illumination's polarization or propagation direction, and extends the encoded degrees of freedom to arbitrary total angular momentum states for multiplexed, high-security optical encryption.",
         "Most metasurfaces are fixed once fabricated, but many applications need the optical response to change afterward: a lens that refocuses, a window that changes transparency, a filter that switches color. These metasurfaces are reconfigured post-fabrication through an external stimulus (carrier injection into a semiconductor layer, mechanical strain or compression, or an applied bias), with applications from reconfigurable laser focusing to compression-sensitive smart windows.",
       ],
