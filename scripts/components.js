@@ -6,6 +6,7 @@ const SITE_HEADER_TEMPLATE = `
     </svg>
 
     <div class="site-header__logo-invert" aria-hidden="true"></div>
+    <div class="site-header__toggle-invert" aria-hidden="true"></div>
     <a class="site-header__logo" href="index.html">
 <svg class="site-header__logo-mark" width="112" height="24" viewBox="0 0 112 24" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" role="img" aria-label="APMD"><style>.apmd-blend{fill:none}</style>
 <path d="M101.174 11.8408H100.397V23.9989H101.174V11.8408Z" fill="#F22519"/>

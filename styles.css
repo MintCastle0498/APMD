@@ -2025,6 +2025,79 @@ html.news-lightbox-open {
   pointer-events: none;
 }
 
+/* Same fix, same reason, applied to the mobile menu toggle: its real
+   glyph (color: var(--gray-1), a dark grey — see .site-header__toggle's
+   own mobile rule) reads fine against every page's plain white
+   background, but disappears against Home/Research's own dark hero
+   sitting directly under this fixed, background: transparent header.
+   mix-blend-mode: difference inverts against whatever's actually behind
+   it instead of assuming one fixed background color, exactly like
+   .site-header__logo-invert above — and for the same structural reason,
+   it has to be this element's own top-level position: fixed sibling of
+   .site-header, not a descendant of it (see that comment above for why
+   a mix-blend-mode descendant of a fixed/sticky ancestor silently fails
+   to blend in Chromium).
+   First attempt at this drew the 3 bars as child <span> elements, each
+   with its own mix-blend-mode — wrong, and not just "also wrong the same
+   way": this wrapper is position: fixed with a z-index, which on its own
+   makes it establish a NEW stacking context, so a child's blend mode
+   only resolves against whatever's painted inside THIS element (nothing,
+   background: none) rather than the real page — it never inverted at
+   all, just showed through as plain white regardless of backdrop. Fixed
+   the same way the logo already does it: exactly one element carries
+   both the position: fixed/z-index AND the mix-blend-mode, with the
+   actual bar shape drawn via this element's own background instead of
+   child nodes (clip-path for the logo's letterforms; a hard-stop
+   gradient here, since 3 straight bars don't need an SVG shape). Fully
+   transparent background pixels are simply unaffected by the blend (no
+   source color to diff against), which is what keeps the gaps between
+   bars showing the real backdrop untouched instead of also inverting.
+   top: 20px + the 24x24 box land exactly on the real button's own box,
+   not approximately: --header-height is 64px, .site-header__inner's
+   padding is 20px top/bottom, so the content row between that padding is
+   exactly 24px tall — identical math to why the logo invert's own
+   top: 20px lines up with the real 24px logo mark above.
+   pointer-events: none — purely a visual overlay; the real
+   .site-header__toggle button underneath still receives the actual
+   click/tap (its own glyph is set to transparent in its mobile rule
+   below, so this is the only copy of the icon actually visible). */
+.site-header__toggle-invert {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .site-header__toggle-invert {
+    display: block;
+    position: fixed;
+    top: 20px;
+    right: var(--side-padding);
+    z-index: 1001;
+    width: 24px;
+    height: 24px;
+    /* A 16x16 "icon", not the full 24x24 hit-box, centered via
+       background-position — 3 solid 2px bars, 5px gaps, 16px tall total
+       (2 + 5 + 2 + 5 + 2), spanning the full 16px width. */
+    background-image: linear-gradient(
+      to bottom,
+      #ffffff 0,
+      #ffffff 2px,
+      transparent 2px,
+      transparent 7px,
+      #ffffff 7px,
+      #ffffff 9px,
+      transparent 9px,
+      transparent 14px,
+      #ffffff 14px,
+      #ffffff 16px
+    );
+    background-size: 16px 16px;
+    background-repeat: no-repeat;
+    background-position: center;
+    mix-blend-mode: difference;
+    pointer-events: none;
+  }
+}
+
 .site-header__nav {
   display: flex;
   align-items: center;
@@ -2274,7 +2347,12 @@ html.news-lightbox-open {
     height: 24px;
     background: none;
     border: none;
-    color: var(--gray-1);
+    /* Transparent, not var(--gray-1): this button still owns the actual
+       click/tap target, but the icon itself is now drawn by
+       .site-header__toggle-invert layered on top (see its own comment),
+       so this glyph would just be a second, slightly-misregistered copy
+       sitting underneath it. */
+    color: transparent;
     cursor: pointer;
   }
 }
