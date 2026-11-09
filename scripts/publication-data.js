@@ -19,6 +19,18 @@
 const PUBLICATIONS = [
   {
     year: 2026,
+    image:
+      "Publication/Beyond SERS Hotspot Localization Metal–Dielectric Hybrid Metasurfaces with Coupled LSPR Enable Highly Reproducible, Label-Free Prostate-Specific Antigen Detection.png",
+    title:
+      "Beyond SERS Hotspot Localization: Metal–Dielectric Hybrid Metasurfaces with Coupled LSPR Enable Highly Reproducible, Label-Free Prostate-Specific Antigen Detection",
+    authors:
+      "Minjae Ku, Jisung Hwang, Su-Ho Cho, Hanhwi Jang, Ryeong Myeong Kim, Seongdae Kwon, Kibum Kang, Jingyu Youn, Yong-Hoon Cho, Chi Won Ahn‡, Jonghwa Shin‡, Yeon Sik Jung‡",
+    journal: "Nano Letters 26, 31, 10463-10471 (2026)",
+    doiUrl: "https://doi.org/10.1021/acs.nanolett.6c02505",
+    date: "2026-08-03",
+  },
+  {
+    year: 2026,
     image: "Publication/Spectrally Encoded Proximity-Field Nanopatterning.png",
     title: "Spectrally Encoded Proximity-Field Nanopatterning",
     authors: "Junhyung Park*, Yun Hyeong*, Hwanseok Chang, Dohyun Kim, Joonkyo Jung, Seokwoo Jeon, Jonghwa Shin‡",
@@ -70,6 +82,15 @@ const PUBLICATIONS = [
     journal: "Computer Physics Communications 320, 109966 (2026)",
     doiUrl: "https://doi.org/10.1016/j.cpc.2025.109966",
     date: "2026-03",
+  },
+  {
+    year: 2025,
+    image: "Publication/Bioinspired Deformable Antireflective Materials by Block Copolymer Self-Assembly.png",
+    title: "Bioinspired Deformable Antireflective Materials by Block Copolymer Self-Assembly",
+    authors: "Dong Won You, Jeongbin Yoon, Seonghyun Kim, Geon Gug Yang, Chan Woo Lee, Jonghwa Shin, Seungbum Hong, Jang Hwan Kim‡, Sang Ouk Kim‡",
+    journal: "ACS Applied Materials & Interfaces 17, 16, 24610-24619 (2025)",
+    doiUrl: "https://doi.org/10.1021/acsami.5c02740",
+    date: "2025-04-09",
   },
   {
     year: 2025,
